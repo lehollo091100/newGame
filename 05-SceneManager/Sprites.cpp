@@ -13,10 +13,32 @@ CSprites* CSprites::GetInstance()
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPTEXTURE tex)
 {
 	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);
+
+		DebugOut(L" sprite null:%d", id);
+	
 	sprites[id] = s;
 }
 
 LPSPRITE CSprites::Get(int id)
 {
+
+	/*if (sprites[id] == NULL)
+	{
+		DebugOut(L" sprite null:%d",id);
+	}*/
 	return sprites[id];
+}
+
+/*
+	Clear all loaded sprites
+*/
+void CSprites::Clear()
+{
+	for (auto x : sprites)
+	{
+		LPSPRITE s = x.second;
+		delete s;
+	}
+
+	sprites.clear();
 }

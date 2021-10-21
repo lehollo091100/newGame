@@ -1,10 +1,13 @@
 #pragma once
-
 #include "Texture.h"
 #include "Game.h"
+#include "Utils.h"
+#include <iostream>
+#include <fstream>
 
 class CSprite
 {
+public:
 	int id;				// Sprite ID in the sprite database
 
 	int left;

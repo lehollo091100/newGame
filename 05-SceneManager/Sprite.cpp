@@ -1,5 +1,6 @@
 #include "Sprite.h"
-
+#include "Utils.h"
+#include "debug.h"
 CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex)
 {
 	this->id = id;
@@ -33,6 +34,7 @@ CSprite::CSprite(int id, int left, int top, int right, int bottom, LPTEXTURE tex
 void CSprite::Draw(float x, float y)
 {
 	CGame* g = CGame::GetInstance();
+	//DebugOut(L"debug:%d", this->bottom);
 	float cx, cy;
 	g->GetCamPos(cx, cy);
 
@@ -46,7 +48,7 @@ void CSprite::Draw(float x, float y)
 
 	D3DXMatrixTranslation(&matTranslation, x - cx, g->GetBackBufferHeight() - y + cy, 0.1f);
 
-	this->sprite.matWorld = (this->matScaling * matTranslation);
+	this->sprite.matWorld= (this->matScaling * matTranslation);
 
 	g->GetSpriteHandler()->DrawSpritesImmediate(&sprite, 1, 0, 0);
 }
