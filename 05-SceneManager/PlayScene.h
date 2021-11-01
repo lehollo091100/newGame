@@ -7,6 +7,11 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include "Map.h"
+#include "ColorBrick.h"
+#include "QuestionBrick.h"
+#include "CoinItem.h"
+#include "Mushroom.h"
+#include "Pipe.h"
 //#include "Koopas.h"
 
 
@@ -18,6 +23,9 @@ protected:
 	Map* map;
 	int mapid;
 	vector<LPGAMEOBJECT> objects;
+	vector<QuestionBrick*> questionbricks;
+	vector<LPGAMEOBJECT> items;
+
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);

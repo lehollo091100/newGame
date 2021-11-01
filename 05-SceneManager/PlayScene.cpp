@@ -122,9 +122,51 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-
+	case OBJECT_TYPE_BRICK: 
+	{
+		float bwidth = (float)atof(tokens[3].c_str());
+		float bheight = (float)atof(tokens[4].c_str());
+		obj = new CBrick(x,y,bwidth,bheight); 
+		break;
+	}
+	case OBJECT_TYPE_COIN: 
+	{
+		obj = new CCoin(x, y); break;
+	}
+	case OBJECT_TYPE_COLORBRICK: {
+		float bwidth = (float)atof(tokens[3].c_str());
+		float bheight = (float)atof(tokens[4].c_str());
+		obj = new ColorBrick(x, y, bwidth, bheight);
+		break;
+	}
+	case OBJECT_TYPE_QUESTIONBRICK:
+	{
+		float typeItem = (float)atof(tokens[3].c_str());
+		obj = new QuestionBrick(x,y);
+		questionbricks.push_back(dynamic_cast<QuestionBrick*>(obj));
+		break;
+	}
+	case OBJECT_TYPE_ITEM: {
+		int typeItem = (int)atof(tokens[3].c_str());
+		switch (typeItem)
+		{
+		case 0: {
+			obj = new CoinItem(x, y);
+			items.push_back(obj);
+			break;
+		}
+		case 1: {
+			obj = new Mushroom(x, y);
+			items.push_back(obj);
+			break;
+		}
+		default:
+			break;
+		}
+		//obj = new Mushroom(x, y);
+		//items.push_back(dynamic_cast<Mushroom*>(obj));
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 
@@ -143,7 +185,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
-
+	case OBJECT_TYPE_PIPE: {
+		float pwidth = (float)atof(tokens[3].c_str());
+		float pheight = (float)atof(tokens[4].c_str());
+		obj = new Pipe(x, y,pwidth,pheight);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -161,8 +208,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	// General object setup
 	obj->SetPosition(x, y);
-
-
 	objects.push_back(obj);
 }
 
@@ -232,7 +277,12 @@ void CPlayScene::Load()
 	}
 	map->SetMap(mapid);
 	f.close();
-
+	for (int i = 0; i < questionbricks.size(); i++)
+	{
+		questionbricks[i]->item = items[i];
+	}
+	questionbricks = vector<QuestionBrick*>();
+	items = vector<LPGAMEOBJECT>();
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -265,7 +315,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
 }

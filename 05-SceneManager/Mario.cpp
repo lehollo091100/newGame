@@ -7,8 +7,10 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
-
+#include "ColorBrick.h"
 #include "Collision.h"
+#include "QuestionBrick.h"
+#include "Mushroom.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -35,12 +37,15 @@ void CMario::OnNoCollision(DWORD dt)
 	y += vy * dt;
 }
 
-void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
+void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 {
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
-		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
+		if (e->ny < 0)
+		{
+			vy = 0;
+			isOnPlatform = true;
+		}
 	}
 	else 
 	if (e->nx != 0 && e->obj->IsBlocking())
@@ -54,10 +59,16 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	}*/
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<QuestionBrick*>(e->obj))
+		OnCollisionWithQuestionBrick(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
-		OnCollisionWithCoin(e);
+		OnCollisionWithCoin(e, dt);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<Mushroom*>(e->obj))
+		OnCollisionWithMushroom(e);
+	//else if (dynamic_cast<ColorBrick*>(e->obj))
+	//	OnCollisionWithColorBrick(e,dt);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -93,11 +104,24 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
+void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
+	QuestionBrick* QBrick = dynamic_cast<QuestionBrick*>(e->obj);
+	if (e->ny > 0) {
+		if (QBrick->GetState()==QBSTATE_NORMAL)
+		{
+			QBrick->nx = -this->nx;
+			QBrick->SetState(QBSTATE_MOVING);
+			if (QBrick->item->type == OBJECT_TYPE_COINITEM) {
+				coin++;
+			}
+		}
+	}
+}
 
-void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
+void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt)
 {
-	e->obj->Delete();
-	coin++;
+		e->obj->Delete();
+		coin++;
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -105,7 +129,15 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
-
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
+	Mushroom* mushroom = dynamic_cast<Mushroom*>(e->obj);
+	if (mushroom->state == MUSHROOM_STATE_MOVING)
+	{
+		DebugOut(L"MUSHROOM\n");
+		SetLevel(MARIO_LEVEL_BIG);
+		mushroom->Delete();
+	}
+}
 //
 // Get animation ID for small Mario
 //
@@ -240,12 +272,12 @@ void CMario::Render()
 		aniId = GetAniIdBig();
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
-
+	//DebugOut(L"aniid:%d\n", aniId);
 	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)

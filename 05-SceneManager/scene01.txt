@@ -1,63 +1,63 @@
 # list of object assets to load in this scene
 [ASSETS]
 mario.txt
+questionbrick.txt
 brick.txt
 coin.txt
 goomba.txt
 cloud.txt
+mushroom.txt
 #
 [OBJECTS]
-# type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# type	x	y	aniset_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,7=ITEM,49=Flatform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	20	10
+0	120	350
 
 # BRICKS
-1	0	148
-1	0	164
+1	0	416	624	16
+1	624	408	464	32
+1	1152	416	352	16
+1	1536	416	80	16
+1	1664	416	576	16
+1	2256	416	560	16
+#Goomba
+#2	150	350
 
-1	0	180
-1	16	180
-1	32	180
-1	48	180
-1	64	180
-1	80	180
-1	96	180
-1	112	180
-1	128	180
-1	144	180
-1	160	180
-1	176	180
-1	192	180
-1	208	180
-1	224	180
-1	240	180
-1	256	180
-1	272	180
-1	288	180
-1	304	180
-1	320	180
-1	336	180
-1	352	180
-
-1	352	148
-1	352	164
+#PIPE
+10	360	362	30	48
 
 #COIN
-4	100	120
-4	120	120
-4	140	120
-4	160	120
-4	180	120
+#4	176	320
+#4	193	320
 
-#Goomba
-2	300	10
+#ColorBrick
+5	256	368	48	16
+5	286	336	48	16
+5	432	368	80	16
+5	488	338	64	16
+5	536	304	64	16
+5	551	384	94	16
+
+
+#ITEM
+8	176	351	0
+8	192	351	1
+8	417	321	0
+
+#QuestionBrick
+# type: 0:coin 1:item
+6	176	351	0
+6	192	351	0
+6	417	321	0
+
+#COIN
 
 #Platform
-5	90	136	16	15	16	51000	52000	53000
-5	120	90	16	16	8	20001	20001	20001
+#49	90	370	16	15	16	51000	52000	53000
+#49	120	90	16	16	8	20001	20001	20001
 
 #Portal 
 50	300	120	316	160	2

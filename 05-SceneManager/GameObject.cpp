@@ -17,6 +17,22 @@ CGameObject::CGameObject()
 	isDeleted = false;
 }
 
+bool CGameObject::CheckSkipCollision(LPGAMEOBJECT coObject, int nx, int ny)
+{
+	if (coObject->type == OBJECT_TYPE_COLORBRICK)
+	{
+		if (nx != 0)
+		{
+			return true;
+		}
+		if (ny < 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void CGameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);

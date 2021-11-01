@@ -32,7 +32,7 @@ void CGoomba::OnNoCollision(DWORD dt)
 	y += vy * dt;
 };
 
-void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
+void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 {
 	if (!e->obj->IsBlocking()) return; 
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 
@@ -88,7 +88,7 @@ void CGoomba::SetState(int state)
 			ay = 0; 
 			break;
 		case GOOMBA_STATE_WALKING: 
-			vx = -GOOMBA_WALKING_SPEED;
+			vx = GOOMBA_WALKING_SPEED;
 			break;
 	}
 }

@@ -47,6 +47,7 @@ class CCollision
 {
 	static CCollision* __instance;
 public: 
+	bool skip;
 	static void SweptAABB(
 		float ml,			// move left 
 		float mt,			// move top

@@ -2,6 +2,7 @@
 #include "debug.h"
 //#define MAP_TEXTURE_ID	30
 #define MAP_DIR	L"textures\\TileMap.png"
+#define MAP_RANGE	10
 Map* Map::_instance = NULL;
 void Map::ReadMap()
 {
@@ -13,7 +14,7 @@ void Map::ReadMap()
 		for (int j = 0; j < MapCol; j++)
 		{
 			ifs >> map[i][j];
-			DebugOut(L"mapij: %d", map[i][j]);
+			//DebugOut(L"mapij: %d", map[i][j]);
 		}
 	ifs.close();
 }
@@ -67,8 +68,13 @@ void Map::Drawmap()
 			//DebugOut(L"i: j: %d %d ", i, j);
 			float x = TexW * j;
 			float y = TexH * i;
-			DebugOut(L"%d", map[i][j]);
+			//DebugOut(L"%d", map[i][j]);
+			float a, b;
+			CGame::GetInstance()->GetCamPos(a,b);
+			if ((x > a - MAP_RANGE) && (y>b- MAP_RANGE)) {
+
 			CSprites::GetInstance()->Get(map[i][j])->Draw(x,y);
+			}
 		}
 	}
 }

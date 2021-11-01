@@ -14,8 +14,8 @@
 #define GOOMBA_STATE_WALKING 100
 #define GOOMBA_STATE_DIE 200
 
-#define ID_ANI_GOOMBA_WALKING 5000
-#define ID_ANI_GOOMBA_DIE 5001
+#define ID_ANI_GOOMBA_WALKING 750
+#define ID_ANI_GOOMBA_DIE 751
 
 class CGoomba : public CGameObject
 {
@@ -33,7 +33,7 @@ protected:
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt);
 
 public: 	
 	CGoomba(float x, float y);

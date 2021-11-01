@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="MovingObject">
+      <UniqueIdentifier>{2f5e89df-14a2-477f-9b92-f9354361a998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{bdb1aba8-8955-4468-a83e-b7dacbd9dceb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mario">
+      <UniqueIdentifier>{b293cb71-79ce-427a-8f97-197038bd7177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StaticObject">
+      <UniqueIdentifier>{380f28af-09bc-4ee5-9293-9b37d12a9d79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -25,9 +37,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Animations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Coin.cpp">
@@ -43,12 +52,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform.cpp">
@@ -78,6 +81,30 @@
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestionBrick.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinItem.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorBrick.cpp">
+      <Filter>StaticObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -90,9 +117,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AssetIDs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h">
@@ -110,13 +134,7 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
@@ -151,6 +169,30 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestionBrick.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinItem.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorBrick.h">
+      <Filter>StaticObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

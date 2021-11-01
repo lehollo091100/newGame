@@ -1,5 +1,5 @@
 #pragma once
-
+#include "AssetIDs.h"
 #include <Windows.h>
 #include <d3dx10.h>
 #include <vector>
@@ -15,7 +15,7 @@ using namespace std;
 
 class CGameObject
 {
-protected:
+public:
 
 	float x; 
 	float y;
@@ -28,13 +28,15 @@ protected:
 	int state;
 
 	bool isDeleted; 
-
 public: 
+	int type;
+	bool Iscollidable = true;
+	bool isblocking = true;
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-
+	bool CheckSkipCollision(LPGAMEOBJECT coObject, int nx, int ny);
 	int GetState() { return this->state; }
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
@@ -59,7 +61,7 @@ public:
 	virtual void OnNoCollision(DWORD dt) {};
 
 	// When collision with an object has been detected (triggered by CCollision::Process)
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {};
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt) {};
 	
 	// Is this object blocking other object? If YES, collision framework will automatically push the other object
 	virtual int IsBlocking() { return 1; }
