@@ -103,7 +103,8 @@
 
 class CMario : public CGameObject
 {
-	BOOLEAN isSitting;
+	DWORD kicktime;
+	BOOLEAN isSitting,isHolding,isKicking;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -117,9 +118,10 @@ class CMario : public CGameObject
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
-	void OnCollisionWithColorBrick(LPCOLLISIONEVENT e,DWORD dt);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
+	void OnCollisionWithRedgoomba(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 
@@ -129,6 +131,8 @@ public:
 	{
 		type = 0;
 		isSitting = false;
+		isHolding = false;
+		isKicking = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 

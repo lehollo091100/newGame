@@ -3,7 +3,8 @@
 #include "Collision.h"
 #include "AssetIDs.h"
 #define ID_ANI_COIN	700
-#define VY	0.11f
+#define AY	0.001f
+#define VY	0.25f
 #define RANGEY	60
 #define COIN_BBOX_WIDTH	10
 #define COIN_BBOX_HEIGHT	16

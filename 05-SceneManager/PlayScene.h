@@ -12,9 +12,9 @@
 #include "CoinItem.h"
 #include "Mushroom.h"
 #include "Pipe.h"
-//#include "Koopas.h"
-
-
+#include "Koopas.h"
+#include "Redgoomba.h"
+#include "Koopasitem.h"
 class CPlayScene: public CScene
 {
 protected: 
@@ -25,7 +25,6 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	vector<QuestionBrick*> questionbricks;
 	vector<LPGAMEOBJECT> items;
-
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);

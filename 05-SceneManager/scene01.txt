@@ -7,24 +7,26 @@ coin.txt
 goomba.txt
 cloud.txt
 mushroom.txt
+koopas.txt
+redgoomba.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,7=ITEM,49=Flatform
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,49=Flatform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	120	350
+0	500	350
 
 # BRICKS
 1	0	416	624	16
-1	624	408	464	32
+1	616	408	464	32
 1	1152	416	352	16
 1	1536	416	80	16
 1	1664	416	576	16
 1	2256	416	560	16
 #Goomba
-#2	150	350
+#2	430	350
 
 #PIPE
 10	360	362	30	48
@@ -33,9 +35,15 @@ mushroom.txt
 #4	176	320
 #4	193	320
 
+#KOOPAS
+11	588	322
+
+#REDGOOMBA
+12	150	380
+
 #ColorBrick
 5	256	368	48	16
-5	286	336	48	16
+5	288	336	48	16
 5	432	368	80	16
 5	488	338	64	16
 5	536	304	64	16
@@ -46,13 +54,13 @@ mushroom.txt
 8	176	351	0
 8	192	351	1
 8	417	321	0
-
+8	588	348	1
 #QuestionBrick
 # type: 0:coin 1:item
 6	176	351	0
 6	192	351	0
 6	417	321	0
-
+6	588	348	0
 #COIN
 
 #Platform
@@ -60,5 +68,5 @@ mushroom.txt
 #49	120	90	16	16	8	20001	20001	20001
 
 #Portal 
-50	300	120	316	160	2
+#50	300	120	316	160	2
 

@@ -54,9 +54,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Platform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SampleKeyEventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -96,14 +93,26 @@
     <ClCompile Include="Brick.cpp">
       <Filter>StaticObject</Filter>
     </ClCompile>
-    <ClCompile Include="Mushroom.cpp">
-      <Filter>MovingObject</Filter>
-    </ClCompile>
     <ClCompile Include="Pipe.cpp">
       <Filter>StaticObject</Filter>
     </ClCompile>
     <ClCompile Include="ColorBrick.cpp">
       <Filter>StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Redgoomba.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopasitem.cpp">
+      <Filter>MovingObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -135,9 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SampleKeyEventHandler.h">
@@ -185,14 +191,26 @@
     <ClInclude Include="Brick.h">
       <Filter>StaticObject</Filter>
     </ClInclude>
-    <ClInclude Include="Mushroom.h">
-      <Filter>MovingObject</Filter>
-    </ClInclude>
     <ClInclude Include="Pipe.h">
       <Filter>StaticObject</Filter>
     </ClInclude>
     <ClInclude Include="ColorBrick.h">
       <Filter>StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Redgoomba.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopasitem.h">
+      <Filter>MovingObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

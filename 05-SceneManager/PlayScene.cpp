@@ -107,7 +107,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = (float)atof(tokens[2].c_str());
 
 	CGameObject *obj = NULL;
-
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
@@ -141,7 +140,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_QUESTIONBRICK:
 	{
-		float typeItem = (float)atof(tokens[3].c_str());
 		obj = new QuestionBrick(x,y);
 		questionbricks.push_back(dynamic_cast<QuestionBrick*>(obj));
 		break;
@@ -189,6 +187,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float pwidth = (float)atof(tokens[3].c_str());
 		float pheight = (float)atof(tokens[4].c_str());
 		obj = new Pipe(x, y,pwidth,pheight);
+		break;
+	}
+	case OBJECT_TYPE_KOOPAS: {
+		obj = new Koopas(x, y);
+		Koopasitem* obj1 = new Koopasitem(x + KOOPAS_WIDTH, y);
+		obj1->SetPosition(x + 18, y);
+		objects.push_back(obj1);
+		Koopas* a = dynamic_cast<Koopas*>(obj);
+		a->item = obj1;
+		break;
+	}
+	case OBJECT_TYPE_REDGOOMBA: {
+		obj = new Redgoomba(x, y);
 		break;
 	}
 	case OBJECT_TYPE_PORTAL:

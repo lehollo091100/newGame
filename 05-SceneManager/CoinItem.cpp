@@ -8,7 +8,13 @@ void CoinItem::SetState(int state)
 	case COIN_STATE_NORMAL:
 		break;
 	case COIN_STATE_APPEAR:
+	{
+		if (vy==0)
+		{
+			vy = -VY;
+		}
 		break;
+	}
 	default:
 		break;
 	}
@@ -27,18 +33,22 @@ void CoinItem::Render()
 
 void CoinItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (state != COIN_STATE_NORMAL) {
+
+		vy += AY*dt;
+	}
 	x += vx * dt;
 	y += vy * dt;
 	if (state == COIN_STATE_APPEAR) {
-		if (vy == 0) {
+		/*if (vy == 0) {
 			vy = -VY;
-		}
-		if (vy < 0)
-		{
-			if (y < initY - RANGEY) {
-				vy = VY;
-			}
-		}
+		}*/
+		//if (vy < 0)
+		//{
+		//	if (y < initY - RANGEY) {
+		//		vy = VY;
+		//	}
+		//}
 		if (vy > 0)
 		{
 			if (y > initY)

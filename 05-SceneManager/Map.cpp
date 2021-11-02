@@ -73,7 +73,7 @@ void Map::Drawmap()
 			CGame::GetInstance()->GetCamPos(a,b);
 			if ((x > a - MAP_RANGE) && (y>b- MAP_RANGE)) {
 
-			CSprites::GetInstance()->Get(map[i][j])->Draw(x,y);
+			//CSprites::GetInstance()->Get(map[i][j])->Draw(x,y);
 			}
 		}
 	}

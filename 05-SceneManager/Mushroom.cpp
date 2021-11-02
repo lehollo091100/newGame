@@ -18,12 +18,13 @@ void Mushroom::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 	}
 	else if (e->nx != 0)
 	{
-		vx = -vx;
-	}
-	if (dynamic_cast<Pipe*>(e->obj))
-	{
 		nx = -nx;
+		vx = nx * vx;
 	}
+	//if (dynamic_cast<Pipe*>(e->obj))
+	//{
+	//	nx = -nx;
+	//}
 }
 
 void Mushroom::SetState(int state)
