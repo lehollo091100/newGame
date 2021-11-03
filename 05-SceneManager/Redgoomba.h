@@ -21,6 +21,8 @@
 #include "Goomba.h"	
 #include "Mushroom.h"
 #include "debug.h"
+#include "Koopas.h"
+#include "Koopasitem.h"
 class Redgoomba:public CGameObject
 {
 	DWORD time;

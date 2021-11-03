@@ -17,8 +17,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	if (x < 8)
+	{
+		x += 8;
+	}
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
+
+	if (isKicking)
+	{
+		if (GetTickCount64() - kicktime > 300)
+			{
+				isKicking = false;
+				kicktime = 0;
+			}
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -215,7 +227,8 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		else if(koopas->GetState()==KOOPAS_STATE_DEFENDDOWN)
 		{
 			/// kick code here
-
+			kicktime = GetTickCount64();
+			isKicking = true;
 			if (vx > 0)
 			{
 				koopas->nx = 1;
@@ -395,7 +408,12 @@ int CMario::GetAniIdBig()
 		}
 		else if (isKicking)
 		{
-
+			if (vx > 0) {
+				aniId = ID_ANI_MARIO_KICK_RIGHT;
+			}
+			if (vx < 0) {
+				aniId = ID_ANI_MARIO_KICK_LEFT;
+			}
 		}
 		else
 			if (vx == 0)

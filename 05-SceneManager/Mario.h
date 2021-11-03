@@ -57,6 +57,9 @@
 #define ID_ANI_MARIO_BRACE_RIGHT 412
 #define ID_ANI_MARIO_BRACE_LEFT 413
 
+#define ID_ANI_MARIO_KICK_RIGHT	414
+#define ID_ANI_MARIO_KICK_LEFT	415
+
 #define ID_ANI_MARIO_DIE 499
 
 // SMALL MARIO
@@ -129,6 +132,7 @@ public:
 	
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		kicktime = 0;
 		type = 0;
 		isSitting = false;
 		isHolding = false;
@@ -137,7 +141,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;

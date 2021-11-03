@@ -10,14 +10,13 @@ void Koopasitem::GetBoundingBox(float& left, float& top, float& right, float& bo
 
 void Koopasitem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"ONGROUND:%f\n", vy);
 	vy += AY * dt;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void Koopasitem::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Koopasitem::SetState(int state)
@@ -28,6 +27,11 @@ void Koopasitem::SetState(int state)
 	case KOOPAS_STATE_WALKING:
 	{
 		vx = nx * KOOPAS_VX;
+		break;
+	}
+	case ITEM_STATE_STOP:
+	{
+		vx = 0;
 		break;
 	}
 	default:

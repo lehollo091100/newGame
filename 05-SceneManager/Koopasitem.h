@@ -3,6 +3,7 @@
 #include "AssetIDs.h"
 #include "Collision.h"
 #define KOOPAS_STATE_WALKING	0
+#define ITEM_STATE_STOP	100
 #define KOOPAS_VX	0.03f
 #define AY	0.001f
 #define KOOPAS_WIDTH	18

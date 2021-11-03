@@ -2,7 +2,7 @@
 
 void Pipe::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Pipe::GetBoundingBox(float& l, float& t, float& r, float& b)

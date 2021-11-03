@@ -94,7 +94,7 @@ void Redgoomba::Render()
 		animations->Get(ID_ANI_DIE)->Render(x, y);
 
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Redgoomba::SetState(int state)
@@ -132,6 +132,8 @@ void Redgoomba::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 {
 	if (dynamic_cast<Mushroom*>(e->obj)) return;
 	if (dynamic_cast<CGoomba*>(e->obj)) return;
+	if (dynamic_cast<Koopas*>(e->obj)) return;
+	if (dynamic_cast<Koopasitem*>(e->obj)) return;
 	if (e->ny != 0)
 	{
 		if (state==REDGOOMBA_STATE_JUMPING)

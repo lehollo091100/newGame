@@ -1,5 +1,5 @@
 #include "Koopas.h"
-
+#define RANGE	10
 void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (state==KOOPAS_STATE_WALKING)
@@ -19,6 +19,11 @@ void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (x<0)
+	{
+		item->Delete();
+		this->Delete();
+	}
 	vy += AY * dt;
 	if (state == KOOPAS_STATE_WALKING) {
 		begin = 0;
@@ -30,11 +35,11 @@ void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			item->vx = item->nx * item->vx;
 			if (vx > 0)
 			{
-				this->item->SetPosition(x + 10, y);
+				this->item->SetPosition(x + RANGE, y);
 			}
 			else if (vx < 0)
 			{
-				item->SetPosition(x - 10, y);
+				item->SetPosition(x - RANGE, y);
 			}
 		}
 	}
@@ -60,16 +65,22 @@ void Koopas::SetState(int state)
 	{
 	case KOOPAS_STATE_WALKING: {
 		vx = nx * KOOPAS_VX;
+		if (item)
+		{
+			item->SetState(KOOPAS_STATE_WALKING);
+		}
 		//vx = 0;
 		break;
 	}
 	case KOOPAS_STATE_DEFENDDOWN: {
 		begin = GetTickCount64();
+		item->SetState(ITEM_STATE_STOP);
 		vx = 0;
 		break;
 	}
 	case KOOPAS_STATE_ATTACKDOWN: {
 		vx = nx * KOOPAS_ATTACK_VX;
+		item->SetState(ITEM_STATE_STOP);
 		break;
 	}
 	default:
@@ -103,11 +114,11 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			item->vx = item->nx * item->vx;
 			if (vx > 0)
 			{
-					this->item->SetPosition(x + 10, y);
+					this->item->SetPosition(x + RANGE, y);
 			}
 			else if (vx < 0)
 			{
-					item->SetPosition(x - 10, y);
+					item->SetPosition(x - RANGE, y);
 			}
 		}
 	}
@@ -159,5 +170,5 @@ void Koopas::Render()
 	else if (state == KOOPAS_STATE_ATTACKDOWN) {
 		animations->Get(ID_ANI_DEFENDDOWN)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
