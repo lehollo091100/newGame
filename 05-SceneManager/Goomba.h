@@ -1,9 +1,11 @@
 #pragma once
 #include "GameObject.h"
-
+#include "AssetIDs.h"
+#include "Koopas.h"
 #define GOOMBA_GRAVITY 0.002f
 #define GOOMBA_WALKING_SPEED 0.05f
-
+#define DIEUP_VY	0.3f
+#define DIEUP_RANGE	10
 
 #define GOOMBA_BBOX_WIDTH 16
 #define GOOMBA_BBOX_HEIGHT 14
@@ -13,16 +15,18 @@
 
 #define GOOMBA_STATE_WALKING 100
 #define GOOMBA_STATE_DIE 200
+#define GOOMBA_STATE_DIEUP	300
 
 #define ID_ANI_GOOMBA_WALKING 750
 #define ID_ANI_GOOMBA_DIE 751
+#define ID_ANI_GOOMBA_DIEUP	752
 
 class CGoomba : public CGameObject
 {
 protected:
 	float ax;				
 	float ay; 
-
+	float initY;
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

@@ -1,6 +1,5 @@
 #include "Collision.h"
 #include "GameObject.h"
-
 #include "debug.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
@@ -205,7 +204,6 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		{
 			continue;
 		}
-		if (filterBlock == 1 && (Checkskip(c)))
 		{
 			continue;
 		}

@@ -53,6 +53,11 @@ void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(KOOPAS_STATE_WALKING);
 		}
 	}
+	if (x<0)
+	{
+		this->item->Delete();
+		this->Delete();
+	}
 	CCollision::GetInstance()->Process(this,dt, coObjects);
 }
 
@@ -146,7 +151,7 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 void Koopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e,DWORD dt)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	goomba->SetState(GOOMBA_STATE_DIE);
+	goomba->SetState(GOOMBA_STATE_DIEUP);
 }
 
 void Koopas::Render()
