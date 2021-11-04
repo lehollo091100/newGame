@@ -1,5 +1,6 @@
 #include "Collision.h"
 #include "GameObject.h"
+#include "Goomba.h"
 #include "debug.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
@@ -176,6 +177,10 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	if (target->obj->type == OBJECT_TYPE_COLORBRICK && (target->nx != 0||target->ny==1)) {
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_GOOMBA && objsrc->state == GOOMBA_STATE_DIEUP && target->ny != 0)
+	{
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,
@@ -204,6 +209,7 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		{
 			continue;
 		}
+		if (filterBlock == 1 && (Checkskip(c,objSrc)))
 		{
 			continue;
 		}
