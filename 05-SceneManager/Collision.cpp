@@ -172,7 +172,7 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
-bool Checkskip(LPCOLLISIONEVENT target) {
+bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	if (target->obj->type == OBJECT_TYPE_COLORBRICK && (target->nx != 0||target->ny==1)) {
 		return true;
 	}
