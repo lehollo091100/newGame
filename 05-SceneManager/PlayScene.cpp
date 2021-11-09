@@ -202,6 +202,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Redgoomba(x, y);
 		break;
 	}
+	case OBJECT_TYPE_GREENPLANT: {
+		obj = new GreenPlant(x, y);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

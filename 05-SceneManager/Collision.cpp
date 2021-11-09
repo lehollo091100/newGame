@@ -181,6 +181,10 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_GREENPLANT/* && target->ny != 0*/)
+	{
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,
@@ -197,15 +201,15 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	min_ty = 1.0f;
 	int min_ix = -1;
 	int min_iy = -1;
-	skip = false;
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 		if (c->isDeleted) continue;
 		if (c->obj->IsDeleted()) continue; 
 
+		
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 && !c->obj->IsBlocking()) 
+		if (filterBlock == 1 && !c->obj->IsBlocking())
 		{
 			continue;
 		}
@@ -216,7 +220,6 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;
 		}
-
 		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
 			min_ty = c->t; min_iy = i;
 		}
@@ -257,14 +260,13 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		objSrc->GetSpeed(vx, vy);
 		dx = vx * dt;
 		dy = vy * dt;
-
+		//DebugOut(L"OBJECTFILTER:%d\n", colY->obj->type);
 		if (colX != NULL && colY != NULL) 
 		{
 			if (colY->t < colX->t)	// was collision on Y first ?
 			{
 				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
 				objSrc->SetPosition(x, y);
-
 				objSrc->OnCollisionWith(colY,dt);
 
 				//
@@ -330,9 +332,6 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		else
 		if (colX != NULL)
 		{
-			//if (objSrc->CheckSkipCollision(colX->obj, colX->dx, 0)) {
-			//	skip = true;
-			//}
 			//DebugOut(L"colx:%d\n",skip);
 			x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
 			y += dy;
@@ -364,8 +363,14 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		LPCOLLISIONEVENT e = coEvents[i];
 		if (e->isDeleted) continue;
 		if (e->obj->IsBlocking()) continue;
+		if (i > 0)
+		{
+			LPCOLLISIONEVENT e1 = coEvents[i -1];
+			if (e1->obj->IsBlocking() && objSrc->type==OBJECT_TYPE_MARIO&& e->ny!=0)
+				continue;
+		}
 		// blocking collisions were handled already, skip them
-		objSrc->OnCollisionWith(e,dt);			
+		objSrc->OnCollisionWith(e,dt);
 	}
 
 

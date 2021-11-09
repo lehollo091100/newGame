@@ -114,6 +114,9 @@
     <ClCompile Include="Koopasitem.cpp">
       <Filter>MovingObject</Filter>
     </ClCompile>
+    <ClCompile Include="GreenPlant.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -210,6 +213,9 @@
       <Filter>MovingObject</Filter>
     </ClInclude>
     <ClInclude Include="Koopasitem.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenPlant.h">
       <Filter>MovingObject</Filter>
     </ClInclude>
   </ItemGroup>

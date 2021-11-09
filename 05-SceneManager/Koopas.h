@@ -24,6 +24,8 @@
 #define KOOPAS_WIDTH	18
 #define KOOPAS_HEIGHT	26
 #define RANGE_STAND_UP	10
+#define TIME_STANDUP	5000
+#define ITEM_VY	0.016f
 class Koopas:public CGameObject
 {
 	DWORD begin;
