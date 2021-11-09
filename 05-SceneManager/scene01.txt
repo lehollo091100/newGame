@@ -9,10 +9,11 @@ cloud.txt
 mushroom.txt
 koopas.txt
 redgoomba.txt
+greenplant.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,49=Flatform
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,13=GreenPlant,49=Flatform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
@@ -47,10 +48,12 @@ redgoomba.txt
 #4	193	320
 
 #KOOPAS
-11	588	322
-11	150	350
+11	438	350
 #REDGOOMBA
 #12	150	380
+
+#GREENPLANT
+13	360	380
 
 #ColorBrick
 5	256	368	48	16

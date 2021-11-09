@@ -27,7 +27,7 @@ void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += AY * dt;
 	if (state == KOOPAS_STATE_WALKING) {
 		begin = 0;
-		if (item->vy> 0.016f)
+		if (item->vy> ITEM_VY)
 		{
 			nx = -nx;
 			vx = nx * vx;
@@ -48,7 +48,7 @@ void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//	DebugOut(L"itemx:%f", item->x);
 	if (state==KOOPAS_STATE_DEFENDDOWN)
 	{
-		if (GetTickCount64() - begin > 5000) {
+		if (GetTickCount64() - begin > TIME_STANDUP) {
 			y -= RANGE_STAND_UP;
 			SetState(KOOPAS_STATE_WALKING);
 		}

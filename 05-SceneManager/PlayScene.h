@@ -15,6 +15,7 @@
 #include "Koopas.h"
 #include "Redgoomba.h"
 #include "Koopasitem.h"
+#include "GreenPlant.h"
 class CPlayScene: public CScene
 {
 protected: 

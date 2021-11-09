@@ -13,6 +13,7 @@
 #include "Mushroom.h"
 #include "Koopas.h"
 #include "Redgoomba.h"
+#include "GreenPlant.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
@@ -84,6 +85,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 		OnCollisionWithKoopas(e);
 	else if (dynamic_cast<Redgoomba*>(e->obj))
 		OnCollisionWithRedgoomba(e);
+	else if (dynamic_cast<GreenPlant*>(e->obj))
+		OnCollisionWithGreenPlant(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -290,6 +293,23 @@ void CMario::OnCollisionWithRedgoomba(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithGreenPlant(LPCOLLISIONEVENT e)
+{
+	if (untouchable == 0)
+	{
+			if (level > MARIO_LEVEL_SMALL)
+			{
+				level = MARIO_LEVEL_SMALL;
+				StartUntouchable();
+			}
+			else
+			{
+				DebugOut(L">>> Mario DIE >>> \n");
+				SetState(MARIO_STATE_DIE);
+			}
+	}
+}
+
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt)
 {
 		e->obj->Delete();
@@ -459,7 +479,7 @@ void CMario::Render()
 	//DebugOut(L"aniid:%d\n", aniId);
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }
@@ -467,7 +487,7 @@ void CMario::Render()
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -516,7 +536,7 @@ void CMario::SetState(int state)
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
 			vx = 0; vy = 0.0f;
-			y +=MARIO_SIT_HEIGHT_ADJUST;
+			y += MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
 

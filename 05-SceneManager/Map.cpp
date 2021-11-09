@@ -61,6 +61,7 @@ void Map::AddSprites()
 }
 void Map::Drawmap()
 {
+
 	for (UINT i = 0; i < MapRow; i++)
 	{
 		for (UINT j = 0; j < MapCol; j++)
@@ -72,7 +73,7 @@ void Map::Drawmap()
 			float a, b;
 			CGame::GetInstance()->GetCamPos(a,b);
 			if ((x > a - MAP_RANGE) && (y>b- MAP_RANGE)) {
-			CSprites::GetInstance()->Get(map[i][j])->Draw(x,y);
+				CSprites::GetInstance()->Get(map[i][j])->Draw(x,y);
 			}
 		}
 	}
