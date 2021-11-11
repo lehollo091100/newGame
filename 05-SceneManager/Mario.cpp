@@ -125,13 +125,17 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e) {
 	QuestionBrick* QBrick = dynamic_cast<QuestionBrick*>(e->obj);
 	if (e->ny > 0) {
-		if (QBrick->GetState()==QBSTATE_NORMAL)
+		if (x> (QBrick->x - QBRICK_WIDTH/2) && x < (QBrick->x + QBRICK_WIDTH / 2))
 		{
-			QBrick->nx = -this->nx;
-			QBrick->SetState(QBSTATE_MOVING);
-			if (QBrick->item->type == OBJECT_TYPE_COINITEM) {
-				coin++;
+			if (QBrick->GetState()==QBSTATE_NORMAL)
+			{
+				QBrick->nx = -this->nx;
+				QBrick->SetState(QBSTATE_MOVING);
+				if (QBrick->item->type == OBJECT_TYPE_COINITEM) {
+					coin++;
+				}
 			}
+
 		}
 	}
 }
@@ -184,6 +188,11 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				koopas->SetState(KOOPAS_STATE_DEFENDDOWN);
 			}
+			else if (koopas->GetState()==KOOPAS_STATE_FLYING)
+			{
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				koopas->SetState(KOOPAS_STATE_WALKING);
+			}
 		}
 		else
 		{
@@ -211,7 +220,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 	}
 	if (e->nx != 0)
 	{
-		if (koopas->GetState() == KOOPAS_STATE_WALKING)
+		if (koopas->GetState() == KOOPAS_STATE_WALKING || koopas->GetState()==KOOPAS_STATE_FLYING)
 		{
 			if (untouchable == 0)
 			{

@@ -1,6 +1,7 @@
 #include "Collision.h"
 #include "GameObject.h"
 #include "Goomba.h"
+#include "Mario.h"
 #include "debug.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
@@ -363,11 +364,14 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		LPCOLLISIONEVENT e = coEvents[i];
 		if (e->isDeleted) continue;
 		if (e->obj->IsBlocking()) continue;
-		if (i > 0)
+		if (objSrc->type == OBJECT_TYPE_MARIO)
 		{
-			LPCOLLISIONEVENT e1 = coEvents[i -1];
-			if (e1->obj->IsBlocking() && objSrc->type==OBJECT_TYPE_MARIO&& e->ny!=0)
-				continue;
+			CMario* mario = dynamic_cast<CMario*>(objSrc);
+			if(mario->isOnPlatform)
+				if (e->ny!=0)
+				{
+					continue;
+				}
 		}
 		// blocking collisions were handled already, skip them
 		objSrc->OnCollisionWith(e,dt);

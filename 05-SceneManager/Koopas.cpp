@@ -77,6 +77,15 @@ void Koopas::SetState(int state)
 		//vx = 0;
 		break;
 	}
+	case KOOPAS_STATE_FLYING: {
+		vx = nx * KOOPAS_VX;
+		if (item)
+		{
+			item->SetState(KOOPAS_STATE_WALKING);
+		}
+		//vx = 0;
+		break;
+	}
 	case KOOPAS_STATE_DEFENDDOWN: {
 		begin = GetTickCount64();
 		item->SetState(ITEM_STATE_STOP);
@@ -88,6 +97,7 @@ void Koopas::SetState(int state)
 		item->SetState(ITEM_STATE_STOP);
 		break;
 	}
+	
 	default:
 		break;
 	}
@@ -109,7 +119,14 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 		if (dynamic_cast<CGoomba*>(e->obj)) return;
 		if (e->ny != 0)
 		{
-			vy = 0;
+			if (state==KOOPAS_STATE_FLYING)
+			{
+				vy = -KOOPAS_FLYING_SPEED;
+			}
+			else
+			{
+				vy = 0;
+			}
 		}
 		else if (e->nx != 0)
 		{
@@ -157,23 +174,69 @@ void Koopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e,DWORD dt)
 void Koopas::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	if (state == KOOPAS_STATE_WALKING)
+	if (Color==0)
 	{
-		if (vx > 0)
+		if (state == KOOPAS_STATE_WALKING)
 		{
-			animations->Get(ID_ANI_WALKINGRIGHT)->Render(x, y);
+			if (vx > 0)
+			{
+				animations->Get(ID_ANI_WALKINGRIGHT_RED)->Render(x, y);
+			}
+			if (vx < 0)
+			{
+				animations->Get(ID_ANI_WALKINGLEFT_RED)->Render(x, y);
+			}
 		}
-		if (vx < 0)
-		{
-			animations->Get(ID_ANI_WALKINGLEFT)->Render(x, y);
-		}
-	}
-	else if (state == KOOPAS_STATE_DEFENDDOWN) {
-		animations->Get(ID_ANI_DEFENDDOWN)->Render(x, y);
+		//else if (state == KOOPAS_STATE_FLYING)
+		//{
+		//	if (vx > 0)
+		//	{
+		//		animations->Get(ID_ANI_FLYINGRIGHT)->Render(x, y);
+		//	}
+		//	if (vx < 0)
+		//	{
+		//		animations->Get(ID_ANI_FLYINGLEFT)->Render(x, y);
+		//	}
+		//}
+		else if (state == KOOPAS_STATE_DEFENDDOWN) {
+			animations->Get(ID_ANI_DEFENDDOWN_RED)->Render(x, y);
 
+		}
+		else if (state == KOOPAS_STATE_ATTACKDOWN) {
+			animations->Get(ID_ANI_DOWNATTACK_RED)->Render(x, y);
+		}
 	}
-	else if (state == KOOPAS_STATE_ATTACKDOWN) {
-		animations->Get(ID_ANI_DEFENDDOWN)->Render(x, y);
+	else
+	{
+		if (state == KOOPAS_STATE_WALKING)
+		{
+			if (vx > 0)
+			{
+				animations->Get(ID_ANI_WALKINGRIGHT_GREEN)->Render(x, y);
+			}
+			if (vx < 0)
+			{
+				animations->Get(ID_ANI_WALKINGLEFT_GREEN)->Render(x, y);
+			}
+		}
+		else if (state == KOOPAS_STATE_FLYING)
+		{
+			if (vx > 0)
+			{
+				animations->Get(ID_ANI_FLYINGRIGHT)->Render(x, y);
+			}
+			if (vx < 0)
+			{
+				animations->Get(ID_ANI_FLYINGLEFT)->Render(x, y);
+			}
+		}
+		else if (state == KOOPAS_STATE_DEFENDDOWN) {
+			animations->Get(ID_ANI_DEFENDDOWN_GREEN)->Render(x, y);
+
+		}
+		else if (state == KOOPAS_STATE_ATTACKDOWN) {
+			animations->Get(ID_ANI_DOWNATTACK_GREEN)->Render(x, y);
+		}
 	}
 	//RenderBoundingBox();
 }

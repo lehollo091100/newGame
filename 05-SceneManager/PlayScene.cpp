@@ -190,7 +190,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 	case OBJECT_TYPE_KOOPAS: {
-		obj = new Koopas(x, y);
+		int type = (int)atof(tokens[3].c_str());
+		int color = (int)atof(tokens[4].c_str());
+		obj = new Koopas(x, y,type,color);
 		Koopasitem* obj1 = new Koopasitem(x + KOOPAS_WIDTH, y);
 		obj1->SetPosition(x + 18, y);
 		objects.push_back(obj1);
