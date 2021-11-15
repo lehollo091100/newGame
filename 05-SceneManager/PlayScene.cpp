@@ -17,7 +17,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
-	player = NULL;
+	//player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
 	//map->SetMap(id);
@@ -109,8 +109,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CGameObject *obj = NULL;
 	switch (object_type)
 	{
-	case OBJECT_TYPE_MARIO:
-		if (player!=NULL) 
+	case OBJECT_TYPE_MARIO: {
+
+		/*if (player!=NULL) 
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
@@ -118,8 +119,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMario(x,y); 
 		player = (CMario*)obj;  
 
-		DebugOut(L"[INFO] Player object has been created!\n");
+		DebugOut(L"[INFO] Player object has been created!\n");*/
+		//obj = CMario::GetInstance();
+		//player= (CMario*)obj;
+		player->SetPosition(x, y);
+		DebugOut(L"[INFO] Player object created!\n");
 		break;
+	}
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_BRICK: 
 	{
@@ -208,6 +214,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new GreenPlant(x, y);
 		break;
 	}
+	case OBJECT_TYPE_FIREREDPLANT: {
+		obj = new FireRedPlant(x, y);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -224,8 +234,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	obj->SetPosition(x, y);
-	objects.push_back(obj);
+	if (obj != NULL)
+		obj->SetPosition(x, y);
+	//obj->SetPosition(x, y);
+	if (obj != NULL)
+	{
+		objects.push_back(obj);
+	}
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -309,21 +324,26 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		//if()
 		objects[i]->Update(dt, &coObjects);
 	}
+
+	player->Update(dt, &coObjects);
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
+
 	// Update camera to follow mario
 	float cx, cy;
+
 	player->GetPosition(cx, cy);
 
 	CGame *game = CGame::GetInstance();
@@ -340,6 +360,7 @@ void CPlayScene::Update(DWORD dt)
 void CPlayScene::Render()
 {
 	map->Drawmap();
+	player->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 

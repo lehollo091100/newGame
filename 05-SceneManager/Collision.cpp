@@ -182,7 +182,7 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
-	if (objsrc->type == OBJECT_TYPE_GREENPLANT/* && target->ny != 0*/)
+	if (objsrc->type == OBJECT_TYPE_GREENPLANT || objsrc->type == OBJECT_TYPE_FIREREDPLANT)
 	{
 		return true;
 	}

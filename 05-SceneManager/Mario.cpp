@@ -601,6 +601,13 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	}
 }
 
+CMario* CMario::__instance = NULL;
+CMario* CMario::GetInstance()
+{
+	if (__instance == NULL) __instance = new CMario(0, 0);
+	return __instance;
+}
+
 void CMario::SetLevel(int l)
 {
 	// Adjust position to avoid falling off platform

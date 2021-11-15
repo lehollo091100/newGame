@@ -117,6 +117,12 @@
     <ClCompile Include="GreenPlant.cpp">
       <Filter>MovingObject</Filter>
     </ClCompile>
+    <ClCompile Include="FireRedPlant.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FireGreenPlant.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -216,6 +222,12 @@
       <Filter>MovingObject</Filter>
     </ClInclude>
     <ClInclude Include="GreenPlant.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="FireRedPlant.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="FireGreenPlant.h">
       <Filter>MovingObject</Filter>
     </ClInclude>
   </ItemGroup>

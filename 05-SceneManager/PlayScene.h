@@ -16,11 +16,13 @@
 #include "Redgoomba.h"
 #include "Koopasitem.h"
 #include "GreenPlant.h"
+#include "FireRedPlant.h"
 class CPlayScene: public CScene
 {
 protected: 
 	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;					
+	/*LPGAMEOBJECT player;*/	
+	CMario* player = CMario::GetInstance();
 	Map* map;
 	int mapid;
 	vector<LPGAMEOBJECT> objects;
@@ -43,7 +45,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	LPGAMEOBJECT GetPlayer() { return player; }
+	CMario * GetPlayer() { return player; }
 
 	void Clear();
 	void PurgeDeletedObjects();
