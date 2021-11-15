@@ -123,6 +123,9 @@
     <ClCompile Include="FireGreenPlant.cpp">
       <Filter>MovingObject</Filter>
     </ClCompile>
+    <ClCompile Include="PlantFire.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="FireGreenPlant.h">
       <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PlantFire.h">
+      <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

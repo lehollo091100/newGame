@@ -218,6 +218,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new FireRedPlant(x, y);
 		break;
 	}
+	case OBJECT_TYPE_PLANTFIRE: {
+		obj = new PlantFire(x, y);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

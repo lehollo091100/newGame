@@ -17,6 +17,7 @@
 #include "Koopasitem.h"
 #include "GreenPlant.h"
 #include "FireRedPlant.h"
+#include "PlantFire.h"
 class CPlayScene: public CScene
 {
 protected: 
