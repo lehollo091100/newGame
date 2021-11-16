@@ -200,7 +200,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int color = (int)atof(tokens[4].c_str());
 		obj = new Koopas(x, y,type,color);
 		Koopasitem* obj1 = new Koopasitem(x + KOOPAS_WIDTH, y);
-		obj1->SetPosition(x + 18, y);
+		obj1->SetPosition(x + KOOPAS_WIDTH, y);
 		objects.push_back(obj1);
 		Koopas* a = dynamic_cast<Koopas*>(obj);
 		a->item = obj1;
@@ -216,12 +216,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_FIREREDPLANT: {
 		obj = new FireRedPlant(x, y);
+		PlantFire* obj1 = new PlantFire(x, y);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		FireRedPlant* a = dynamic_cast<FireRedPlant*>(obj);
+		a->item = obj1;
 		break;
 	}
-	case OBJECT_TYPE_PLANTFIRE: {
-		obj = new PlantFire(x, y);
-		break;
-	}
+	//case OBJECT_TYPE_PLANTFIRE: {
+	//	obj = new PlantFire(x, y);
+	//	break;
+	//}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

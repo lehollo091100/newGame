@@ -26,7 +26,7 @@ public:
 	int nx;	 
 
 	int state;
-
+	bool isMovingObj=true;
 	bool isDeleted; 
 public: 
 	int type;

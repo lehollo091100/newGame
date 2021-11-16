@@ -186,6 +186,10 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
+	if (objsrc->type==OBJECT_TYPE_PLANTFIRE && target->obj->type!=OBJECT_TYPE_BRICK)
+	{
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,

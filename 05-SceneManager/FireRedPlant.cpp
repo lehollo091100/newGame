@@ -20,11 +20,89 @@ void FireRedPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if (state == FIREREDPLANT_STATE_MOVINGUP) {
 		if (initY - y >= RANGE)
 		{
+			
 			SetState(FIREREDPLANT_STATE_STOP);
+			item->startX = x;
+			item->startY = y;
 		}
 	}
 	else if (state == FIREREDPLANT_STATE_STOP)
 	{
+		if (GetTickCount64() - time >= TIME/2)
+		{
+			if (item->state != FIREPLANT_MOVING) {
+				item->SetPosition(x, y);
+				if (mario->x>x)
+				{
+					if (mario->y >= y) {
+						if (mario->x > x + FIRERANGE) {
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = FIRE_VX;
+							item->vy = FIRE_VYFAR;
+						}
+						else
+						{
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = FIRE_VX;
+							item->vy = FIRE_VYNEAR;
+						}
+					}
+					else
+					{
+						if (mario->x > x + FIRERANGE) {
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = FIRE_VX;
+							item->vy = -FIRE_VYFAR;
+						}
+						else
+						{
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = FIRE_VX;
+							item->vy = -FIRE_VYNEAR;
+						}
+					}
+				}
+				else
+				{
+					if (mario->y >= y) {
+						if (mario->x < x - FIRERANGE) {
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = -FIRE_VX;
+							item->vy = FIRE_VYFAR;
+						}
+						else
+						{
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = -FIRE_VX;
+							item->vy = FIRE_VYNEAR;
+						}
+					}
+					else
+					{
+						if (mario->x < x - FIRERANGE) {
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = -FIRE_VX;
+							item->vy = -FIRE_VYFAR;
+						}
+						else
+						{
+							item->SetPosition(x, y);
+							item->SetState(FIREPLANT_MOVING);
+							item->vx = -FIRE_VX;
+							item->vy = -FIRE_VYNEAR;
+						}
+					}
+				}
+
+			}
+
+		}
 		if (GetTickCount64() - time >= TIME)
 		{
 			SetState(FIREREDPLANT_STATE_MOVINGDOWN);

@@ -10,14 +10,19 @@ void PlantFire::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void PlantFire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
+	if (y < startY - 50) {
+		SetState(FIREPLANT_START);
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void PlantFire::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_NORMAL)->Render(x, y);
+	if (state == FIREPLANT_MOVING)
+	{
+		animations->Get(ID_ANI_NORMAL)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
@@ -32,7 +37,7 @@ void PlantFire::SetState(int state)
 		break;
 	}
 	case FIREPLANT_MOVING: {
-
+		
 		break;
 	}
 	default:
@@ -48,4 +53,12 @@ void PlantFire::OnNoCollision(DWORD dt)
 
 void PlantFire::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 {
+	//if (e->obj->isMovingObj)
+	//{
+	//	return;
+	//}
+	 if (e->obj->type==OBJECT_TYPE_BRICK)
+	{
+		SetState(FIREPLANT_START);
+	}
 }

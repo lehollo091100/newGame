@@ -2,9 +2,8 @@
 #include "GameObject.h"
 #include "Collision.h"
 #include "AssetIDs.h"
-#define TIME	2000
-#define VY	0.03f
-#define WIDTH	12
+#define TIME	3000
+#define WIDTH	10
 #define RANGE	(HEIGHT+4)
 #define FIREPLANT_START	0
 #define FIREPLANT_MOVING	100
@@ -13,7 +12,9 @@
 class PlantFire :public CGameObject
 {
 public:
+	float startX, startY;
 	PlantFire(float x, float y) :CGameObject(x, y) {
+		startX = startY = 0;
 		SetState(FIREPLANT_START);
 		type = OBJECT_TYPE_PLANTFIRE;
 	}

@@ -16,6 +16,7 @@ public :
 public:
 	CBrick(float x, float y,float bwidth, float bheight) : CGameObject(x, y) 
 	{
+		type = OBJECT_TYPE_BRICK;
 		width = bwidth;
 		height = bheight;
 	}

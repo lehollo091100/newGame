@@ -58,8 +58,6 @@ plantfire.txt
 #FireREDPLANT
 14	360	380
 
-#PLANTFIRE
-15	340	380
 #ColorBrick
 5	256	368	48	16
 5	288	336	48	16

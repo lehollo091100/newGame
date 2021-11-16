@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Collision.h"
 #include "AssetIDs.h"
+#include "PlantFire.h"
 #include "Mario.h"
 #define TIME	2000
 #define VY	0.03f
@@ -20,6 +21,11 @@
 #define ID_ANI_OPENUPRIGHT	936
 #define ID_ANI_MOVINGRIGHTUP	937
 #define ID_ANI_MOVINGRIGHTDOWN	938
+#define FIRE_VYFAR	0.014f
+#define FIRE_VYNEAR	0.018f
+#define FIRE_VX	0.03f
+#define FIRERANGE	50
+
 
 class FireRedPlant :public CGameObject
 {
@@ -27,6 +33,7 @@ class FireRedPlant :public CGameObject
 	DWORD time;
 public:
 	CMario* mario = CMario::GetInstance();
+	PlantFire* item;
 	FireRedPlant(float x, float y) :CGameObject(x, y) {
 
 		time = 0;
