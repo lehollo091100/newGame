@@ -18,6 +18,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+
 	if (x < 8)
 	{
 		x += 8;
@@ -26,13 +27,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isKicking)
 	{
-		if (GetTickCount64() - kicktime > 300)
+		if (GetTickCount64() - kicktime > MARIO_KICK_TIME)
 			{
 				isKicking = false;
 				kicktime = 0;
 			}
 	}
 
+	if (vx>0)
+	{
+		tail->SetPosition(x - WIDTH, y);
+	}
+	else if(vx<0)
+	{
+		tail->SetPosition(x + WIDTH, y);
+	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -488,7 +497,7 @@ void CMario::Render()
 	//DebugOut(L"aniid:%d\n", aniId);
 	animations->Get(aniId)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	
 	//DebugOutTitle(L"Coins: %d", coin);
 }

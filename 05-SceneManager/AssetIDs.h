@@ -29,7 +29,7 @@
 
 #define OBJECT_TYPE_PORTAL	50
 #define OBJECT_TYPE_KOOPASITEM	51
-
+#define OBJECT_TYPE_TAIL	52
 
 #pragma region MARIO 
 

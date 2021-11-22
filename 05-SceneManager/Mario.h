@@ -3,7 +3,7 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
+#include "Tail.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.1f
@@ -18,6 +18,7 @@
 #define MARIO_GRAVITY			0.002f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
+#define MARIO_KICK_TIME	300
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
@@ -90,6 +91,8 @@
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
+#define MARIO_LEVEL_TAIL	3
+#define MARIO_LEVEL_FIRE	4
 
 #define MARIO_BIG_BBOX_WIDTH  16
 #define MARIO_BIG_BBOX_HEIGHT 26
@@ -102,11 +105,15 @@
 #define MARIO_SMALL_BBOX_HEIGHT 16
 
 
+#define MARIO_TAIL_BBOX_WIDTH	22
+#define MARIO_TAIL_BBOX_HEIGHT	26
+
 #define MARIO_UNTOUCHABLE_TIME 2500
 
 class CMario : public CGameObject
 {
 	static CMario* __instance;
+
 	DWORD kicktime;
 	BOOLEAN isSitting,isHolding,isKicking;
 	float maxVx;
@@ -131,7 +138,7 @@ class CMario : public CGameObject
 
 public:
 	BOOLEAN isOnPlatform;
-	
+	Tail* tail;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		kicktime = 0;

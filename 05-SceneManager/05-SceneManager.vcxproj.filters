@@ -39,9 +39,6 @@
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,6 +123,12 @@
     <ClCompile Include="PlantFire.cpp">
       <Filter>Item</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Tail.cpp">
+      <Filter>Mario</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -138,9 +141,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AssetIDs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
@@ -235,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="PlantFire.h">
       <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Tail.h">
+      <Filter>Mario</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

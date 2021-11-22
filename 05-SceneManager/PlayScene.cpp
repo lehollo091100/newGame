@@ -9,7 +9,6 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -123,6 +122,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		//obj = CMario::GetInstance();
 		//player= (CMario*)obj;
 		player->SetPosition(x, y);
+		Tail* obj1 = new Tail(x + KOOPAS_WIDTH, y);
+		obj1->SetPosition(x - WIDTH, y);
+		objects.push_back(obj1);
+		CMario* a = dynamic_cast<CMario*>(player);
+		a->tail = obj1;
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	}

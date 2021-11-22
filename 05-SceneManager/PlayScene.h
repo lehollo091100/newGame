@@ -18,6 +18,7 @@
 #include "GreenPlant.h"
 #include "FireRedPlant.h"
 #include "PlantFire.h"
+#include "Tail.h"
 class CPlayScene: public CScene
 {
 protected: 
