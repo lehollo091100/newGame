@@ -12,12 +12,12 @@
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
 
-#define MARIO_JUMP_SPEED_Y		0.8f
+#define MARIO_JUMP_SPEED_Y		0.4f
 #define MARIO_JUMP_RUN_SPEED_Y	0.4f
 
-#define MARIO_GRAVITY			0.002f
+#define MARIO_GRAVITY			0.001f
 
-#define MARIO_JUMP_DEFLECT_SPEED  0.4f
+#define MARIO_JUMP_DEFLECT_SPEED  0.3f
 #define MARIO_KICK_TIME	300
 
 #define MARIO_STATE_DIE				-10
@@ -31,8 +31,16 @@
 #define MARIO_STATE_RUNNING_RIGHT	400
 #define MARIO_STATE_RUNNING_LEFT	500
 
+
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
+
+#define MARIO_STATE_RUNMAXRIGHT		603
+#define MARIO_STATE_RUNMAXLEFT		604
+
+#define MARIO_STATE_FALLINGSLOW		605
+#define MARIO_STATE_FLYING			606
+#define MARIO_STATE_RELEASEFLY		607
 
 
 #pragma region ANIMATION_ID
@@ -82,6 +90,9 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 510
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 511
 
+// TAIL
+//#define ID_
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -117,10 +128,7 @@ class CMario : public CGameObject
 	DWORD kicktime;
 	BOOLEAN isSitting,isHolding,isKicking;
 	float maxVx;
-	float ax;				// acceleration on x 
-	float ay;				// acceleration on y 
 
-	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	int coin; 
@@ -135,8 +143,12 @@ class CMario : public CGameObject
 	void OnCollisionWithGreenPlant(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
+	int GetAniIdTail();
 
 public:
+	float ax;				// acceleration on x 
+	float ay;				// acceleration on y 
+	int level; 
 	BOOLEAN isOnPlatform;
 	Tail* tail;
 	CMario(float x, float y) : CGameObject(x, y)

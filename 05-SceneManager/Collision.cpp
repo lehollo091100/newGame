@@ -349,7 +349,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 					skip = true;
 				}*/
 				x += dx;
-				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
+				y += colY->t * dy + colY->ny * (BLOCK_PUSH_FACTOR/2);
 				objSrc->OnCollisionWith(colY,dt);
 			}
 			else // both colX & colY are NULL 
