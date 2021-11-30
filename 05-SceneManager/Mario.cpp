@@ -60,6 +60,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isFlying)
 	{
 		if (GetTickCount64() - timeToFly > MARIO_FLY_TIME) {
+			timeToFly = 0;
 			isFlying = false;
 			SetState(MARIO_STATE_RELEASE_JUMP);
 		}
@@ -538,6 +539,24 @@ int CMario::GetAniIdTail()
 			else
 			{
 				aniId = ID_ANI_MARIO_TAIL_FALLINGSLOW_LEFT;
+			}
+		}
+		else if (state==MARIO_STATE_FLYING)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_TAIL_FLYUP_RIGHT;
+			else
+			{
+				aniId = ID_ANI_MARIO_TAIL_FLYUP_LEFT;
+			}
+		}
+		else if (state==MARIO_STATE_RELEASEFLY)
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_TAIL_FLYDOWN_RIGHT;
+			else
+			{
+				aniId = ID_ANI_MARIO_TAIL_FLYDOWN_LEFT;
 			}
 		}
 		else {
