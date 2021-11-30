@@ -10,7 +10,7 @@
 #define MARIO_RUNNING_SPEED		0.2f
 
 #define MARIO_ACCEL_WALK_X	0.0005f
-#define MARIO_ACCEL_RUN_X	0.0007f
+#define MARIO_ACCEL_RUN_X	0.0006f
 
 #define MARIO_JUMP_SPEED_Y		0.4f
 #define MARIO_JUMP_RUN_SPEED_Y	0.4f
@@ -19,6 +19,14 @@
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.3f
 #define MARIO_KICK_TIME	300
+
+#define MARIO_FALLSLOW_SPEED_Y	0.18f
+#define MARIO_FALLSLOW_PLUS_VY	0.1f
+#define FLY_GRAVITY_PLUS	0.1f
+#define MARIO_FLYUP_SPEED_Y		0.3f
+
+#define MARIO_FLY_TIME	5000
+//STATE
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
@@ -63,8 +71,8 @@
 #define ID_ANI_MARIO_SIT_RIGHT 410
 #define ID_ANI_MARIO_SIT_LEFT 411
 
-#define ID_ANI_MARIO_BRACE_RIGHT 412
-#define ID_ANI_MARIO_BRACE_LEFT 413
+#define ID_ANI_MARIO_BRACE_RIGHT 413
+#define ID_ANI_MARIO_BRACE_LEFT 412
 
 #define ID_ANI_MARIO_KICK_RIGHT	414
 #define ID_ANI_MARIO_KICK_LEFT	415
@@ -81,8 +89,8 @@
 #define ID_ANI_MARIO_SMALL_RUNNING_RIGHT 504
 #define ID_ANI_MARIO_SMALL_RUNNING_LEFT 505
 
-#define ID_ANI_MARIO_SMALL_BRACE_RIGHT 506
-#define ID_ANI_MARIO_SMALL_BRACE_LEFT 507
+#define ID_ANI_MARIO_SMALL_BRACE_LEFT 506
+#define ID_ANI_MARIO_SMALL_BRACE_RIGHT 507
 
 #define ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT 508
 #define ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT 509
@@ -91,9 +99,29 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 511
 
 // TAIL
-//#define ID_
+#define ID_ANI_MARIO_TAIL_IDLE_LEFT		550
+#define ID_ANI_MARIO_TAIL_IDLE_RIGHT	551
 
+#define ID_ANI_MARIO_TAIL_WALKING_LEFT	552
+#define ID_ANI_MARIO_TAIL_WALKING_RIGHT	553
+
+#define ID_ANI_MARIO_TAIL_RUNNING_LEFT	554
+#define ID_ANI_MARIO_TAIL_RUNNING_RIGHT	555
+
+#define ID_ANI_MARIO_TAIL_JUMP_LEFT		556
+#define ID_ANI_MARIO_TAIL_JUMP_RIGHT	557
+
+#define ID_ANI_MARIO_TAIL_FALLING_LEFT	558
+#define ID_ANI_MARIO_TAIL_FALLING_RIGHT	559
+
+#define ID_ANI_MARIO_TAIL_FALLINGSLOW_LEFT	560
+#define ID_ANI_MARIO_TAIL_FALLINGSLOW_RIGHT	561
+
+#define ID_ANI_MARIO_TAIL_BRACE_LEFT	562
+#define ID_ANI_MARIO_TAIL_BRACE_RIGHT	563
 #pragma endregion
+
+
 
 #define GROUND_Y 160.0f
 
@@ -127,7 +155,6 @@ class CMario : public CGameObject
 
 	DWORD kicktime;
 	BOOLEAN isSitting,isHolding,isKicking;
-	float maxVx;
 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -146,13 +173,18 @@ class CMario : public CGameObject
 	int GetAniIdTail();
 
 public:
+	bool isAttacking,isFlying;
+	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 	int level; 
 	BOOLEAN isOnPlatform;
 	Tail* tail;
+	DWORD timeToFly;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		isFlying = false;
+		timeToFly = 0;
 		kicktime = 0;
 		type = 0;
 		isSitting = false;

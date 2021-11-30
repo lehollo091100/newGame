@@ -27,11 +27,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		}
 		else
 		{
-			if (mario->isOnPlatform && (mario->state != MARIO_STATE_RUNMAXRIGHT && mario->state != MARIO_STATE_RUNMAXLEFT))
+			if(mario->isOnPlatform && (mario->state != MARIO_STATE_RUNMAXRIGHT && mario->state != MARIO_STATE_RUNMAXLEFT))
 			{
 				mario->SetState(MARIO_STATE_JUMP);
 			}
-			if(mario->state == MARIO_STATE_RUNMAXRIGHT && mario->state == MARIO_STATE_RUNMAXLEFT)
+			if(mario->isOnPlatform && (mario->state == MARIO_STATE_RUNMAXRIGHT || mario->state == MARIO_STATE_RUNMAXLEFT))
 			{
 				mario->SetState(MARIO_STATE_FLYING);
 			}
@@ -85,7 +85,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			{
 				mario->SetState(MARIO_STATE_RELEASE_JUMP);
 			}
-			else
+			else if (mario->state == MARIO_STATE_FLYING && mario->isOnPlatform == false)
 			{
 				mario->SetState(MARIO_STATE_RELEASEFLY);
 			}
@@ -108,14 +108,22 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
 			if (!mario->isOnPlatform) {
+				mario->maxVx = MARIO_WALKING_SPEED;
+				mario->ax = MARIO_ACCEL_WALK_X;
 				mario->nx = 1;
-				mario->vx= 0.1f;
-				DebugOut(L"hello\n");
 			}
 			else
 			{
 				if (game->IsKeyDown(DIK_A))
-					mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+				{
+					if (mario->state != MARIO_STATE_RUNMAXRIGHT) {
+						mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+					}
+					else
+					{
+						mario->SetState(MARIO_STATE_RUNMAXRIGHT);
+					}
+				}
 				else/* if(mario->state!=MARIO_STATE_JUMP)*/
 					mario->SetState(MARIO_STATE_WALKING_RIGHT);
 			}
@@ -123,13 +131,23 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		else if (game->IsKeyDown(DIK_LEFT))
 		{
 			if (!mario->isOnPlatform) {
-				mario->vx = -0.1f;
+				mario->maxVx = -MARIO_WALKING_SPEED;
+				mario->ax = -MARIO_ACCEL_WALK_X;
 				mario->nx = -1;
 			}
 			else
 			{
-				if (game->IsKeyDown(DIK_A))
-					mario->SetState(MARIO_STATE_RUNNING_LEFT);
+				if (game->IsKeyDown(DIK_A)) {
+					if ( mario->state != MARIO_STATE_RUNMAXLEFT) {
+
+						mario->SetState(MARIO_STATE_RUNNING_LEFT);
+					}
+					else
+					{
+						mario->SetState(MARIO_STATE_RUNMAXLEFT);
+					}
+				}
+
 				else 
 					mario->SetState(MARIO_STATE_WALKING_LEFT);
 			}
@@ -138,6 +156,10 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			if (mario->isOnPlatform)
 			{
 				mario->SetState(MARIO_STATE_IDLE);
+			}
+			else
+			{
+				mario->ax = 0;
 			}
 		}
 }
