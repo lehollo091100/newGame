@@ -16,9 +16,43 @@
 #include "GreenPlant.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"level: %f %f %d\n",vx,maxVx,state);
 	vy += ay * dt;
 	vx += ax * dt;
+	if (isAttacking && level==MARIO_LEVEL_TAIL)
+	{
+		if (timeToAttack == 0)
+		{
+			timeToAttack = GetTickCount64();
+			if (nx > 0 || vx>0) {
+				tail->nx = 1;
+				DebugOut(L"level: %d\n",nx);
+				//tail->SetPosition(x + MARIO_TAIL_X, y+ MARIO_TAIL_Y);
+			}
+			else
+			{
+				tail->nx = -1;
+
+				//tail->SetPosition(x - MARIO_TAIL_X, y+ MARIO_TAIL_Y);
+			}
+			tail->SetState(TAIL_STATE_ATTACK);
+		}
+		if (GetTickCount64() - timeToAttack > MARIO_ATTACK_TAIL_TIME)
+		{
+			timeToAttack = 0;
+			isAttacking = false;
+		}
+	}
+	else
+	{
+		tail->SetState(TAIL_STATE_NOTHING);
+		if (nx >= 0) {
+			tail->SetPosition(x - MARIO_TAIL_X, y+ MARIO_TAIL_Y);
+		}
+		else
+		{
+			tail->SetPosition(x + MARIO_TAIL_X, y+ MARIO_TAIL_Y);
+		}
+	}
 	if (state == MARIO_STATE_JUMP && vy >= 0)
 	{
 		SetState(MARIO_STATE_RELEASE_JUMP);
@@ -66,14 +100,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	if (vx>0)
-	{
-		tail->SetPosition(x - WIDTH, y);
-	}
-	else if(vx<0)
-	{
-		tail->SetPosition(x + WIDTH, y);
-	}
+	//if (vx>0)
+	//{
+	//	tail->SetPosition(x - WIDTH, y);
+	//}
+	//else if(vx<0)
+	//{
+	//	tail->SetPosition(x + WIDTH, y);
+	//}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -147,7 +181,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)
 		{
-			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState()!=GOOMBA_STATE_DIEUP)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -239,23 +273,23 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		{
 			if (untouchable == 0)
 			{
-				if (koopas->GetState() == KOOPAS_STATE_WALKING)
-				{
-					if (level > MARIO_LEVEL_SMALL)
-					{
-						level = MARIO_LEVEL_SMALL;
-						StartUntouchable();
-					}
-					else
-					{
-						DebugOut(L">>> Mario DIE >>> \n");
-						SetState(MARIO_STATE_DIE);
-					}
-				}
-				else
-				{
-					//vy += 0.005f;
-				}
+				//if (koopas->GetState() == KOOPAS_STATE_WALKING)
+				//{
+				//	if (level > MARIO_LEVEL_SMALL)
+				//	{
+				//		level = MARIO_LEVEL_SMALL;
+				//		StartUntouchable();
+				//	}
+				//	else
+				//	{
+				//		DebugOut(L">>> Mario DIE >>> \n");
+				//		SetState(MARIO_STATE_DIE);
+				//	}
+				//}
+				//else
+				//{
+				//	//vy += 0.005f;
+				//}
 			}
 		}
 	}
@@ -591,7 +625,14 @@ int CMario::GetAniIdTail()
 		}
 		else if (isAttacking)
 		{
-
+			if (nx >= 0)
+			{
+				aniId = ID_ANI_MARIO_TAIL_ATTACK_RIGHT;
+			}
+			else
+			{
+				aniId = ID_ANI_MARIO_TAIL_ATTACK_LEFT;
+			}
 		}
 		else
 			if (vx == 0)
@@ -622,7 +663,7 @@ int CMario::GetAniIdTail()
 					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
 			}
 
-	if (aniId == -1) aniId = ID_ANI_MARIO_IDLE_RIGHT;
+	if (aniId == -1) aniId = ID_ANI_MARIO_TAIL_IDLE_RIGHT;
 
 	return aniId;
 }

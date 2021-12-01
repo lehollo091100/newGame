@@ -16,6 +16,17 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT);
 		break;
+	case DIK_A: {
+		if (mario->isAttacking == false)
+		{
+			mario->isAttacking = true;
+			break;
+		}
+		else
+		{
+			break;
+		}
+	}
 	case DIK_S:
 	{
 		if (mario->level != MARIO_LEVEL_TAIL)

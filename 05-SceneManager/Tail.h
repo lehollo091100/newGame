@@ -4,13 +4,15 @@
 #include "Collision.h"
 #define TAIL_STATE_NOTHING	0
 #define TAIL_STATE_ATTACK	100
-#define WIDTH	10
+#define WIDTH	14
 #define HEIGHT	5
 
 class Tail : public CGameObject
 {
+	float initX;
 public:
 	Tail(float x, float y) :CGameObject(x, y) {
+		initX = x;
 		type = OBJECT_TYPE_TAIL;
 		SetState(0);
 	};

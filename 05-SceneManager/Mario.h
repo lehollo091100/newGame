@@ -25,7 +25,12 @@
 #define FLY_GRAVITY_PLUS	0.1f
 #define MARIO_FLYUP_SPEED_Y		0.3f
 
+#define MARIO_ATTACK_TAIL_TIME	300
 #define MARIO_FLY_TIME	5000
+
+#define MARIO_TAIL_X	15
+#define MARIO_TAIL_Y	5
+
 //STATE
 
 #define MARIO_STATE_DIE				-10
@@ -125,6 +130,9 @@
 
 #define ID_ANI_MARIO_TAIL_FLYDOWN_LEFT		566
 #define ID_ANI_MARIO_TAIL_FLYDOWN_RIGHT		567
+
+#define ID_ANI_MARIO_TAIL_ATTACK_LEFT	568
+#define ID_ANI_MARIO_TAIL_ATTACK_RIGHT	569
 #pragma endregion
 
 
@@ -164,7 +172,6 @@ class CMario : public CGameObject
 
 	int untouchable; 
 	ULONGLONG untouchable_start;
-	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt);
@@ -179,6 +186,7 @@ class CMario : public CGameObject
 	int GetAniIdTail();
 
 public:
+	int coin; 
 	bool isAttacking,isFlying;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -186,9 +194,10 @@ public:
 	int level; 
 	BOOLEAN isOnPlatform;
 	Tail* tail;
-	DWORD timeToFly;
+	DWORD timeToFly, timeToAttack;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		timeToAttack = 0;
 		isFlying = false;
 		timeToFly = 0;
 		kicktime = 0;
