@@ -27,7 +27,7 @@ void Tail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Tail::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Tail::SetState(int state)
@@ -84,10 +84,28 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			goomba->SetState(GOOMBA_STATE_DIEUP);
 		};
 		if (dynamic_cast<Koopas*>(e->obj)) {
-			//DebugOut(L"koopas\n");
 			Koopas* koopas = dynamic_cast<Koopas*>(e->obj);
+
+			if (nx >= 0)
+			{
+				koopas->nx = 1;
+			}
+			else
+			{
+				koopas->nx = -1;
+			}
+			if (koopas->state==KOOPAS_STATE_DEFENDDOWN)
+			{
+				koopas->vx = koopas->nx * KOOPAS_VX;
+				koopas->vy= -KOOPAS_DEFENDUP_BOUNDING_SPEED;
+				koopas->SetState(KOOPAS_STATE_DEFENDDOWN);
+			}
+			else
+			{
+				koopas->SetState(KOOPAS_STATE_DEFENDUP);
+
+			}
 			//DebugOut(L"koopas right:%f THIS.Y:%f\n", koopas->y+KOOPAS_WIDTH/2,this->y);
-			koopas->SetState(KOOPAS_STATE_DEFENDDOWN);
 		};
 	}
 }

@@ -25,7 +25,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			timeToAttack = GetTickCount64();
 			if (nx > 0 || vx>0) {
 				tail->nx = 1;
-				DebugOut(L"level: %d\n",nx);
+				//DebugOut(L"level: %d\n",nx);
 				//tail->SetPosition(x + MARIO_TAIL_X, y+ MARIO_TAIL_Y);
 			}
 			else
@@ -273,23 +273,23 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		{
 			if (untouchable == 0)
 			{
-				//if (koopas->GetState() == KOOPAS_STATE_WALKING)
-				//{
-				//	if (level > MARIO_LEVEL_SMALL)
-				//	{
-				//		level = MARIO_LEVEL_SMALL;
-				//		StartUntouchable();
-				//	}
-				//	else
-				//	{
-				//		DebugOut(L">>> Mario DIE >>> \n");
-				//		SetState(MARIO_STATE_DIE);
-				//	}
-				//}
-				//else
-				//{
-				//	//vy += 0.005f;
-				//}
+				if (koopas->GetState() == KOOPAS_STATE_WALKING)
+				{
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						level = MARIO_LEVEL_SMALL;
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
+				}
+				else
+				{
+					//vy += 0.005f;
+				}
 			}
 		}
 	}
@@ -324,6 +324,21 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			else if (vx < 0) {
 				koopas->nx = -1;
 				koopas->SetState(KOOPAS_STATE_ATTACKDOWN);
+			}
+		}
+		else if (koopas->GetState() == KOOPAS_STATE_DEFENDUP)
+		{
+			/// kick code here
+			kicktime = GetTickCount64();
+			isKicking = true;
+			if (vx > 0)
+			{
+				koopas->nx = 1;
+				koopas->SetState(KOOPAS_STATE_ATTACKUP);
+			}
+			else if (vx < 0) {
+				koopas->nx = -1;
+				koopas->SetState(KOOPAS_STATE_ATTACKUP);
 			}
 		}
 		
@@ -548,57 +563,72 @@ int CMario::GetAniIdTail()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (state == MARIO_STATE_JUMP )
+		if (isAttacking)
 		{
 			if (nx >= 0)
-				aniId = ID_ANI_MARIO_TAIL_JUMP_RIGHT;
+			{
+				aniId = ID_ANI_MARIO_TAIL_ATTACK_RIGHT;
+			}
 			else
 			{
-				aniId = ID_ANI_MARIO_TAIL_JUMP_LEFT;
+				aniId = ID_ANI_MARIO_TAIL_ATTACK_LEFT;
 			}
 		}
-		else if (state==MARIO_STATE_RELEASE_JUMP)
+		else
 		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_TAIL_FALLING_RIGHT;
-			else
+
+			if (state == MARIO_STATE_JUMP )
 			{
-				aniId = ID_ANI_MARIO_TAIL_FALLING_LEFT;
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_TAIL_JUMP_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_TAIL_JUMP_LEFT;
+				}
 			}
-		}
-		else if (state==MARIO_STATE_FALLINGSLOW)
-		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_TAIL_FALLINGSLOW_RIGHT;
-			else
+			else if (state==MARIO_STATE_RELEASE_JUMP)
 			{
-				aniId = ID_ANI_MARIO_TAIL_FALLINGSLOW_LEFT;
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_TAIL_FALLING_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_TAIL_FALLING_LEFT;
+				}
 			}
-		}
-		else if (state==MARIO_STATE_FLYING)
-		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_TAIL_FLYUP_RIGHT;
-			else
+			else if (state==MARIO_STATE_FALLINGSLOW)
 			{
-				aniId = ID_ANI_MARIO_TAIL_FLYUP_LEFT;
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_TAIL_FALLINGSLOW_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_TAIL_FALLINGSLOW_LEFT;
+				}
 			}
-		}
-		else if (state==MARIO_STATE_RELEASEFLY)
-		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_TAIL_FLYDOWN_RIGHT;
-			else
+			else if (state==MARIO_STATE_FLYING)
 			{
-				aniId = ID_ANI_MARIO_TAIL_FLYDOWN_LEFT;
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_TAIL_FLYUP_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_TAIL_FLYUP_LEFT;
+				}
 			}
-		}
-		else {
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_TAIL_FALLING_RIGHT;
-			else
+			else if (state==MARIO_STATE_RELEASEFLY)
 			{
-				aniId = ID_ANI_MARIO_TAIL_FALLING_LEFT;
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_TAIL_FLYDOWN_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_TAIL_FLYDOWN_LEFT;
+				}
+			}
+			else {
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_TAIL_FALLING_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_TAIL_FALLING_LEFT;
+				}
 			}
 		}
 	}

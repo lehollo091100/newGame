@@ -23,7 +23,7 @@ void PlantFire::Render()
 	{
 		animations->Get(ID_ANI_NORMAL)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void PlantFire::SetState(int state)
