@@ -16,6 +16,34 @@
 #include "GreenPlant.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	if (isHolding)
+	{
+		if (GetTickCount64() - holdtime >= MARIO_HOLD_TIME)
+		{
+			koo->isHold = false;
+			koo->nx = nx;
+			koo->vx = koo->nx * KOOPAS_VX;
+			koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
+			koo->SetState(KOOPAS_STATE_WALKING);
+			isHolding = false;
+			holdtime = 0;
+			koo = NULL;
+		}
+		else
+		{
+			koo->nx = nx;
+			koo->isHold = true;
+			//koo->ay = 0;
+			if (nx >= 0) {
+				koo->SetPosition(x + MARIO_HOLD_TURTLE_RANGE, y);
+			}
+			else
+			{
+				koo->SetPosition(x - MARIO_HOLD_TURTLE_RANGE, y);
+			}
+
+		}
+	}
 	vy += ay * dt;
 	vx += ax * dt;
 	if (isAttacking && level==MARIO_LEVEL_TAIL)
@@ -89,6 +117,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				isKicking = false;
 				kicktime = 0;
+				if (nx>=0)
+				{
+
+					SetState(MARIO_STATE_WALKING_RIGHT);
+				}
+				else
+				{
+					SetState(MARIO_STATE_WALKING_LEFT);
+				}
 			}
 	}
 	if (isFlying)
@@ -99,38 +136,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 		}
 	}
-	if (isHolding)
-	{
-		if (GetTickCount64() - holdtime > MARIO_HOLD_TIME)
-		{
-			if (nx >= 0)
-			{
-				koo->nx = 1;
-				koo->vx=	koo->nx* KOOPAS_VX;
-				koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
-			}
-			else {
-				koo->nx = -1;
-				koo->vx = koo->nx * KOOPAS_VX;
-				koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
-			}
-			isHolding = false;
-			holdtime = 0;
-			koo = NULL;
-		}
-		else
-		{
-				koo->nx = nx;
-			if (nx >= 0) {
-				koo->SetPosition(x + MARIO_HOLD_TURTLE_RANGE, y);
-			}
-			else
-			{
-				koo->SetPosition(x - MARIO_HOLD_TURTLE_RANGE, y);
-			}
-
-		}
-	}
+	
 
 	//if (vx>0)
 	//{
@@ -275,7 +281,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 						koopas->SetState(KOOPAS_STATE_ATTACKDOWN);
 					}
 				}
-				if (level==MARIO_LEVEL_BIG)
+				if (level==MARIO_LEVEL_BIG||level==MARIO_LEVEL_TAIL)
 				{
 					if ((x + MARIO_BIG_BBOX_WIDTH / 2) > (koopas->x + KOOPAS_WIDTH / 2))
 					{
@@ -362,12 +368,16 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			}
 			else if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT || state == MARIO_STATE_RUNMAXLEFT || state == MARIO_STATE_RUNMAXRIGHT  )
 			{
-				if (koo == NULL)
+				if (!isHolding)
 				{
-					koo = dynamic_cast<Koopas*>(e->obj);
+
+					if (koo == NULL)
+					{
+						koo = dynamic_cast<Koopas*>(e->obj);
+					}
+					isHolding = true;
+					holdtime = GetTickCount64();
 				}
-				isHolding = true;
-				holdtime = GetTickCount64();
 			}
 		}
 		else if (koopas->GetState() == KOOPAS_STATE_DEFENDUP)
@@ -392,13 +402,16 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			}
 			else if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT || state == MARIO_STATE_RUNMAXLEFT || state == MARIO_STATE_RUNMAXRIGHT)
 			{
-				if (koo == NULL)
+				if (!isHolding)
 				{
-					koo = dynamic_cast<Koopas*>(e->obj);
+					if (koo == NULL)
+					{
+						koo = dynamic_cast<Koopas*>(e->obj);
+					}
+					koopas->SetState(KOOPAS_STATE_DEFENDUP);
+					isHolding = true;
+					holdtime = GetTickCount64();
 				}
-				koopas->SetState(KOOPAS_STATE_DEFENDUP);
-				isHolding = true;
-				holdtime = GetTickCount64();
 			}
 		}
 		
@@ -577,10 +590,10 @@ int CMario::GetAniIdBig()
 		}
 		else if (isKicking)
 		{
-			if (vx > 0) {
+			if (nx >= 0) {
 				aniId = ID_ANI_MARIO_KICK_RIGHT;
 			}
-			if (vx < 0) {
+			if (nx < 0) {
 				aniId = ID_ANI_MARIO_KICK_LEFT;
 			}
 		}
@@ -700,6 +713,16 @@ int CMario::GetAniIdTail()
 			else
 				aniId = ID_ANI_MARIO_SIT_LEFT;
 		}
+		else if (isKicking)
+		{
+			if (nx >= 0) {
+				aniId = ID_ANI_MARIO_KICK_RIGHT;
+			}
+			else
+			 {
+				aniId = ID_ANI_MARIO_KICK_LEFT;
+			}
+		}
 		else if (isHolding)
 		{
 			if (nx >= 0)
@@ -722,15 +745,6 @@ int CMario::GetAniIdTail()
 				{
 					aniId = ID_ANI_MARIO_TAIL_HOLDIDLE_LEFT;
 				}
-			}
-		}
-		else if (isKicking)
-		{
-			if (vx > 0) {
-				aniId = ID_ANI_MARIO_KICK_RIGHT;
-			}
-			if (vx < 0) {
-				aniId = ID_ANI_MARIO_KICK_LEFT;
 			}
 		}
 		else if (isAttacking)
@@ -907,6 +921,11 @@ void CMario::SetState(int state)
 	case MARIO_STATE_RELEASEFLY: {
 
 		if (vy < 0) vy += FLY_GRAVITY_PLUS;
+		break;
+	}
+	case MARIO_STATE_KICK: {
+		kicktime = GetTickCount64();
+		isKicking = true;
 		break;
 	}
 	}

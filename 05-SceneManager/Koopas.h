@@ -55,8 +55,12 @@ class Koopas:public CGameObject
 	int Color;
 	bool Isonplatform;
 public:
+	float ay;
+	bool isHold;
 	Koopasitem* item;
 	Koopas(float x,float y,int t,int color) :CGameObject(x,y) {
+		ay = AY;
+		isHold = false;
 		Isonplatform = false;
 		type = OBJECT_TYPE_KOOPAS;
 		SetState(t);

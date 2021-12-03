@@ -36,7 +36,7 @@ plantfire.txt
 1	1672	386	32	16
 1	1680	400	48	16
 #Goomba
-2	430	350
+#2	430	350
 
 #PIPE
 10	360	362	30	48
@@ -56,7 +56,7 @@ plantfire.txt
 #12	150	380
 
 #FireREDPLANT
-14	360	380
+#14	360	380
 
 #ColorBrick
 5	256	368	48	16

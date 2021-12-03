@@ -58,6 +58,8 @@
 #define MARIO_STATE_FLYING			606
 #define MARIO_STATE_RELEASEFLY		607
 
+#define MARIO_STATE_KICK			608
+
 
 #pragma region ANIMATION_ID
 
@@ -177,7 +179,7 @@ class CMario : public CGameObject
 	static CMario* __instance;
 
 	DWORD kicktime;
-	BOOLEAN isSitting,isKicking;
+	BOOLEAN isSitting;
 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -197,7 +199,7 @@ class CMario : public CGameObject
 public:
 	Koopas* koo=NULL;
 	int coin; 
-	bool isAttacking, isHolding,isFlying;
+	bool isAttacking, isHolding,isFlying, isKicking;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 

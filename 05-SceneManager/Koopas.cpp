@@ -21,17 +21,15 @@ void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"state:%d\n", nx);
-	if (x<0)
+	//DebugOut(L"state:%d\n", nx);
+	if (isHold)
 	{
-		item->Delete();
-		this->Delete();
+		return;
 	}
 	vy += AY * dt;
 	if (state == KOOPAS_STATE_WALKING) {
 		if (Isonplatform)
 		{
-
 			begin = 0;
 			if (item->vy > ITEM_VY)
 			{
@@ -76,6 +74,16 @@ void Koopas::SetState(int state)
 		vx = nx * KOOPAS_VX;
 		if (item)
 		{
+			item->nx = nx;
+			item->vx = item->nx * item->vx;
+			if (vx > 0)
+			{
+				this->item->SetPosition(x + RANGE, y);
+			}
+			else if (vx < 0)
+			{
+				item->SetPosition(x - RANGE, y);
+			}
 			item->SetState(KOOPAS_STATE_WALKING);
 		}
 		//vx = 0;
@@ -139,7 +147,7 @@ void Koopas::OnNoCollision(DWORD dt)
 void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 {
 
-		if (dynamic_cast<Tail*>(e->obj)) return;
+	if (dynamic_cast<Tail*>(e->obj)) return;
 		
 	if (state != KOOPAS_STATE_ATTACKDOWN && state != KOOPAS_STATE_ATTACKUP)
 	{
@@ -157,31 +165,12 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			{
 				vx = 0;
 				vy = 0;
-				if (nx >= 0)
-				{
-					item->nx = 1;
-					item->SetPosition(x + RANGE, y-RANGE);
-				}
-				else
-				{
-					item->nx = -1;
-					item->SetPosition(x - RANGE, y- RANGE);
-				}
+
 			}
 			else
 			{
 				vy = 0;
-				/*if (item->y != y)
-				{
-					if (vx > 0)
-					{
-						this->item->SetPosition(x + RANGE, y);
-					}
-					else if (vx < 0)
-					{
-						item->SetPosition(x - RANGE, y);
-					}
-				}*/
+				
 			}
 		}
 		else if (e->nx != 0)

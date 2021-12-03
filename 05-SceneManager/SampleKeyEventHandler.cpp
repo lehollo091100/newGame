@@ -108,23 +108,12 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_A:
 	{
 		if (mario->koo) {
-			if (mario->nx >= 0)
-			{
-				mario->koo->nx = 1;
-				mario->koo->vx = mario->koo->nx * KOOPAS_VX;
-				mario->koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
-				
-			}
-			else {
-				mario->koo->nx = -1;
-				mario->koo->vx = mario->koo->nx * KOOPAS_VX;
-				mario->koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
-			}
+			mario->koo->isHold = false;
 			mario->koo->SetState(KOOPAS_STATE_ATTACKUP);
+			mario->SetState(MARIO_STATE_KICK);
 			mario->isHolding = false;
 			mario->holdtime = 0;
 			mario->koo = NULL;
-
 		}
 		break;
 	}
