@@ -1,4 +1,6 @@
 #include "Koopas.h"
+#include "Mario.h"
+#include "Tail.h"
 #define RANGE	10
 void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -19,6 +21,7 @@ void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"state:%d\n", nx);
 	if (x<0)
 	{
 		item->Delete();
@@ -26,26 +29,27 @@ void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	vy += AY * dt;
 	if (state == KOOPAS_STATE_WALKING) {
-		begin = 0;
-		if (item->vy> ITEM_VY)
+		if (Isonplatform)
 		{
-			nx = -nx;
-			vx = nx * vx;
-			item->nx = nx;
-			item->vx = item->nx * item->vx;
-			if (vx > 0)
+
+			begin = 0;
+			if (item->vy > ITEM_VY)
 			{
-				this->item->SetPosition(x + RANGE, y);
-			}
-			else if (vx < 0)
-			{
-				item->SetPosition(x - RANGE, y);
+				nx = -nx;
+				vx = nx * vx;
+				item->nx = nx;
+				item->vx = item->nx * item->vx;
+				if (vx > 0)
+				{
+					this->item->SetPosition(x + RANGE, y);
+				}
+				else if (vx < 0)
+				{
+					item->SetPosition(x - RANGE, y);
+				}
 			}
 		}
 	}
-	//DebugOut(L"state:%d\n", state);
-	//if(item!=NULL)
-	//	DebugOut(L"itemx:%f", item->x);
 	if (state==KOOPAS_STATE_DEFENDDOWN || state==KOOPAS_STATE_DEFENDUP)
 	{
 		if (GetTickCount64() - begin > TIME_STANDUP) {
@@ -106,12 +110,8 @@ void Koopas::SetState(int state)
 		break;
 	}
 	case KOOPAS_STATE_DEFENDUP: {
-		vx = nx * KOOPAS_VX;
-		vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
 		begin = GetTickCount64();
-		
 		item->SetState(ITEM_STATE_STOP);
-		//vx = 0;
 		break;
 	}
 	case KOOPAS_STATE_ATTACKUP: {
@@ -119,7 +119,11 @@ void Koopas::SetState(int state)
 		item->SetState(ITEM_STATE_STOP);
 		break;
 	}
-	
+	case KOOPAS_STATE_HOLDING: {
+		vx = 0;
+		item->SetState(ITEM_STATE_STOP);
+		break;
+	}
 	default:
 		break;
 	}
@@ -135,12 +139,15 @@ void Koopas::OnNoCollision(DWORD dt)
 void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 {
 
+		if (dynamic_cast<Tail*>(e->obj)) return;
+		
 	if (state != KOOPAS_STATE_ATTACKDOWN && state != KOOPAS_STATE_ATTACKUP)
 	{
 		if (dynamic_cast<Mushroom*>(e->obj)) return;
 		if (dynamic_cast<CGoomba*>(e->obj)) return;
 		if (e->ny != 0)
 		{
+			Isonplatform = true;
 			if (state==KOOPAS_STATE_FLYING)
 			{
 				vy = -KOOPAS_FLYING_SPEED;
@@ -164,6 +171,17 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			else
 			{
 				vy = 0;
+				/*if (item->y != y)
+				{
+					if (vx > 0)
+					{
+						this->item->SetPosition(x + RANGE, y);
+					}
+					else if (vx < 0)
+					{
+						item->SetPosition(x - RANGE, y);
+					}
+				}*/
 			}
 		}
 		else if (e->nx != 0)
@@ -187,6 +205,7 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			OnCollisionWithGoomba(e,dt);
 		if (e->ny != 0)
 		{
+			Isonplatform = true;
 			vy = 0;
 		}
 		else if (e->nx != 0 )

@@ -36,6 +36,8 @@
 #define KOOPAS_STATE_ATTACKUP	500
 #define KOOPAS_STATE_HOLDUP		600
 #define	KOOPAS_STATE_FLYING		700
+#define KOOPAS_STATE_HOLDING	800
+
 #define KOOPAS_VX	0.03f
 #define KOOPAS_ATTACK_VX	0.1f
 #define AY	0.001f
@@ -51,9 +53,11 @@ class Koopas:public CGameObject
 	DWORD begin;
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e, DWORD dt);
 	int Color;
+	bool Isonplatform;
 public:
 	Koopasitem* item;
 	Koopas(float x,float y,int t,int color) :CGameObject(x,y) {
+		Isonplatform = false;
 		type = OBJECT_TYPE_KOOPAS;
 		SetState(t);
 		nx = 1;

@@ -5,6 +5,7 @@
 #include "Animations.h"
 #include "Tail.h"
 #include "debug.h"
+#include "Koopas.h"
 
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
@@ -27,10 +28,12 @@
 
 #define MARIO_ATTACK_TAIL_TIME	300
 #define MARIO_FLY_TIME	5000
+#define MARIO_HOLD_TIME	5000
 
 #define MARIO_TAIL_X	15
 #define MARIO_TAIL_Y	5
 
+#define MARIO_HOLD_TURTLE_RANGE	20
 //STATE
 
 #define MARIO_STATE_DIE				-10
@@ -133,6 +136,12 @@
 
 #define ID_ANI_MARIO_TAIL_ATTACK_LEFT	568
 #define ID_ANI_MARIO_TAIL_ATTACK_RIGHT	569
+
+#define ID_ANI_MARIO_TAIL_HOLDING_LEFT	570
+#define ID_ANI_MARIO_TAIL_HOLDING_RIGHT	571
+
+#define ID_ANI_MARIO_TAIL_HOLDIDLE_LEFT		572
+#define ID_ANI_MARIO_TAIL_HOLDIDLE_RIGHT	573
 #pragma endregion
 
 
@@ -168,7 +177,7 @@ class CMario : public CGameObject
 	static CMario* __instance;
 
 	DWORD kicktime;
-	BOOLEAN isSitting,isHolding,isKicking;
+	BOOLEAN isSitting,isKicking;
 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -186,15 +195,16 @@ class CMario : public CGameObject
 	int GetAniIdTail();
 
 public:
+	Koopas* koo=NULL;
 	int coin; 
-	bool isAttacking,isFlying;
+	bool isAttacking, isHolding,isFlying;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 	int level; 
 	BOOLEAN isOnPlatform;
 	Tail* tail;
-	DWORD timeToFly, timeToAttack;
+	DWORD timeToFly, timeToAttack, holdtime;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		timeToAttack = 0;

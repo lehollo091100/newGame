@@ -98,12 +98,13 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			{
 				koopas->vx = koopas->nx * KOOPAS_VX;
 				koopas->vy= -KOOPAS_DEFENDUP_BOUNDING_SPEED;
-				koopas->SetState(KOOPAS_STATE_DEFENDDOWN);
+				koopas->SetState(KOOPAS_STATE_DEFENDUP);
 			}
 			else
 			{
 				koopas->SetState(KOOPAS_STATE_DEFENDUP);
-
+				koopas->vx = koopas->nx * KOOPAS_VX;
+				koopas->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
 			}
 			//DebugOut(L"koopas right:%f THIS.Y:%f\n", koopas->y+KOOPAS_WIDTH/2,this->y);
 		};

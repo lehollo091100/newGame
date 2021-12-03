@@ -190,6 +190,9 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_KOOPAS && (target->obj->type == OBJECT_TYPE_KOOPASITEM|| target->obj->type == OBJECT_TYPE_PLANTFIRE|| target->obj->type == OBJECT_TYPE_TAIL)) {
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,

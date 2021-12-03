@@ -83,16 +83,16 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (mario->level!=MARIO_LEVEL_TAIL)
+		if (mario->level != MARIO_LEVEL_TAIL)
 		{
-			if (mario->state!=MARIO_STATE_RELEASE_JUMP)
+			if (mario->state != MARIO_STATE_RELEASE_JUMP)
 			{
 				mario->SetState(MARIO_STATE_RELEASE_JUMP);
 			}
 		}
 		else
 		{
-			if (mario->state != MARIO_STATE_FLYING && mario->isOnPlatform==false)
+			if (mario->state != MARIO_STATE_FLYING && mario->isOnPlatform == false)
 			{
 				mario->SetState(MARIO_STATE_RELEASE_JUMP);
 			}
@@ -105,6 +105,29 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
+	case DIK_A:
+	{
+		if (mario->koo) {
+			if (mario->nx >= 0)
+			{
+				mario->koo->nx = 1;
+				mario->koo->vx = mario->koo->nx * KOOPAS_VX;
+				mario->koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
+				
+			}
+			else {
+				mario->koo->nx = -1;
+				mario->koo->vx = mario->koo->nx * KOOPAS_VX;
+				mario->koo->vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
+			}
+			mario->koo->SetState(KOOPAS_STATE_ATTACKUP);
+			mario->isHolding = false;
+			mario->holdtime = 0;
+			mario->koo = NULL;
+
+		}
+		break;
+	}
 	}
 }
 
