@@ -61,7 +61,10 @@ public:
 		float& t,
 		float& nx,
 		float& ny);
-
+	bool IsCollisionAABB(float b1left, float b1top, float b1right, float b1bottom, float b2left, float b2top, float b2right, float b2bottom)
+	{
+		return !(b1right < b2left || b1left > b2right || b1top > b2bottom || b1bottom < b2top);
+	}
 	LPCOLLISIONEVENT SweptAABB(
 		LPGAMEOBJECT objSrc, 
 		DWORD dt,
@@ -80,7 +83,7 @@ public:
 		int filterBlock,		
 		int filterX,
 		int filterY);
-
+	LPCOLLISIONEVENT isCollisionWithObj(LPGAMEOBJECT objSrc, LPGAMEOBJECT obj, DWORD dt);
 	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 	static CCollision* GetInstance();

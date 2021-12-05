@@ -142,7 +142,6 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 
 	objSrc->GetBoundingBox(ml, mt, mr, mb);
 	objDest->GetBoundingBox(sl, st, sr, sb);
-
 	SweptAABB(
 		ml, mt, mr, mb,
 		dx, dy,
@@ -153,6 +152,7 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, dx, dy, objDest, objSrc);
 	return e;
 }
+
 
 /*
 	Calculate potential collisions with the list of colliable objects
@@ -237,6 +237,51 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	if (min_iy >= 0) colY = coEvents[min_iy];
 }
 
+LPCOLLISIONEVENT CCollision::isCollisionWithObj(LPGAMEOBJECT objSrc,CGameObject* obj, DWORD dt)
+{
+	LPCOLLISIONEVENT T = new CCollisionEvent(1.5, 0, 0, 0, 0, obj);
+	//T->t = 1.5;
+
+	if (obj != NULL)
+	{
+		float l1, l2, b1, b2, r1, r2, t1, t2;
+		objSrc->GetBoundingBox(l1, t1, r1, b1);
+		obj->GetBoundingBox(l2, t2, r2, b2);
+		float nx = 0, ny = 0;
+		LPCOLLISIONEVENT coEventsResult;
+		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, obj);
+		bool res = e->t > 0 && e->t <= 1.0f;
+		if (res)
+			return e;
+		else
+
+			if (IsCollisionAABB(l1, t1, r1, b1, l2, t2, r2, b2))
+			{
+				if (r1 < r2)
+				{
+					nx = -1.0;
+				}
+				if (l1 > l2)
+				{
+					nx = 1.0;
+				}
+				if (t1 > t2)
+				{
+					ny = 1.0;
+				}
+				if (b1 < b2)
+				{
+					ny = -1.0;
+				}
+				//coEventsResult->t = 0.5;
+				return new CCollisionEvent(0.5, nx, ny, 0, 0);
+			}
+		//return true;
+
+	}
+	return T;
+}
+
 /*
 *  Simple/Sample collision framework 
 *  NOTE: Student might need to improve this based on game logic 
@@ -268,9 +313,9 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		objSrc->GetSpeed(vx, vy);
 		dx = vx * dt;
 		dy = vy * dt;
-		//DebugOut(L"OBJECTFILTER:%d\n", colY->obj->type);
 		if (colX != NULL && colY != NULL) 
 		{
+		//DebugOut(L"OBJECTFILTER:%d\n", colY->obj->type);
 			if (colY->t < colX->t)	// was collision on Y first ?
 			{
 				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;

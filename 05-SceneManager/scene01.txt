@@ -56,7 +56,7 @@ plantfire.txt
 #12	150	380
 
 #FireREDPLANT
-#14	360	380
+14	360	380
 
 #ColorBrick
 5	256	368	48	16

@@ -74,6 +74,12 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx = nx*VX;
 		//vy = VY;
 	}
+	if (x <= 8)
+	{
+		nx = -nx;
+		vx = nx * VX;
+	}
+	//DebugOut(L"mushroom mario:%f\n", mario->x);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

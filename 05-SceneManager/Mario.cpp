@@ -16,6 +16,7 @@
 #include "GreenPlant.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	//DebugOut(L"vy:%f\n", vy);
 	if (isHolding)
 	{
 		if (GetTickCount64() - holdtime >= MARIO_HOLD_TIME)
@@ -154,7 +155,31 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	isOnPlatform = false;
-
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		float t1 = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt)->t;
+		LPCOLLISIONEVENT coEvent = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt);
+		if (t1 > 0 && t1 < 1) {
+			switch (coObjects->at(i)->type)
+			{
+			case OBJECT_TYPE_MUSHROOM: {
+				/*Mushroom* mushroom = dynamic_cast<Mushroom*>(coObjects->at(i));
+				if (mushroom->state == MUSHROOM_STATE_MOVING)
+				{
+					SetLevel(MARIO_LEVEL_BIG);
+					mushroom->Delete();
+				}*/
+				if (coEvent->obj !=NULL)
+				{
+					OnCollisionWithMushroom(coEvent);
+				}
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
