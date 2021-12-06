@@ -17,6 +17,9 @@
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"vy:%f\n", vy);
+	//vector<LPGAMEOBJECT>* itemObjects;
+	vy += ay * dt;
+	vx += ax * dt;
 	if (isHolding)
 	{
 		if (GetTickCount64() - holdtime >= MARIO_HOLD_TIME)
@@ -45,8 +48,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		}
 	}
-	vy += ay * dt;
-	vx += ax * dt;
 	if (isAttacking && level==MARIO_LEVEL_TAIL)
 	{
 		if (timeToAttack == 0)
@@ -82,14 +83,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			tail->SetPosition(x + MARIO_TAIL_X, y+ MARIO_TAIL_Y);
 		}
 	}
+
 	if (state == MARIO_STATE_JUMP && vy >= 0)
 	{
 		SetState(MARIO_STATE_RELEASE_JUMP);
 	}
+
 	if (x < 8)
 	{
 		x += 8;
 	}
+
 	if (abs(vx) > abs(maxVx))
 	{
 		vx = maxVx;
@@ -137,16 +141,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 		}
 	}
-	
 
-	//if (vx>0)
-	//{
-	//	tail->SetPosition(x - WIDTH, y);
-	//}
-	//else if(vx<0)
-	//{
-	//	tail->SetPosition(x + WIDTH, y);
-	//}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -157,26 +152,23 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	isOnPlatform = false;
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		float t1 = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt)->t;
-		LPCOLLISIONEVENT coEvent = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt);
-		if (t1 > 0 && t1 < 1) {
-			switch (coObjects->at(i)->type)
-			{
-			case OBJECT_TYPE_MUSHROOM: {
-				/*Mushroom* mushroom = dynamic_cast<Mushroom*>(coObjects->at(i));
-				if (mushroom->state == MUSHROOM_STATE_MOVING)
+		if (coObjects->at(i)->IsItem() == true)
+		{
+			float t1 = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt)->t;
+			LPCOLLISIONEVENT coEvent = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt);
+			if (t1 > 0 && t1 < 1) {
+				switch (coObjects->at(i)->type)
 				{
-					SetLevel(MARIO_LEVEL_BIG);
-					mushroom->Delete();
-				}*/
-				if (coEvent->obj !=NULL)
-				{
-					OnCollisionWithMushroom(coEvent);
+				case OBJECT_TYPE_MUSHROOM: {
+					if (coEvent->obj !=NULL)
+					{
+						OnCollisionWithMushroom(coEvent);
+					}
+					break;
 				}
-				break;
-			}
-			default:
-				break;
+				default:
+					break;
+				}
 			}
 		}
 	}
@@ -625,7 +617,7 @@ int CMario::GetAniIdBig()
 		else
 			if (vx == 0)
 			{
-				if (nx > 0) aniId = ID_ANI_MARIO_IDLE_RIGHT;
+				if (nx >= 0) aniId = ID_ANI_MARIO_IDLE_RIGHT;
 				else aniId = ID_ANI_MARIO_IDLE_LEFT;
 			}
 			else if (vx > 0)
@@ -652,7 +644,7 @@ int CMario::GetAniIdBig()
 			}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_IDLE_RIGHT;
-
+	
 	return aniId;
 }
 
@@ -813,7 +805,7 @@ int CMario::GetAniIdTail()
 			}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_TAIL_IDLE_RIGHT;
-
+	//DebugOut(L"aniid:%d %d %d\n", aniId,state, isOnPlatform);
 	return aniId;
 }
 
@@ -834,9 +826,8 @@ void CMario::Render()
 	//DebugOut(L"aniid:%d\n", aniId);
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 
-	//DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)
@@ -960,13 +951,13 @@ void CMario::SetState(int state)
 
 void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
-	if (level==MARIO_LEVEL_BIG|| level==MARIO_LEVEL_TAIL)
+	if (level==MARIO_LEVEL_BIG)
 	{
 		if (isSitting)
 		{
-			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
 			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
-			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
+			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
 		else 
@@ -983,6 +974,23 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
+	}
+	else if (level == MARIO_LEVEL_TAIL)
+	{
+		if (isSitting)
+		{
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
+			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
+			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x - MARIO_TAIL_BBOX_WIDTH / 2;
+			top = y - MARIO_TAIL_BBOX_HEIGHT / 2;
+			right = left + MARIO_TAIL_BBOX_WIDTH;
+			bottom = top + MARIO_TAIL_BBOX_HEIGHT;
+		}
 	}
 }
 

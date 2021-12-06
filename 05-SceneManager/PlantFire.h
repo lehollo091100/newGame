@@ -26,6 +26,9 @@ public:
 	int IsBlocking() { return 0; }
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt);
+	virtual bool IsItem() {
+		return true;
+	}
 };
 
 

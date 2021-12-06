@@ -129,6 +129,12 @@
     <ClCompile Include="Tail.cpp">
       <Filter>Mario</Filter>
     </ClCompile>
+    <ClCompile Include="ShinningBrick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Debris.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -241,6 +247,12 @@
     </ClInclude>
     <ClInclude Include="Tail.h">
       <Filter>Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="ShinningBrick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Debris.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

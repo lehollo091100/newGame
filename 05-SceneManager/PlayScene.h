@@ -19,6 +19,8 @@
 #include "FireRedPlant.h"
 #include "PlantFire.h"
 #include "Tail.h"
+#include "ShinningBrick.h"
+#include "Debris.h"
 class CPlayScene: public CScene
 {
 protected: 

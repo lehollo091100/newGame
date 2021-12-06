@@ -193,6 +193,10 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	if (objsrc->type == OBJECT_TYPE_KOOPAS && (target->obj->type == OBJECT_TYPE_KOOPASITEM|| target->obj->type == OBJECT_TYPE_PLANTFIRE|| target->obj->type == OBJECT_TYPE_TAIL)) {
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_DEBRIS)
+	{
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,
@@ -318,7 +322,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		//DebugOut(L"OBJECTFILTER:%d\n", colY->obj->type);
 			if (colY->t < colX->t)	// was collision on Y first ?
 			{
-				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
+				y += colY->t * dy + colY->ny * (BLOCK_PUSH_FACTOR/2);
 				objSrc->SetPosition(x, y);
 				objSrc->OnCollisionWith(colY,dt);
 
@@ -373,7 +377,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 				if (colY_other != NULL)
 				{
-					y += colY_other->t * dy + colY_other->ny * BLOCK_PUSH_FACTOR;
+					y += colY_other->t * dy + colY_other->ny * (BLOCK_PUSH_FACTOR/2);
 					objSrc->OnCollisionWith(colY_other,dt);
 				}
 				else

@@ -227,6 +227,27 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		a->item = obj1;
 		break;
 	}
+	case OBJECT_TYPE_SHINNINGBRICK: {
+		obj = new ShinningBrick(x, y);
+		ShinningBrick* a = dynamic_cast<ShinningBrick*>(obj);
+		Debris* obj1 = new Debris(x, y, DEBRIS_VX, DEBRIS_VY_BIG, -1);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		a->d1 = obj1;
+		Debris* obj2 = new Debris(x , y , DEBRIS_VX, DEBRIS_VY_BIG, 1);
+		obj2->SetPosition(x , y );
+		objects.push_back(obj2);
+		a->d2 = obj2;
+		Debris* obj3 = new Debris(x, y, DEBRIS_VX, DEBRIS_VY_SMALL, -1);
+		obj3->SetPosition(x, y);
+		objects.push_back(obj3);
+		a->d3 = obj3;
+		Debris* obj4 = new Debris(x, y, DEBRIS_VX, DEBRIS_VY_SMALL, 1);
+		obj4->SetPosition(x, y);
+		objects.push_back(obj4);
+		a->d4 = obj4;
+		break;
+	}
 	//case OBJECT_TYPE_PLANTFIRE: {
 	//	obj = new PlantFire(x, y);
 	//	break;

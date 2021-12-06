@@ -3,6 +3,8 @@
 #include "Koopas.h"
 #include "QuestionBrick.h"
 #include "Mario.h"
+#include "Debris.h"
+#include "ShinningBrick.h"
 void Tail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - WIDTH / 2;
@@ -78,6 +80,17 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 					CMario::GetInstance()->coin++;
 				}
 			}
+		}
+		if (dynamic_cast<ShinningBrick*>(e->obj)) {
+			ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(e->obj);
+			sbrick->d1->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d2->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d3->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d4->SetState(DEBRIS_STATE_MOVING);
+			/*sbrick->d1->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d1->SetState(DEBRIS_STATE_MOVING);*/
+			sbrick->Delete();
+
 		}
 		if (dynamic_cast<CGoomba*>(e->obj)) {
 			CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);

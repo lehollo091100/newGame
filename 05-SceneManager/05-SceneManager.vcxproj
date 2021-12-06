@@ -150,6 +150,7 @@
     <ClCompile Include="CoinItem.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ColorBrick.cpp" />
+    <ClCompile Include="Debris.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="FireGreenPlant.cpp" />
     <ClCompile Include="FireRedPlant.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="QuestionBrick.cpp" />
     <ClCompile Include="Redgoomba.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
+    <ClCompile Include="ShinningBrick.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Tail.cpp" />
@@ -187,6 +189,7 @@
     <ClInclude Include="CoinItem.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="ColorBrick.h" />
+    <ClInclude Include="Debris.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="FireGreenPlant.h" />
     <ClInclude Include="FireRedPlant.h" />
@@ -209,6 +212,7 @@
     <ClInclude Include="Redgoomba.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ShinningBrick.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Tail.h" />
