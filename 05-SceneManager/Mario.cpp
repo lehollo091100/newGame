@@ -14,6 +14,9 @@
 #include "Koopas.h"
 #include "Redgoomba.h"
 #include "GreenPlant.h"
+#include "ShinningBrick.h"
+#include "Debris.h"
+#include "PBrick.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"vy:%f\n", vy);
@@ -150,6 +153,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	isOnPlatform = false;
+	//handle press P brick change to coin
+	if (pressP)
+	{
+		pressP = false;
+		for (UINT i = 0; i < coObjects->size(); i++) {
+			if (coObjects->at(i)->type == OBJECT_TYPE_SHINNINGBRICK)
+			{
+				ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(coObjects->at(i));
+				sbrick->SetState(SBRICK_STATE_COIN);
+			}
+		}
+	}
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		if (coObjects->at(i)->IsItem() == true)
@@ -163,6 +178,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					if (coEvent->obj !=NULL)
 					{
 						OnCollisionWithMushroom(coEvent);
+					}
+					break;
+				}
+				case OBJECT_TYPE_SHINNINGBRICK: {
+					if (coEvent->obj != NULL)
+					{
+						OnCollisionWithShinningBrick(coEvent);
 					}
 					break;
 				}
@@ -217,6 +239,24 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 		OnCollisionWithRedgoomba(e);
 	else if (dynamic_cast<GreenPlant*>(e->obj))
 		OnCollisionWithGreenPlant(e);
+	else if (dynamic_cast<ShinningBrick*>(e->obj)) {
+		OnCollisionWithShinningBrick(e);
+	}
+	else if (dynamic_cast<PBrick*>(e->obj)) {
+		OnCollisionWithPBrick(e);
+	}
+	else if(dynamic_cast<PButton*>(e->obj))
+	{
+		PButton* button = dynamic_cast<PButton*>(e->obj);
+		if (e->ny < 0)
+		{
+			if (button->state != PBUTTON_STATE_NOTHING)
+			{
+				pressP = true;
+				button->SetState(PBUTTON_STATE_NOTHING);
+			}
+		}
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -496,6 +536,42 @@ void CMario::OnCollisionWithGreenPlant(LPCOLLISIONEVENT e)
 				DebugOut(L">>> Mario DIE >>> \n");
 				SetState(MARIO_STATE_DIE);
 			}
+	}
+}
+
+void CMario::OnCollisionWithShinningBrick(LPCOLLISIONEVENT e)
+{
+		ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(e->obj);
+		if (sbrick->state == SBRICK_STATE_COIN) {
+			sbrick->Delete();
+			coin++;
+		}
+		else
+		{
+			if (e->nx != 0)
+				return;
+			if (e->ny != 0) {
+				if (e->ny > 0)
+				{
+					vy = 0;
+					sbrick->d1->SetState(DEBRIS_STATE_MOVING);
+					sbrick->d2->SetState(DEBRIS_STATE_MOVING);
+					sbrick->d3->SetState(DEBRIS_STATE_MOVING);
+					sbrick->d4->SetState(DEBRIS_STATE_MOVING);
+					sbrick->Delete();
+				}
+			}
+		}
+}
+
+void CMario::OnCollisionWithPBrick(LPCOLLISIONEVENT e) {
+	PBrick* pbrick = dynamic_cast<PBrick*>(e->obj);
+	if (e->ny > 0)
+	{
+		if (pbrick->state != PBRICK_STATE_NOTHING)
+		{
+			pbrick->SetState(PBRICK_STATE_MOVING);
+		}
 	}
 }
 

@@ -177,7 +177,7 @@
 class CMario : public CGameObject
 {
 	static CMario* __instance;
-
+	bool pressP;
 	DWORD kicktime;
 	BOOLEAN isSitting;
 
@@ -192,6 +192,8 @@ class CMario : public CGameObject
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
 	void OnCollisionWithRedgoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGreenPlant(LPCOLLISIONEVENT e);
+	void OnCollisionWithShinningBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithPBrick(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTail();
@@ -209,6 +211,7 @@ public:
 	DWORD timeToFly, timeToAttack, holdtime;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		pressP = false;
 		timeToAttack = 0;
 		isFlying = false;
 		timeToFly = 0;

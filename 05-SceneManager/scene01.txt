@@ -13,6 +13,7 @@ greenplant.txt
 fireredplant.txt
 plantfire.txt
 shinningbrick.txt
+pbutton.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
@@ -22,8 +23,7 @@ shinningbrick.txt
 # MARIO
 0	120	330
 
-#SHINNING BRICK
-16	150	400
+
 # BRICKS
 1	304	416	624	16
 1	848	400	464	16
@@ -90,6 +90,11 @@ shinningbrick.txt
 6	705	353	0
 6	1472	368	0
 
+#SHINNING BRICK
+16	150	350
+16	150	370
+#PBRICK
+17	80	370
 
 #COIN
 

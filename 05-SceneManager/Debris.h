@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Collision.h"
+#define RANGE_DISAPPEAR	30
 #define ID_ANI_DEBRIS	946
 #define AY	0.001f
 #define WIDTH	10

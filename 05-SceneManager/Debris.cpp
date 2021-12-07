@@ -33,12 +33,21 @@ void Debris::SetState(int state)
 
 void Debris::Render()
 {
-	CAnimations::GetInstance()->Get(ID_ANI_DEBRIS)->Render(x, y);
-	RenderBoundingBox();
+	if (state==DEBRIS_STATE_NORMAL)
+	{
+		return;
+	}
+	else
+	{
+		CAnimations::GetInstance()->Get(ID_ANI_DEBRIS)->Render(x, y);
+		RenderBoundingBox();
+	}
 }
 
 void Debris::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (y > initY + RANGE_DISAPPEAR)
+		Delete();
 	if (state != DEBRIS_STATE_NORMAL)
 	{
 		vy += AY * dt;

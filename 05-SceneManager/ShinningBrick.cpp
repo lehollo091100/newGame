@@ -8,6 +8,11 @@ void ShinningBrick::SetState(int state)
 	case SBRICK_STATE_NORMAL: {
 		break;
 	}
+	case SBRICK_STATE_COIN: {
+		isCoin = true;
+		time = GetTickCount64();
+		break;
+	}
 	default:
 		break;
 	}
@@ -22,7 +27,7 @@ void ShinningBrick::Render()
 	}
 	else
 	{
-		aniId = ID_ANI_NORMAL;
+		aniId = ID_ANI_COIN;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -30,6 +35,13 @@ void ShinningBrick::Render()
 
 void ShinningBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (isCoin) {
+		if (GetTickCount64() - time >= TIME_TO_RETURN)
+		{
+			isCoin = false;
+			SetState(SBRICK_STATE_NORMAL);
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

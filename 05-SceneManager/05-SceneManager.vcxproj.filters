@@ -130,10 +130,16 @@
       <Filter>Mario</Filter>
     </ClCompile>
     <ClCompile Include="ShinningBrick.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>MovingObject</Filter>
     </ClCompile>
     <ClCompile Include="Debris.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PBrick.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PButton.cpp">
+      <Filter>MovingObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -249,10 +255,16 @@
       <Filter>Mario</Filter>
     </ClInclude>
     <ClInclude Include="ShinningBrick.h">
-      <Filter>Header Files</Filter>
+      <Filter>MovingObject</Filter>
     </ClInclude>
     <ClInclude Include="Debris.h">
-      <Filter>Header Files</Filter>
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PBrick.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PButton.h">
+      <Filter>MovingObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

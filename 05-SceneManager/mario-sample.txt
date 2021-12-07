@@ -19,3 +19,4 @@ height	240
 40	textures\enemiesFlip.png
 50	textures\enemies-3.png
 60	textures\mario1.png
+65	textures\BROWNCOIN.png

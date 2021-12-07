@@ -5,6 +5,7 @@
 #include "Mario.h"
 #include "Debris.h"
 #include "ShinningBrick.h"
+#include "PBrick.h"
 void Tail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - WIDTH / 2;
@@ -90,6 +91,11 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			/*sbrick->d1->SetState(DEBRIS_STATE_MOVING);
 			sbrick->d1->SetState(DEBRIS_STATE_MOVING);*/
 			sbrick->Delete();
+
+		}
+		if (dynamic_cast<PBrick*>(e->obj)) {
+			PBrick* pbrick = dynamic_cast<PBrick*>(e->obj);
+			pbrick->SetState(PBRICK_STATE_MOVING);
 
 		}
 		if (dynamic_cast<CGoomba*>(e->obj)) {

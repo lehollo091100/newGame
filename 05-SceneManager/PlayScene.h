@@ -21,6 +21,7 @@
 #include "Tail.h"
 #include "ShinningBrick.h"
 #include "Debris.h"
+#include "PBrick.h"
 class CPlayScene: public CScene
 {
 protected: 
