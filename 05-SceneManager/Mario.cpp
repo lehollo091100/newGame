@@ -21,6 +21,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"vy:%f\n", vy);
 	//vector<LPGAMEOBJECT>* itemObjects;
+	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
+	{
+		if (state == MARIO_STATE_RUNNING_RIGHT)
+		{
+			ax += 0.000005f;
+		}
+		else
+		{
+			ax -= 0.000005f;
+		}
+	}*/
 	vy += ay * dt;
 	vx += ax * dt;
 	if (isHolding)

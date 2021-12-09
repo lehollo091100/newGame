@@ -25,6 +25,9 @@
     <Filter Include="StaticObject">
       <UniqueIdentifier>{380f28af-09bc-4ee5-9293-9b37d12a9d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{61a6cbc7-4614-4893-917e-c815b0f86c90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -142,7 +145,10 @@
       <Filter>MovingObject</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="StackSpeed.cpp">
+      <Filter>HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -269,8 +275,11 @@
     <ClInclude Include="PButton.h">
       <Filter>MovingObject</Filter>
     </ClInclude>
+    <ClInclude Include="StackSpeed.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>Header Files</Filter>
+      <Filter>HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
