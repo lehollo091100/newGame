@@ -22,12 +22,14 @@
 #include "ShinningBrick.h"
 #include "Debris.h"
 #include "PBrick.h"
+#include "HUD.h"
 class CPlayScene: public CScene
 {
 protected: 
 	// A play scene has to have player, right? 
 	/*LPGAMEOBJECT player;*/	
 	CMario* player = CMario::GetInstance();
+	HUD* hud = HUD::GetInstance();
 	Map* map;
 	int mapid;
 	vector<LPGAMEOBJECT> objects;

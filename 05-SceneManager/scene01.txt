@@ -14,6 +14,7 @@ fireredplant.txt
 plantfire.txt
 shinningbrick.txt
 pbutton.txt
+hud.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
