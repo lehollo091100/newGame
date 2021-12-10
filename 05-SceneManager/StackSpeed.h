@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#define ID_ANI_ARROW	962
 class StackSpeed:public CGameObject
 {
 public:

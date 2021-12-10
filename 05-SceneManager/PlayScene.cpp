@@ -227,6 +227,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		a->item = obj1;
 		break;
 	}
+	case OBJECT_TYPE_FIREGREENPLANT: {
+		obj = new FireGreenPlant(x, y);
+		PlantFire* obj1 = new PlantFire(x, y);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		FireGreenPlant* a = dynamic_cast<FireGreenPlant*>(obj);
+		a->item = obj1;
+		break;
+	}
 	case OBJECT_TYPE_SHINNINGBRICK: {
 		obj = new ShinningBrick(x, y);
 		ShinningBrick* a = dynamic_cast<ShinningBrick*>(obj);

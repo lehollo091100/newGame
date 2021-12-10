@@ -22,10 +22,10 @@ void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	//DebugOut(L"state:%d\n", nx);
-	if (isHold)
+	/*if (isHold)
 	{
 		return;
-	}
+	}*/
 	vy += AY * dt;
 	if (state == KOOPAS_STATE_WALKING) {
 		if (Isonplatform)
@@ -132,6 +132,12 @@ void Koopas::SetState(int state)
 		item->SetState(ITEM_STATE_STOP);
 		break;
 	}
+	case KOOPAS_STATE_DIE: {
+		//item->Delete();
+		vx = nx * KOOPAS_VX;
+		vy = -KOOPAS_DEFENDUP_BOUNDING_SPEED;
+		break;
+	}
 	default:
 		break;
 	}
@@ -152,7 +158,16 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	if (state != KOOPAS_STATE_ATTACKDOWN && state != KOOPAS_STATE_ATTACKUP)
 	{
 		if (dynamic_cast<Mushroom*>(e->obj)) return;
-		if (dynamic_cast<CGoomba*>(e->obj)) return;
+		if (dynamic_cast<CGoomba*>(e->obj)) {
+			if (state == KOOPAS_STATE_DEFENDDOWN || state == KOOPAS_STATE_DEFENDUP)
+			{
+				OnCollisionWithGoomba(e, dt);
+			}
+			else
+			{
+				return;
+			}
+		};
 		if (e->ny != 0)
 		{
 			Isonplatform = true;
@@ -167,6 +182,10 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 				vy = 0;
 
 			}
+			/*else if (state == KOOPAS_STATE_DIE) {
+				item->Delete();
+				Delete();
+			}*/
 			else
 			{
 				vy = 0;
@@ -203,6 +222,10 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			{
 				return;
 			}
+			if (e->obj->type == OBJECT_TYPE_KOOPASITEM)
+			{
+				return;
+			}
 			nx = -nx;
 			vx = nx * vx;
 			
@@ -214,7 +237,16 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 void Koopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e,DWORD dt)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	goomba->SetState(GOOMBA_STATE_DIEUP);
+	if (isHold)
+	{
+		goomba->SetState(GOOMBA_STATE_DIEUP);
+		SetState(KOOPAS_STATE_DIE);
+	}
+	else {
+		if (state == KOOPAS_STATE_ATTACKDOWN || state == KOOPAS_STATE_ATTACKUP) {
+			goomba->SetState(GOOMBA_STATE_DIEUP);
+		}
+	}
 }
 
 void Koopas::Render()
@@ -244,7 +276,7 @@ void Koopas::Render()
 			animations->Get(ID_ANI_DEFENDUP_RED)->Render(x, y);
 
 		}
-		else if (state == KOOPAS_STATE_ATTACKUP) {
+		else if (state == KOOPAS_STATE_ATTACKUP || state == KOOPAS_STATE_DIE) {
 			animations->Get(ID_ANI_ATTACKUP_RED)->Render(x, y);
 		}
 	}
@@ -282,7 +314,7 @@ void Koopas::Render()
 		else if (state == KOOPAS_STATE_DEFENDUP) {
 			animations->Get(ID_ANI_DEFENDUP_GREEN)->Render(x, y);
 		}
-		else if (state == KOOPAS_STATE_ATTACKUP) {
+		else if (state == KOOPAS_STATE_ATTACKUP||state==KOOPAS_STATE_DIE) {
 			animations->Get(ID_ANI_ATTACKUP_GREEN)->Render(x, y);
 		}
 	}

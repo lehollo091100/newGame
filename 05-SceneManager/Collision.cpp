@@ -190,7 +190,11 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
-	if (objsrc->type == OBJECT_TYPE_KOOPAS && (target->obj->type == OBJECT_TYPE_KOOPASITEM|| target->obj->type == OBJECT_TYPE_PLANTFIRE|| target->obj->type == OBJECT_TYPE_TAIL)) {
+	if (objsrc->type == OBJECT_TYPE_KOOPAS && (target->obj->type == OBJECT_TYPE_KOOPASITEM|| target->obj->type == OBJECT_TYPE_PLANTFIRE)) {
+		return true;
+	}
+	if (objsrc->type==OBJECT_TYPE_KOOPAS && objsrc->state==KOOPAS_STATE_DIE)
+	{
 		return true;
 	}
 	if (objsrc->type == OBJECT_TYPE_DEBRIS)
@@ -354,6 +358,12 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 			}
 			else // collision on X first
 			{
+				//if (objSrc->type == OBJECT_TYPE_MARIO) {
+				//	CMario::GetInstance()->vx = 0;
+				//}
+				//if (objSrc->type != OBJECT_TYPE_MARIO) {
+
+				//}
 				x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
 				objSrc->SetPosition(x, y);
 

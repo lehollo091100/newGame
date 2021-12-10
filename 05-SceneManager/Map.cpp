@@ -3,6 +3,8 @@
 //#define MAP_TEXTURE_ID	30
 #define MAP_DIR	L"textures\\TileMap.png"
 #define MAP_RANGE	10
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
 Map* Map::_instance = NULL;
 void Map::ReadMap()
 {
@@ -72,7 +74,8 @@ void Map::Drawmap()
 			//DebugOut(L"%d", map[i][j]);
 			float a, b;
 			CGame::GetInstance()->GetCamPos(a,b);
-			if ((x > a - MAP_RANGE) && (y>b- MAP_RANGE)) {
+			if (((x > a - MAP_RANGE) && (x < a + SCREEN_WIDTH - MAP_RANGE)) && ((y > b - MAP_RANGE) && (y < b - MAP_RANGE + SCREEN_HEIGHT)))
+			{
 				CSprites::GetInstance()->Get(map[i][j])->Draw(x,y);
 			}
 		}

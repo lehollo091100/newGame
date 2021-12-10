@@ -15,10 +15,11 @@ plantfire.txt
 shinningbrick.txt
 pbutton.txt
 hud.txt
+firegreenplant.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,13=GreenPlant, 14 =FireRedPlant,15=PlantFire,16=Shinning Brick,49=Flatform
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,13=GreenPlant, 14 =FireRedPlant,15=PlantFire,16=Shinning Brick,18=Firegreenplant,49=Flatform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
@@ -40,7 +41,7 @@ hud.txt
 1	1672	386	32	16
 1	1680	400	48	16
 #Goomba
-#2	430	350
+2	430	350
 
 #PIPE
 10	360	362	30	48
@@ -55,12 +56,12 @@ hud.txt
 
 #KOOPAS
 #type	x	y	state	red/green(0/1)
-#11	438	350	0	0
+11	438	350	0	0
 #REDGOOMBA
 #12	150	380
 
 #FireREDPLANT
-#14	360	380
+18	360	380
 
 #ColorBrick
 5	256	368	48	16

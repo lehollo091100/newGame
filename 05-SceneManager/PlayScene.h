@@ -23,6 +23,7 @@
 #include "Debris.h"
 #include "PBrick.h"
 #include "HUD.h"
+#include "FireGreenPlant.h"
 class CPlayScene: public CScene
 {
 protected: 

@@ -59,7 +59,7 @@ void HUD::Render()
 	float b = CGame::GetInstance()->GetCamY() + CGame::GetInstance()->GetBackBufferHeight() - HUD_HEIGHT / 2;
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(ID_ANI_HUD)->Render(a, b);
-	stack->Render1(a + 70,b, Stack);
+	stack->Render1(CGame::GetInstance()->GetCamX()+76,b-5, Stack);
 }
 
 HUD* HUD::__instance = NULL;

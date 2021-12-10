@@ -49,17 +49,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		else
 		{
-			koo->nx = nx;
-			koo->isHold = true;
-			//koo->ay = 0;
-			if (nx >= 0) {
-				koo->SetPosition(x + MARIO_HOLD_TURTLE_RANGE, y);
+			if (koo->state != KOOPAS_STATE_DIE)
+			{
+				koo->nx = nx;
+				koo->isHold = true;
+				//koo->ay = 0;
+				if (nx >= 0) {
+					koo->SetPosition(x + MARIO_HOLD_TURTLE_RANGE, y);
+				}
+				else
+				{
+					koo->SetPosition(x - MARIO_HOLD_TURTLE_RANGE, y);
+				}
 			}
 			else
 			{
-				koo->SetPosition(x - MARIO_HOLD_TURTLE_RANGE, y);
+				koo->isHold = false;
+				koo->nx = nx;
+				isHolding = false;
+				holdtime = 0;
+				koo = NULL;
 			}
-
 		}
 	}
 	if (isAttacking && level==MARIO_LEVEL_TAIL)
@@ -363,12 +373,48 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 					}
 				}
 			}
+			else if (koopas->GetState() == KOOPAS_STATE_DEFENDUP)
+			{
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				if (level == MARIO_LEVEL_SMALL)
+				{
+					if ((x + MARIO_SMALL_BBOX_WIDTH / 2) > (koopas->x + KOOPAS_WIDTH / 2))
+					{
+						koopas->nx = -1;
+						koopas->SetState(KOOPAS_STATE_ATTACKUP);
+					}
+					if ((x + MARIO_SMALL_BBOX_WIDTH / 2) <= (koopas->x + KOOPAS_WIDTH / 2))
+					{
+						koopas->nx = 1;
+						koopas->SetState(KOOPAS_STATE_ATTACKUP);
+					}
+				}
+				if (level == MARIO_LEVEL_BIG || level == MARIO_LEVEL_TAIL)
+				{
+					if ((x + MARIO_BIG_BBOX_WIDTH / 2) > (koopas->x + KOOPAS_WIDTH / 2))
+					{
+						koopas->nx = -1;
+						koopas->SetState(KOOPAS_STATE_ATTACKUP);
+					}
+					if ((x + MARIO_BIG_BBOX_WIDTH / 2) <= (koopas->x + KOOPAS_WIDTH / 2))
+					{
+						koopas->nx = 1;
+						koopas->SetState(KOOPAS_STATE_ATTACKUP);
+					}
+				}
+			}
 			else
 			if (koopas->GetState()==KOOPAS_STATE_ATTACKDOWN)
 			{
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				koopas->SetState(KOOPAS_STATE_DEFENDDOWN);
 			}
+			else
+				if (koopas->GetState() == KOOPAS_STATE_ATTACKUP)
+				{
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+					koopas->SetState(KOOPAS_STATE_DEFENDUP);
+				}
 			else if (koopas->GetState()==KOOPAS_STATE_FLYING)
 			{
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -564,12 +610,16 @@ void CMario::OnCollisionWithShinningBrick(LPCOLLISIONEVENT e)
 			if (e->ny != 0) {
 				if (e->ny > 0)
 				{
-					vy = 0;
-					sbrick->d1->SetState(DEBRIS_STATE_MOVING);
-					sbrick->d2->SetState(DEBRIS_STATE_MOVING);
-					sbrick->d3->SetState(DEBRIS_STATE_MOVING);
-					sbrick->d4->SetState(DEBRIS_STATE_MOVING);
-					sbrick->Delete();
+					if (x > sbrick->x - SBRICK_WIDTH / 2 && x < sbrick->x + SBRICK_WIDTH / 2)
+					{
+
+						vy = 0;
+						sbrick->d1->SetState(DEBRIS_STATE_MOVING);
+						sbrick->d2->SetState(DEBRIS_STATE_MOVING);
+						sbrick->d3->SetState(DEBRIS_STATE_MOVING);
+						sbrick->d4->SetState(DEBRIS_STATE_MOVING);
+						sbrick->Delete();
+					}
 				}
 			}
 		}
@@ -868,7 +918,7 @@ int CMario::GetAniIdTail()
 				if (nx > 0) aniId = ID_ANI_MARIO_TAIL_IDLE_RIGHT;
 				else aniId = ID_ANI_MARIO_TAIL_IDLE_LEFT;
 			}
-			else if (vx > 0)
+			else if (vx >= 0)
 			{
 				if (ax < 0)
 					aniId = ID_ANI_MARIO_TAIL_BRACE_RIGHT;
@@ -911,7 +961,21 @@ void CMario::Render()
 		aniId = GetAniIdTail();
 	}
 	//DebugOut(L"aniid:%d\n", aniId);
-	animations->Get(aniId)->Render(x, y);
+	//if (level == MARIO_LEVEL_TAIL)
+	//{
+	//	if (nx >= 0)
+	//	{
+	//		animations->Get(aniId)->Render(x - MARIO_TAIL_BBOX_WIDTH / 2, y);
+	//	}
+	//	else
+	//	{
+	//		animations->Get(aniId)->Render(x+ MARIO_TAIL_BBOX_WIDTH / 2, y);
+	//	}
+	//}
+	//else
+	//{
+	//}
+		animations->Get(aniId)->Render(x, y);
 
 	RenderBoundingBox();
 
@@ -1073,10 +1137,21 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 		}
 		else
 		{
-			left = x - MARIO_TAIL_BBOX_WIDTH / 2;
-			top = y - MARIO_TAIL_BBOX_HEIGHT / 2;
-			right = left + MARIO_TAIL_BBOX_WIDTH;
-			bottom = top + MARIO_TAIL_BBOX_HEIGHT;
+			if (nx >= 0)
+			{
+				left = x - MARIO_TAIL_BBOX_WIDTH / 2;
+				top = y - MARIO_TAIL_BBOX_HEIGHT / 2;
+				right = left + MARIO_TAIL_BBOX_WIDTH;
+				bottom = top + MARIO_TAIL_BBOX_HEIGHT;
+			}
+			else
+			{
+
+				left = x - MARIO_TAIL_BBOX_WIDTH / 2;
+				top = y - MARIO_TAIL_BBOX_HEIGHT / 2;
+				right = left + MARIO_TAIL_BBOX_WIDTH;
+				bottom = top + MARIO_TAIL_BBOX_HEIGHT;
+			}
 		}
 	}
 }
