@@ -3,6 +3,7 @@
 #include "AssetIDs.h"
 #include "CoinItem.h"
 #include "Mushroom.h"
+#include "Leaf.h"
 #define QBRICK_WIDTH	16
 #define ID_ANI_NORMAL	801
 #define ID_ANI_NOTHING	802

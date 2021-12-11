@@ -164,7 +164,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			break;
 		}
 		case 1: {
-			obj = new Mushroom(x, y);
+			obj = new Leaf(x, y);
 			items.push_back(obj);
 			break;
 		}

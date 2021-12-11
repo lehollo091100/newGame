@@ -201,6 +201,9 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_LEAF) {
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,

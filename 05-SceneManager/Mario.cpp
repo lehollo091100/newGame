@@ -17,6 +17,7 @@
 #include "ShinningBrick.h"
 #include "Debris.h"
 #include "PBrick.h"
+#include "Leaf.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"vy:%f\n", vy);
@@ -196,9 +197,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				switch (coObjects->at(i)->type)
 				{
 				case OBJECT_TYPE_MUSHROOM: {
-					if (coEvent->obj !=NULL)
+					if (coEvent->obj != NULL)
 					{
 						OnCollisionWithMushroom(coEvent);
+					}
+					break;
+				}
+				case OBJECT_TYPE_LEAF: {
+					if (coEvent->obj != NULL)
+					{
+						OnCollisionWithLeaf(coEvent);
 					}
 					break;
 				}
@@ -224,7 +232,7 @@ void CMario::OnNoCollision(DWORD dt)
 	y += vy * dt;
 }
 
-void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
+void CMario::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 {
 	if (e->ny != 0 && e->obj->IsBlocking())
 	{
@@ -234,11 +242,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 			isOnPlatform = true;
 		}
 	}
-	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
-	{
-		//vx = 0;
-	}
+	else
+		if (e->nx != 0 && e->obj->IsBlocking())
+		{
+			//vx = 0;
+		}
 	/*switch (dynamic_cast)
 	{
 	default:
@@ -266,7 +274,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 	else if (dynamic_cast<PBrick*>(e->obj)) {
 		OnCollisionWithPBrick(e);
 	}
-	else if(dynamic_cast<PButton*>(e->obj))
+	else if (dynamic_cast<PButton*>(e->obj))
 	{
 		PButton* button = dynamic_cast<PButton*>(e->obj);
 		if (e->ny < 0)
@@ -277,6 +285,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e,DWORD dt)
 				button->SetState(PBUTTON_STATE_NOTHING);
 			}
 		}
+	}
+	else if (dynamic_cast<Leaf*>(e->obj)){
+		OnCollisionWithLeaf(e);
 	}
 }
 
@@ -634,6 +645,17 @@ void CMario::OnCollisionWithPBrick(LPCOLLISIONEVENT e) {
 			pbrick->SetState(PBRICK_STATE_MOVING);
 		}
 	}
+}
+
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
+{
+	Leaf* leaf = dynamic_cast<Leaf*>(e->obj);
+	if (leaf->state == LEAF_STATE_MOVING)
+	{
+		SetLevel(MARIO_LEVEL_BIG);
+		leaf->Delete();
+	}
+
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt)

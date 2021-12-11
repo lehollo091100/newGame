@@ -24,6 +24,7 @@
 #include "PBrick.h"
 #include "HUD.h"
 #include "FireGreenPlant.h"
+#include "Leaf.h"
 class CPlayScene: public CScene
 {
 protected: 
