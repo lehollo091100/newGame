@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Animations.h"
 #include "PlayScene.h"
+#include "Map.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -522,8 +523,9 @@ void CGame::SwitchScene()
 	current_scene = next_scene;
 	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
+	//Map::GetInstance()->SetMap(next_scene);
+	/*DebugOut(L"next_scene:%d", next_scene);*/
 	s->Load();
-
 }
 
 void CGame::InitiateSwitchScene(int scene_id)

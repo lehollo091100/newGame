@@ -4,12 +4,15 @@
 #include "Collision.h"
 #define LEAF_STATE_INVISIBLE	0
 #define LEAF_STATE_MOVING	100
-
-#define AY	0.02f
+#define ID_ANI_LEAF_MOVELEFT	981
+#define ID_ANI_LEAF_MOVERIGHT	982
+#define AY	0.035f
 #define MOVINGUP_VY	0.3f
 #define RANGE	20
 #define VX	0.02f
 #define RANGEX	10
+#define	LEAF_WIDTH	18
+#define LEAF_HEIGHT	16
 class Leaf : public CGameObject
 {
 	float initY,initX;

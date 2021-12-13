@@ -36,7 +36,14 @@ void Leaf::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	if (state != LEAF_STATE_INVISIBLE)
 	{
-		animations->Get(850)->Render(x, y);
+		if (vx>=0)
+		{
+			animations->Get(ID_ANI_LEAF_MOVERIGHT)->Render(x, y);
+		}
+		else
+		{
+			animations->Get(ID_ANI_LEAF_MOVELEFT)->Render(x, y);
+		}
 	}
 }
 
@@ -77,8 +84,8 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Leaf::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - 10 / 2;
-	t = y - 16 / 2;
-	r = l + 10;
-	b = t + 16;
+	l = x - LEAF_WIDTH / 2;
+	t = y - LEAF_HEIGHT / 2;
+	r = l + LEAF_WIDTH;
+	b = t + LEAF_HEIGHT;
 }

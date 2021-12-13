@@ -2,9 +2,9 @@
 MapLink1.txt
 textures\TileMap.png
 12	11
-MapLink1.txt
-textures\TileMap.png
-12	11
+MapLinkHiddenmap.txt
+textures\1-2_bank.png
+1	11
 MapLink1.txt
 textures\TileMap.png
 12	11

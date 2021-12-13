@@ -1,5 +1,5 @@
 #pragma once
-
+#include "debug.h"
 #include "KeyEventHandler.h"
 
 /*

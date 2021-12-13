@@ -19,8 +19,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	//player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
-	//map->SetMap(id);
-	//DebugOut(L"mapid:%d", id);
+	//map->SetMap(id);'
+
+	
 	//map->ReadMap();
 	mapid = id;
 }
@@ -164,7 +165,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			break;
 		}
 		case 1: {
-			obj = new Leaf(x, y);
+			obj = new Mushroom(x, y);
 			items.push_back(obj);
 			break;
 		}
@@ -196,7 +197,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE: {
 		float pwidth = (float)atof(tokens[3].c_str());
 		float pheight = (float)atof(tokens[4].c_str());
-		obj = new Pipe(x, y,pwidth,pheight);
+		int scene = (int)atof(tokens[5].c_str());
+		obj = new Pipe(x, y,pwidth,pheight,scene);
 		break;
 	}
 	case OBJECT_TYPE_KOOPAS: {
@@ -361,6 +363,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
+	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
 	for (int i = 0; i < questionbricks.size(); i++)

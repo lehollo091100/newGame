@@ -16,6 +16,7 @@ shinningbrick.txt
 pbutton.txt
 hud.txt
 firegreenplant.txt
+leaf.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
@@ -23,9 +24,9 @@ firegreenplant.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	120	330
+0	1798	300
 
-
+1	30	100	100	16
 # BRICKS
 1	304	416	624	16
 1	848	400	464	16
@@ -44,12 +45,12 @@ firegreenplant.txt
 2	430	350
 
 #PIPE
-10	360	362	30	48
-10	1798	376	32	32
-10	1864	360	32	48
-10	2266	104	32	208
-10	2266	360	32	48
-10	2328	380	32	32
+10	360	362	30	48	-1
+10	1798	376	32	32	2	1
+10	1864	360	32	48	-1
+10	2266	104	32	208	2	1
+10	2266	360	32	48	-1
+10	2328	380	32	32	-1
 #COIN
 #4	176	320
 #4	193	320
@@ -105,5 +106,5 @@ firegreenplant.txt
 #49	120	90	16	16	8	20001	20001	20001
 
 #Portal 
-#50	300	120	316	160	2
+50	450	320	470	330	2
 

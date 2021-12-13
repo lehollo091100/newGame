@@ -22,7 +22,7 @@ void Map::ReadMap()
 }
 void Map::SetMap(int id)
 {
-	mapId = 1;
+	mapId = id;
 	string TexLink;
 	ifstream ifs(L"mapInfo.txt", ios::in);
 	ifs >> nMap;

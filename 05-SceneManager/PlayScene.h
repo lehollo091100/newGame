@@ -33,7 +33,6 @@ protected:
 	CMario* player = CMario::GetInstance();
 	HUD* hud = HUD::GetInstance();
 	Map* map;
-	int mapid;
 	vector<LPGAMEOBJECT> objects;
 	vector<QuestionBrick*> questionbricks;
 	vector<LPGAMEOBJECT> items;
@@ -47,6 +46,7 @@ protected:
 	void LoadAssets(LPCWSTR assetFile);
 	
 public: 
+	int mapid;
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();

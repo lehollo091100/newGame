@@ -8,10 +8,10 @@
 #include "PBrick.h"
 void Tail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - WIDTH / 2;
-	top = y - HEIGHT / 2;
-	right = left + WIDTH;
-	bottom = top + HEIGHT;
+	left = x - TAIL_WIDTH / 2;
+	top = y - TAIL_HEIGHT / 2;
+	right = left + TAIL_WIDTH;
+	bottom = top + TAIL_HEIGHT;
 }
 
 void Tail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

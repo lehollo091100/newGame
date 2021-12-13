@@ -18,6 +18,7 @@
 #include "Debris.h"
 #include "PBrick.h"
 #include "Leaf.h"
+#include "Pipe.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"vy:%f\n", vy);
@@ -33,7 +34,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			ax -= 0.000005f;
 		}
 	}*/
-	vy += ay * dt;
+	if (isPiping == false)
+	{
+		vy += ay * dt;
+	}
 	vx += ax * dt;
 	if (isHolding)
 	{
@@ -166,7 +170,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			SetState(MARIO_STATE_RELEASE_JUMP);
 		}
 	}
-
+	if (isPiping) {
+		if (GetTickCount64() - Pipetime >= 500) {
+			isPiping = false;
+			CGame::GetInstance()->InitiateSwitchScene(scene);
+		}
+		else
+		{
+			isOnPlatform = true;
+			DebugOut(L"ISOONPLATFORM: %d %d\n", isOnPlatform,state);
+			y += vy * dt;
+		}
+	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -288,6 +303,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	}
 	else if (dynamic_cast<Leaf*>(e->obj)){
 		OnCollisionWithLeaf(e);
+	}
+	else if (dynamic_cast<Pipe*>(e->obj)) {
+		OnCollisionWithPipe(e);
 	}
 }
 
@@ -652,10 +670,34 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 	Leaf* leaf = dynamic_cast<Leaf*>(e->obj);
 	if (leaf->state == LEAF_STATE_MOVING)
 	{
-		SetLevel(MARIO_LEVEL_BIG);
+		SetLevel(MARIO_LEVEL_TAIL);
 		leaf->Delete();
 	}
 
+}
+
+void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
+{
+	Pipe* p = dynamic_cast<Pipe*>(e->obj);
+	DebugOut(L"va chajm pipe: %d\n",p->scene);
+			scene = p->scene;
+	if (p->scene != -1) {
+
+		if (state==MARIO_STATE_JUMP)
+		{
+			isPiping = true;
+			//CGame::GetInstance()->InitiateSwitchScene(p->scene);
+		}
+		if (isSitting)//tu tren xuong
+		{
+			isPiping = true;
+			Pipetime = GetTickCount64();
+			vy = 0.03f;
+			
+		}
+		
+	}
+	else return;
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt)

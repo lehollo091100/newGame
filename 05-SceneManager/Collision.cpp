@@ -201,7 +201,7 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
-	if (objsrc->type == OBJECT_TYPE_LEAF) {
+	if (objsrc->type == OBJECT_TYPE_LEAF && target->obj->IsBlocking())  {
 		return true;
 	}
 	return false;
@@ -265,7 +265,6 @@ LPCOLLISIONEVENT CCollision::isCollisionWithObj(LPGAMEOBJECT objSrc,CGameObject*
 		if (res)
 			return e;
 		else
-
 			if (IsCollisionAABB(l1, t1, r1, b1, l2, t2, r2, b2))
 			{
 				if (r1 < r2)

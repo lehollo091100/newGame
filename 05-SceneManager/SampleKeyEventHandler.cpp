@@ -33,8 +33,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		{
 			if (mario->isOnPlatform)
 			{
-			}
 				mario->SetState(MARIO_STATE_JUMP);
+			}
 		}
 		else
 		{
@@ -161,7 +161,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			else
 			{
 				if (game->IsKeyDown(DIK_A)) {
-					if ( mario->state != MARIO_STATE_RUNMAXLEFT) {
+					if (mario->state != MARIO_STATE_RUNMAXLEFT) {
 
 						mario->SetState(MARIO_STATE_RUNNING_LEFT);
 					}
@@ -171,7 +171,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 					}
 				}
 
-				else 
+				else
 					mario->SetState(MARIO_STATE_WALKING_LEFT);
 			}
 		}
@@ -185,4 +185,5 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 				mario->ax = 0;
 			}
 		}
+	
 }

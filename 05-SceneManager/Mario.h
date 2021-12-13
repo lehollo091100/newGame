@@ -30,6 +30,8 @@
 #define MARIO_FLY_TIME	5000
 #define MARIO_HOLD_TIME	5000
 
+#define MARIO_PIPING_TIME	2000
+
 #define MARIO_TAIL_X	15
 #define MARIO_TAIL_Y	5
 
@@ -59,6 +61,8 @@
 #define MARIO_STATE_RELEASEFLY		607
 
 #define MARIO_STATE_KICK			608
+
+#define MARIO_STATE_PIPING			609
 
 
 #pragma region ANIMATION_ID
@@ -180,7 +184,7 @@ class CMario : public CGameObject
 	bool pressP;
 	DWORD kicktime;
 	BOOLEAN isSitting;
-
+	DWORD Pipetime;
 	int untouchable; 
 	ULONGLONG untouchable_start;
 
@@ -195,11 +199,14 @@ class CMario : public CGameObject
 	void OnCollisionWithShinningBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithPBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
+	void OnCollisionWithPipe(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTail();
 
 public:
+	int scene;
+	bool isPiping;
 	Koopas* koo=NULL;
 	int coin; 
 	bool isAttacking, isHolding,isFlying, isKicking;
@@ -221,6 +228,7 @@ public:
 		isSitting = false;
 		isHolding = false;
 		isKicking = false;
+		isPiping = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 

@@ -1,0 +1,33 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+questionbrick.txt
+brick.txt
+coin.txt
+goomba.txt
+cloud.txt
+mushroom.txt
+koopas.txt
+redgoomba.txt
+greenplant.txt
+fireredplant.txt
+plantfire.txt
+shinningbrick.txt
+pbutton.txt
+hud.txt
+firegreenplant.txt
+leaf.txt
+#
+[OBJECTS]
+# type	x	y	aniset_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,13=GreenPlant, 14 =FireRedPlant,15=PlantFire,16=Shinning Brick,18=Firegreenplant,49=Flatform
+# See OBJECT_TYPE constants in AssetIDs.h
+
+# MARIO
+0	50	40
+
+1	30	100	100	16
+
+#Portal 
+#50	300	120	316	160	2
+

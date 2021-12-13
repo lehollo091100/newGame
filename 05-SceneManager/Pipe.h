@@ -6,9 +6,12 @@ class Pipe:public CGameObject
 {
 	float width;
 	float height;
+
 public:
-	Pipe(float x, float y, float bwidth, float bheight) : CGameObject(x, y)
+	int scene;
+	Pipe(float x, float y, float bwidth, float bheight,int s) : CGameObject(x, y)
 	{
+		scene = s;
 		type = OBJECT_TYPE_PIPE;
 		width = bwidth;
 		height = bheight;

@@ -4,8 +4,8 @@
 #include "Collision.h"
 #define TAIL_STATE_NOTHING	0
 #define TAIL_STATE_ATTACK	100
-#define WIDTH	14
-#define HEIGHT	5
+#define TAIL_WIDTH	14
+#define TAIL_HEIGHT	5
 
 class Tail : public CGameObject
 {
