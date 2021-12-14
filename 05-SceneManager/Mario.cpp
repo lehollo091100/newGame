@@ -95,10 +95,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 			tail->SetState(TAIL_STATE_ATTACK);
 		}
-		if (GetTickCount64() - timeToAttack > MARIO_ATTACK_TAIL_TIME)
-		{
-			timeToAttack = 0;
-			isAttacking = false;
+		else {
+			if (GetTickCount64() - timeToAttack > MARIO_ATTACK_TAIL_TIME)
+			{
+				timeToAttack = 0;
+				isAttacking = false;
+			}
 		}
 	}
 	else
@@ -171,7 +173,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 	if (isPiping) {
-		DebugOut(L"nextX:%f", NextX);
 		if (GetTickCount64() - Pipetime >= MARIO_PIPING_TIME) {
 			ay = AY;
 			isPiping = false;
@@ -209,32 +210,65 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (coObjects->at(i)->IsItem() == true)
 		{
-			float t1 = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt)->t;
-			LPCOLLISIONEVENT coEvent = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i), dt);
-			if (t1 > 0 && t1 < 1) {
+			
+			bool t1 = CCollision::GetInstance()->isCollisionWithObj(this, coObjects->at(i));
+			if (t1== true) {
 				switch (coObjects->at(i)->type)
 				{
 				case OBJECT_TYPE_MUSHROOM: {
-					if (coEvent->obj != NULL)
-					{
-						OnCollisionWithMushroom(coEvent);
-					}
+						Mushroom* mushroom = dynamic_cast<Mushroom*>(coObjects->at(i));
+						if (mushroom->state == MUSHROOM_STATE_MOVING)
+						{
+							if (level == MARIO_LEVEL_SMALL)
+							{
+								SetLevel(MARIO_LEVEL_BIG);
+							}
+							else if (level == MARIO_LEVEL_BIG)
+							{
+								SetLevel(MARIO_LEVEL_TAIL);
+							}
+							else {
+								SetLevel(MARIO_LEVEL_TAIL);
+							}
+							mushroom->Delete();
+						}
 					break;
 				}
 				case OBJECT_TYPE_LEAF: {
-					if (coEvent->obj != NULL)
+					if (coObjects->at(i) != NULL)
 					{
-						OnCollisionWithLeaf(coEvent);
+						Leaf* leaf = dynamic_cast<Leaf*>(coObjects->at(i));
+						if (leaf->state == LEAF_STATE_MOVING)
+						{
+							SetLevel(MARIO_LEVEL_TAIL);
+							leaf->Delete();
+						}
 					}
 					break;
 				}
-				case OBJECT_TYPE_SHINNINGBRICK: {
+				case OBJECT_TYPE_PLANTFIRE: {
+					/*if (untouchable == 0)
+					{
+							if (level > MARIO_LEVEL_SMALL)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							else
+							{
+								DebugOut(L">>> Mario DIE >>> \n");
+								SetState(MARIO_STATE_DIE);
+							}
+					}*/
+					break;
+				}
+				/*case OBJECT_TYPE_SHINNINGBRICK: {
 					if (coEvent->obj != NULL)
 					{
 						OnCollisionWithShinningBrick(coEvent);
 					}
 					break;
-				}
+				}*/
 				default:
 					break;
 				}

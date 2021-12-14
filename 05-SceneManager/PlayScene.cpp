@@ -211,8 +211,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float nexty = 0;
 		if (scene != -1)
 		{
-			float nextx = (float)atof(tokens[8].c_str());
-			float nexty = (float)atof(tokens[9].c_str());
+			nextx = (float)atof(tokens[8].c_str());
+			 nexty = (float)atof(tokens[9].c_str());
 		}
 		obj = new Pipe(x, y, pwidth, pheight, scene,d,a,nextx,nexty);
 		break;
@@ -397,6 +397,56 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		if (player->level == MARIO_LEVEL_TAIL)
+		{
+			if (objects[i]->type == OBJECT_TYPE_QUESTIONBRICK)
+			{
+				QuestionBrick* qbrick = dynamic_cast<QuestionBrick*>(objects[i]);
+				if (qbrick->item->type == OBJECT_TYPE_MUSHROOM)
+				{
+					float x1 = qbrick->x;
+					float y1 = qbrick->y;
+					qbrick->item->Delete();
+					Leaf* leaf = new Leaf(x1, y1);
+					objects.push_back(leaf);
+					qbrick->item = leaf;
+				}
+				/*if (qbrick->item->type == OBJECT_TYPE_LEAF)
+				{
+					float x1 = qbrick->x;
+					float y1 = qbrick->y;
+					qbrick->item->Delete();
+					Mushroom* mush = new Mushroom(x1, y1);
+					objects.push_back(mush);
+					qbrick->item = mush;
+				}*/
+			}
+
+		}
+		if (player->level <MARIO_LEVEL_TAIL)
+		{
+			if (objects[i]->type == OBJECT_TYPE_QUESTIONBRICK)
+			{
+				QuestionBrick* qbrick = dynamic_cast<QuestionBrick*>(objects[i]);
+				if (qbrick->item->type == OBJECT_TYPE_LEAF)
+				{
+					float x1 = qbrick->x;
+					float y1 = qbrick->y;
+					qbrick->item->Delete();
+					qbrick->Delete();
+					QuestionBrick* newbrick = new QuestionBrick(x1,y1);
+					Mushroom* mush = new Mushroom(x1, y1);
+					newbrick->item = mush;
+					objects.push_back(mush);
+					objects.push_back(newbrick);
+				}
+			}
+
+		}
+	}
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -404,8 +454,10 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		//if()
-		objects[i]->Update(dt, &coObjects);
+		if (objects[i]->x > CGame::GetInstance()->GetCamX()- CGame::GetInstance()->GetBackBufferWidth() && objects[i]->x <= CGame::GetInstance()->GetCamX() + CGame::GetInstance()->GetBackBufferWidth()*1.5)
+		{
+			objects[i]->Update(dt, &coObjects);
+		}
 	}
 
 	player->Update(dt, &coObjects);

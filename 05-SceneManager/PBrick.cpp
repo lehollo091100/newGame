@@ -60,7 +60,8 @@ void PBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	CGameObject::Update(dt, coObjects);
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void PBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

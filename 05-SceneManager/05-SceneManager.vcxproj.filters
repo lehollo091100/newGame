@@ -151,7 +151,7 @@
       <Filter>HUD</Filter>
     </ClCompile>
     <ClCompile Include="Leaf.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,7 +285,7 @@
       <Filter>HUD</Filter>
     </ClInclude>
     <ClInclude Include="Leaf.h">
-      <Filter>Header Files</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

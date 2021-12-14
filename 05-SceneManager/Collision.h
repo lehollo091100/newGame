@@ -83,7 +83,7 @@ public:
 		int filterBlock,		
 		int filterX,
 		int filterY);
-	LPCOLLISIONEVENT isCollisionWithObj(LPGAMEOBJECT objSrc, LPGAMEOBJECT obj, DWORD dt);
+	bool isCollisionWithObj(LPGAMEOBJECT objSrc, LPGAMEOBJECT obj);
 	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 	static CCollision* GetInstance();

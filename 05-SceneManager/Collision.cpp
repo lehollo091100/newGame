@@ -248,48 +248,13 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	if (min_iy >= 0) colY = coEvents[min_iy];
 }
 
-LPCOLLISIONEVENT CCollision::isCollisionWithObj(LPGAMEOBJECT objSrc,CGameObject* obj, DWORD dt)
+bool CCollision::isCollisionWithObj(LPGAMEOBJECT objSrc, LPGAMEOBJECT objDest)
 {
-	LPCOLLISIONEVENT T = new CCollisionEvent(1.5, 0, 0, 0, 0, obj);
-	//T->t = 1.5;
+	float Left, Top, Right, Bottom, left, top, right, bottom;
+	objSrc->GetBoundingBox(Left, Top, Right, Bottom); // Get bbox of objsrc
+	objDest->GetBoundingBox(left, top, right, bottom); // Get bbox of objColliable
 
-	if (obj != NULL)
-	{
-		float l1, l2, b1, b2, r1, r2, t1, t2;
-		objSrc->GetBoundingBox(l1, t1, r1, b1);
-		obj->GetBoundingBox(l2, t2, r2, b2);
-		float nx = 0, ny = 0;
-		LPCOLLISIONEVENT coEventsResult;
-		LPCOLLISIONEVENT e = SweptAABB(objSrc, dt, obj);
-		bool res = e->t > 0 && e->t <= 1.0f;
-		if (res)
-			return e;
-		else
-			if (IsCollisionAABB(l1, t1, r1, b1, l2, t2, r2, b2))
-			{
-				if (r1 < r2)
-				{
-					nx = -1.0;
-				}
-				if (l1 > l2)
-				{
-					nx = 1.0;
-				}
-				if (t1 > t2)
-				{
-					ny = 1.0;
-				}
-				if (b1 < b2)
-				{
-					ny = -1.0;
-				}
-				//coEventsResult->t = 0.5;
-				return new CCollisionEvent(0.5, nx, ny, 0, 0);
-			}
-		//return true;
-
-	}
-	return T;
+	return(!(Left > right ||Top > bottom  ||Right < left || Bottom < top));
 }
 
 /*

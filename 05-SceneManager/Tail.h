@@ -6,6 +6,7 @@
 #define TAIL_STATE_ATTACK	100
 #define TAIL_WIDTH	14
 #define TAIL_HEIGHT	5
+#define TAIL_SPEED	0.1f
 
 class Tail : public CGameObject
 {

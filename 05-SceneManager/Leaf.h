@@ -6,9 +6,9 @@
 #define LEAF_STATE_MOVING	100
 #define ID_ANI_LEAF_MOVELEFT	981
 #define ID_ANI_LEAF_MOVERIGHT	982
-#define AY	0.035f
+#define AY	0.02f
 #define MOVINGUP_VY	0.3f
-#define RANGE	20
+#define RANGE	30
 #define VX	0.02f
 #define RANGEX	10
 #define	LEAF_WIDTH	18

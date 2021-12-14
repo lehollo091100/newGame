@@ -3,7 +3,7 @@
 #include "AssetIDs.h"
 #include "Collision.h"
 
-#define WIDTH	16
+#define WIDTH	14
 #define SWIDTH	14
 #define PLUS_RANGE	8
 #define PBRICK_VY	0.05f

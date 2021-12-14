@@ -41,7 +41,7 @@
 
 #define KOOPAS_VX	0.03f
 #define KOOPAS_ATTACK_VX	0.1f
-#define AY	0.001f
+#define KOOPAS_AY	0.001f
 #define KOOPAS_WIDTH	18
 #define KOOPAS_HEIGHT	26
 #define RANGE_STAND_UP	10
@@ -65,7 +65,7 @@ public:
 		Isonplatform = false;
 		type = OBJECT_TYPE_KOOPAS;
 		SetState(t);
-		nx = 1;
+		nx = -1;
 		Color = color;
 	}
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

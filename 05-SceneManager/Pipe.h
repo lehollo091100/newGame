@@ -15,11 +15,11 @@ class Pipe:public CGameObject
 public:
 	int scene,direction,ani;
 	float nextx, nexty;
-	Pipe(float x, float y, float bwidth, float bheight,int s,int d,int a,float nx,float ny) : CGameObject(x, y)
+	Pipe(float x, float y, float bwidth, float bheight,int s,int d,int a,float x1,float y1) : CGameObject(x, y)
 	{
 		ani = a;
-		nextx = nx;
-		nexty = ny;
+		nextx = x1;
+		nexty = y1;
 		direction = d;
 		scene = s;
 		type = OBJECT_TYPE_PIPE;

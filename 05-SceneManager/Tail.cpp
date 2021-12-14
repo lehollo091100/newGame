@@ -16,15 +16,22 @@ void Tail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Tail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	/*if (state == TAIL_STATE_ATTACK) {
-		if (nx >= 0)
+	if (vx > 0)
+	{
+		if (x - initX >= 26)
 		{
-			if (x>initX+30)
-			{
-				SetState
-			}
+			nx = -1;
+			vx = -TAIL_SPEED;
 		}
-	}*/
+	}
+	else if(vx<0)
+	{
+		if ( initX-x >= 26)
+		{
+			nx = 1;
+			vx = TAIL_SPEED;
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -45,11 +52,11 @@ void Tail::SetState(int state)
 		initX = x;
 		if (nx>=0)
 		{
-			vx = 0.1f;
+			vx = TAIL_SPEED;
 		}
 		else
 		{
-			vx = -0.1f;
+			vx = -TAIL_SPEED;
 		}
 		break;
 	}
@@ -82,6 +89,13 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 				}
 			}
 		}
+		if (dynamic_cast<PBrick*>(e->obj)) {
+			PBrick* pbrick = dynamic_cast<PBrick*>(e->obj);
+			if (pbrick->state != PBRICK_STATE_NOTHING)
+			{
+				pbrick->SetState(PBRICK_STATE_MOVING);
+			}
+		}
 		if (dynamic_cast<ShinningBrick*>(e->obj)) {
 			ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(e->obj);
 			sbrick->d1->SetState(DEBRIS_STATE_MOVING);
@@ -93,18 +107,12 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			sbrick->Delete();
 
 		}
-		if (dynamic_cast<PBrick*>(e->obj)) {
-			PBrick* pbrick = dynamic_cast<PBrick*>(e->obj);
-			pbrick->SetState(PBRICK_STATE_MOVING);
-
-		}
 		if (dynamic_cast<CGoomba*>(e->obj)) {
 			CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 			goomba->SetState(GOOMBA_STATE_DIEUP);
 		};
 		if (dynamic_cast<Koopas*>(e->obj)) {
 			Koopas* koopas = dynamic_cast<Koopas*>(e->obj);
-
 			if (nx >= 0)
 			{
 				koopas->nx = 1;

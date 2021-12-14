@@ -1,6 +1,7 @@
 #include "Koopas.h"
 #include "Mario.h"
 #include "Tail.h"
+#include "QuestionBrick.h"
 #define RANGE	10
 void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -26,7 +27,7 @@ void Koopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		return;
 	}*/
-	vy += AY * dt;
+	vy += KOOPAS_AY * dt;
 	if (state == KOOPAS_STATE_WALKING) {
 		if (Isonplatform)
 		{
@@ -211,6 +212,19 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	else if(state==KOOPAS_STATE_ATTACKDOWN || state==KOOPAS_STATE_ATTACKUP){
 		if (dynamic_cast<CGoomba*>(e->obj))
 			OnCollisionWithGoomba(e,dt);
+		if (dynamic_cast<QuestionBrick*>(e->obj))
+		{
+			QuestionBrick* QBrick = dynamic_cast<QuestionBrick*>(e->obj);
+			if (QBrick->GetState() == QBSTATE_NORMAL)
+			{
+
+				QBrick->nx = -this->nx;
+				QBrick->SetState(QBSTATE_MOVING);
+				if (QBrick->item->type == OBJECT_TYPE_COINITEM) {
+					CMario::GetInstance()->coin++;
+				}
+			}
+		}
 		if (e->ny != 0)
 		{
 			Isonplatform = true;
