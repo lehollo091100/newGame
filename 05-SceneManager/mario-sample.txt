@@ -22,3 +22,4 @@ height	240
 65	textures\BROWNCOIN.png
 70	textures\endgame.png
 75	textures\Font.png
+80	textures\1-2.png

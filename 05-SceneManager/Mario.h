@@ -30,7 +30,8 @@
 #define MARIO_FLY_TIME	5000
 #define MARIO_HOLD_TIME	5000
 
-#define MARIO_PIPING_TIME	2000
+#define MARIO_PIPING_TIME	1500
+#define MARIO_PIPING_SPEED	0.01f
 
 #define MARIO_TAIL_X	15
 #define MARIO_TAIL_Y	5
@@ -91,6 +92,8 @@
 #define ID_ANI_MARIO_KICK_RIGHT	414
 #define ID_ANI_MARIO_KICK_LEFT	415
 
+#define ID_ANI_MARIO_PIPING		416
+
 #define ID_ANI_MARIO_DIE 499
 
 // SMALL MARIO
@@ -111,6 +114,8 @@
 
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 510
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 511
+
+#define ID_ANI_MARIO_SMALL_PIPING	512
 
 // TAIL
 #define ID_ANI_MARIO_TAIL_IDLE_LEFT		550
@@ -148,6 +153,8 @@
 
 #define ID_ANI_MARIO_TAIL_HOLDIDLE_LEFT		572
 #define ID_ANI_MARIO_TAIL_HOLDIDLE_RIGHT	573
+
+#define ID_ANI_MARIO_TAIL_PIPING			574
 #pragma endregion
 
 
@@ -205,6 +212,7 @@ class CMario : public CGameObject
 	int GetAniIdTail();
 
 public:
+	float NextX, NextY;
 	int scene;
 	bool isPiping;
 	Koopas* koo=NULL;
@@ -232,7 +240,7 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
-
+		NextX=NextY=0;
 		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;

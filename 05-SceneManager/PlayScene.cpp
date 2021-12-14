@@ -116,12 +116,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
-
 		DebugOut(L"[INFO] Player object has been created!\n");*/
 		//obj = CMario::GetInstance();
 		//player= (CMario*)obj;
+		if (player == NULL)
+		{
+			player = CMario::GetInstance();
+		}
+		if (player->NextX != 0 && player->NextY != 0)
+		{
+			x = player->NextX;
+			y = player->NextY;
+		}
 		player->SetPosition(x, y);
 		Tail* obj1 = new Tail(x + KOOPAS_WIDTH, y);
 		obj1->SetPosition(x - WIDTH, y);
@@ -129,6 +135,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		CMario* a = dynamic_cast<CMario*>(player);
 		a->tail = obj1;
 		DebugOut(L"[INFO] Player object created!\n");
+
 		break;
 	}
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
@@ -198,7 +205,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float pwidth = (float)atof(tokens[3].c_str());
 		float pheight = (float)atof(tokens[4].c_str());
 		int scene = (int)atof(tokens[5].c_str());
-		obj = new Pipe(x, y,pwidth,pheight,scene);
+		int d = (int)atof(tokens[6].c_str());
+		int a = (int)atof(tokens[7].c_str());
+		float nextx = 0;
+		float nexty = 0;
+		if (scene != -1)
+		{
+			float nextx = (float)atof(tokens[8].c_str());
+			float nexty = (float)atof(tokens[9].c_str());
+		}
+		obj = new Pipe(x, y, pwidth, pheight, scene,d,a,nextx,nexty);
 		break;
 	}
 	case OBJECT_TYPE_KOOPAS: {

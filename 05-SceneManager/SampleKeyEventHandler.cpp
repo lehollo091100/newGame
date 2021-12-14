@@ -10,7 +10,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
-
+	/*if (mario->isPiping)
+		return;*/
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
@@ -80,9 +81,13 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	/*if (mario->isPiping)
+		return;*/
 	switch (KeyCode)
 	{
 	case DIK_S:
+		if (mario->isPiping)
+			return;
 		if (mario->level != MARIO_LEVEL_TAIL)
 		{
 			if (mario->state != MARIO_STATE_RELEASE_JUMP)
@@ -103,6 +108,10 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		}
 		break;
 	case DIK_DOWN:
+		if (mario->isPiping)
+		{
+			return;
+		}
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
 		break;
 	case DIK_A:
@@ -124,12 +133,16 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	//if (mario->isPiping)
+	//	return;
 	/// <summary>
 	/// neu ko co if isonplatform thi doi chieu dc. ko co thi bi loi render
 	/// </summary>
 	/// <param name="states"></param>
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
+			if (mario->isPiping)
+				return;
 			if (!mario->isOnPlatform) {
 				mario->maxVx = MARIO_WALKING_SPEED;
 				mario->ax = MARIO_ACCEL_WALK_X;
@@ -153,6 +166,8 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		}
 		else if (game->IsKeyDown(DIK_LEFT))
 		{
+			if (mario->isPiping)
+				return;
 			if (!mario->isOnPlatform) {
 				mario->maxVx = -MARIO_WALKING_SPEED;
 				mario->ax = -MARIO_ACCEL_WALK_X;

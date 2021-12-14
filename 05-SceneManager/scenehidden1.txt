@@ -17,6 +17,7 @@ pbutton.txt
 hud.txt
 firegreenplant.txt
 leaf.txt
+pipe.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
@@ -24,10 +25,35 @@ leaf.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	50	40
+0	134	40
 
-1	30	100	100	16
+1	112	88	16	192
+1	192	160	144	16
+1	256	144	16	16
+1	272	128	16	16
+1	288	112	16	16
+1	304	96	16	16
+1	320	80	16	16
+1	360	64	64	16
+1	384	24	16	64
+1	248	0	192	16
 
+4	209	40
+4	225	24
+4	241	24
+4	257	40
+4	257	40
+4	241	72
+4	225	72
+4	257	88
+4	257	104
+4	241	120
+4	225	120
+4	209	104
+
+#pipe
+10	136	8	32	32	-1	0	5
+10	360	8	32	32	1	-1	5	2326	360
 #Portal 
 #50	300	120	316	160	2
 

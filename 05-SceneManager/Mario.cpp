@@ -171,14 +171,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 	if (isPiping) {
-		if (GetTickCount64() - Pipetime >= 500) {
+		DebugOut(L"nextX:%f", NextX);
+		if (GetTickCount64() - Pipetime >= MARIO_PIPING_TIME) {
+			ay = AY;
 			isPiping = false;
+			isSitting = false;
+			SetState(MARIO_STATE_IDLE);
 			CGame::GetInstance()->InitiateSwitchScene(scene);
 		}
 		else
 		{
-			isOnPlatform = true;
-			DebugOut(L"ISOONPLATFORM: %d %d\n", isOnPlatform,state);
+			//isOnPlatform = true;
 			y += vy * dt;
 		}
 	}
@@ -679,20 +682,33 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 {
 	Pipe* p = dynamic_cast<Pipe*>(e->obj);
-	DebugOut(L"va chajm pipe: %d\n",p->scene);
-			scene = p->scene;
-	if (p->scene != -1) {
+	scene = p->scene;
 
+	if (p->scene != -1) {
+		NextX = p->nextx;
+		NextY = p->nexty;
 		if (state==MARIO_STATE_JUMP)
 		{
-			isPiping = true;
+			//ay = 0;
+			if (p->direction == -1)
+			{
+				isPiping = true;
+				Pipetime = GetTickCount64();
+				vy = -MARIO_PIPING_SPEED;	
+				SetState(MARIO_STATE_PIPING);
+			}
 			//CGame::GetInstance()->InitiateSwitchScene(p->scene);
 		}
 		if (isSitting)//tu tren xuong
 		{
-			isPiping = true;
-			Pipetime = GetTickCount64();
-			vy = 0.03f;
+			//ay = 0;
+			if (p->direction == 1)
+			{
+				isPiping = true;
+				Pipetime = GetTickCount64();
+				vy = MARIO_PIPING_SPEED;
+				SetState(MARIO_STATE_PIPING);
+			}
 			
 		}
 		
@@ -727,19 +743,26 @@ int CMario::GetAniIdSmall()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (isPiping)
 		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
-			else
-				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
+			aniId = ID_ANI_MARIO_SMALL_PIPING;
 		}
 		else
 		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+			if (abs(ax) == MARIO_ACCEL_RUN_X)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
+			}
 			else
-				aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
+			}
 		}
 	}
 	else
@@ -789,10 +812,17 @@ int CMario::GetAniIdBig()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_JUMP_WALK_RIGHT;
-				else
-					aniId = ID_ANI_MARIO_JUMP_WALK_LEFT;
+		if (isPiping)
+		{
+			aniId = ID_ANI_MARIO_PIPING;
+		}
+		else
+		{
+			if (nx >= 0)
+				aniId = ID_ANI_MARIO_JUMP_WALK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_JUMP_WALK_LEFT;
+		}
 	}
 	else
 		if (isSitting)
@@ -864,6 +894,9 @@ int CMario::GetAniIdTail()
 			{
 				aniId = ID_ANI_MARIO_TAIL_ATTACK_LEFT;
 			}
+		}
+		else if (isPiping) {
+			aniId = ID_ANI_MARIO_TAIL_PIPING;
 		}
 		else
 		{
@@ -1157,6 +1190,9 @@ void CMario::SetState(int state)
 	case MARIO_STATE_KICK: {
 		kicktime = GetTickCount64();
 		isKicking = true;
+		break;
+	}
+	case MARIO_STATE_PIPING: {
 		break;
 	}
 	}
