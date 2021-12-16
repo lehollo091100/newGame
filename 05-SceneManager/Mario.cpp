@@ -997,11 +997,11 @@ int CMario::GetAniIdTail()
 		else if (isKicking)
 		{
 			if (nx >= 0) {
-				aniId = ID_ANI_MARIO_KICK_RIGHT;
+				aniId = ID_ANI_MARIO_TAIL_KICK_RIGHT;
 			}
 			else
 			 {
-				aniId = ID_ANI_MARIO_KICK_LEFT;
+				aniId = ID_ANI_MARIO_TAIL_KICK_LEFT;
 			}
 		}
 		else if (isHolding)
