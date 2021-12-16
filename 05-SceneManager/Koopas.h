@@ -8,6 +8,8 @@
 #include "Brick.h"
 #include "Pipe.h"
 #include "Koopasitem.h"
+#include "Redgoomba.h"
+#include "ShinningBrick.h"
 /*		ID_ANI_RED	*/
 #define ID_ANI_WALKINGLEFT_RED	861
 #define ID_ANI_WALKINGRIGHT_RED	862
@@ -53,6 +55,7 @@ class Koopas:public CGameObject
 {
 	DWORD begin;
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e, DWORD dt);
+	void OnCollisionWithRedGoomba(LPCOLLISIONEVENT e, DWORD dt);
 	int Color;
 	bool Isonplatform;
 public:

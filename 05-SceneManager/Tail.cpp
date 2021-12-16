@@ -6,6 +6,10 @@
 #include "Debris.h"
 #include "ShinningBrick.h"
 #include "PBrick.h"
+#include "FireGreenPlant.h"
+#include "FireRedPlant.h"
+#include "GreenPlant.h"
+#include "Redgoomba.h"
 void Tail::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x - TAIL_WIDTH / 2;
@@ -76,6 +80,10 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	if (state == TAIL_STATE_ATTACK)
 	{
 		if (dynamic_cast<Mushroom*>(e->obj)) return;
+		if (dynamic_cast<Redgoomba*>(e->obj)) {
+			Redgoomba* red = dynamic_cast<Redgoomba*>(e->obj);
+			red->SetState(REDGOOMBA_STATE_DIEUP);
+		}
 		if (dynamic_cast<QuestionBrick*>(e->obj))
 		{
 			QuestionBrick* QBrick = dynamic_cast<QuestionBrick*>(e->obj);
@@ -135,5 +143,25 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			}
 			//DebugOut(L"koopas right:%f THIS.Y:%f\n", koopas->y+KOOPAS_WIDTH/2,this->y);
 		};
+		if (dynamic_cast<FireGreenPlant*>(e->obj) || dynamic_cast<FireRedPlant*>(e->obj) || dynamic_cast<GreenPlant*>(e->obj))
+		{
+			if (dynamic_cast<FireGreenPlant*>(e->obj))
+			{
+				FireGreenPlant* firegreenplant = dynamic_cast<FireGreenPlant*>(e->obj);
+				firegreenplant->item->Delete();
+				firegreenplant->Delete();
+			}
+			if (dynamic_cast<FireRedPlant*>(e->obj))
+			{
+				FireRedPlant* fireredplant = dynamic_cast<FireRedPlant*>(e->obj);
+				fireredplant->item->Delete();
+				fireredplant->Delete();
+			}
+			if (dynamic_cast<GreenPlant*>(e->obj))
+			{
+				GreenPlant* greenplant = dynamic_cast<GreenPlant*>(e->obj);
+				greenplant->Delete();
+			}
+		}
 	}
 }

@@ -65,6 +65,11 @@ void Redgoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->Delete();
 		}
 	}
+	if (state == REDGOOMBA_STATE_DIEUP) {
+		if (y - initY >= RANGE_TO_DIE) {
+			Delete();
+		}
+	}
 	CCollision::GetInstance()->Process(this,dt,coObjects);
 }
 
@@ -94,6 +99,11 @@ void Redgoomba::Render()
 		animations->Get(ID_ANI_DIE)->Render(x, y);
 
 	}
+	else if (state == REDGOOMBA_STATE_DIEUP)
+	{
+		animations->Get(ID_ANI_DIE_UP)->Render(x, y);
+
+	}
 	//RenderBoundingBox();
 }
 
@@ -115,6 +125,11 @@ void Redgoomba::SetState(int state)
 		time = GetTickCount64();
 		vx = 0;
 		vy = 0;
+		break;
+	}
+	case REDGOOMBA_STATE_DIEUP: {
+		vy = -REDGOOMBA_FLYVY;
+		initY = y;
 		break;
 	}
 	default:

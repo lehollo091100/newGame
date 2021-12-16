@@ -21,7 +21,7 @@
 #include "Pipe.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	//DebugOut(L"vy:%f\n", vy);
+	DebugOut(L"vy:%f\n", ay);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -174,7 +174,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (isPiping) {
 		if (GetTickCount64() - Pipetime >= MARIO_PIPING_TIME) {
-			ay = AY;
+			ay = MARIO_GRAVITY;
 			isPiping = false;
 			isSitting = false;
 			SetState(MARIO_STATE_IDLE);
@@ -262,13 +262,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					}*/
 					break;
 				}
-				/*case OBJECT_TYPE_SHINNINGBRICK: {
-					if (coEvent->obj != NULL)
-					{
-						OnCollisionWithShinningBrick(coEvent);
-					}
-					break;
-				}*/
 				default:
 					break;
 				}
@@ -550,7 +543,6 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			{
 				if (!isHolding)
 				{
-
 					if (koo == NULL)
 					{
 						koo = dynamic_cast<Koopas*>(e->obj);
@@ -601,6 +593,8 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithRedgoomba(LPCOLLISIONEVENT e)
 {
 	Redgoomba* rgoomba = dynamic_cast<Redgoomba*>(e->obj);
+	if (rgoomba->state == REDGOOMBA_STATE_DIE || rgoomba->state == REDGOOMBA_STATE_DIEUP)
+		return;
 	if (e->ny != 0) {
 		if (e->ny<0)
 		{

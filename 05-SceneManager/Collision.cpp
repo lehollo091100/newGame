@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Goomba.h"
 #include "Mario.h"
+#include "Redgoomba.h"
 #include "debug.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
@@ -182,7 +183,7 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
-	if (objsrc->type == OBJECT_TYPE_GREENPLANT || objsrc->type == OBJECT_TYPE_FIREREDPLANT)
+	if (objsrc->type == OBJECT_TYPE_GREENPLANT || objsrc->type == OBJECT_TYPE_FIREREDPLANT || objsrc->type==OBJECT_TYPE_FIREGREENPLANT)
 	{
 		return true;
 	}
@@ -202,6 +203,10 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 		return true;
 	}
 	if (objsrc->type == OBJECT_TYPE_LEAF && target->obj->IsBlocking())  {
+		return true;
+	}
+	if (objsrc->type==OBJECT_TYPE_REDGOOMBA && objsrc->state == REDGOOMBA_STATE_DIEUP)
+	{
 		return true;
 	}
 	return false;

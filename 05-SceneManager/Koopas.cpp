@@ -155,7 +155,6 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 {
 
 	if (dynamic_cast<Tail*>(e->obj)) return;
-		
 	if (state != KOOPAS_STATE_ATTACKDOWN && state != KOOPAS_STATE_ATTACKUP)
 	{
 		if (dynamic_cast<Mushroom*>(e->obj)) return;
@@ -169,6 +168,16 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 				return;
 			}
 		};
+		if (dynamic_cast<Redgoomba*>(e->obj)) {
+			if (state == KOOPAS_STATE_DEFENDDOWN || state == KOOPAS_STATE_DEFENDUP)
+			{
+				OnCollisionWithRedGoomba(e, dt);
+			}
+			else
+			{
+				return;
+			}
+		}
 		if (e->ny != 0)
 		{
 			Isonplatform = true;
@@ -212,6 +221,8 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	else if(state==KOOPAS_STATE_ATTACKDOWN || state==KOOPAS_STATE_ATTACKUP){
 		if (dynamic_cast<CGoomba*>(e->obj))
 			OnCollisionWithGoomba(e,dt);
+		if (dynamic_cast<Redgoomba*>(e->obj))
+			OnCollisionWithRedGoomba(e, dt);
 		if (dynamic_cast<QuestionBrick*>(e->obj))
 		{
 			QuestionBrick* QBrick = dynamic_cast<QuestionBrick*>(e->obj);
@@ -224,6 +235,19 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 					CMario::GetInstance()->coin++;
 				}
 			}
+		}
+		if (dynamic_cast<ShinningBrick*>(e->obj)) {
+			nx = -nx;
+			vx = nx * vx;
+			ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(e->obj);
+			sbrick->d1->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d2->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d3->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d4->SetState(DEBRIS_STATE_MOVING);
+			/*sbrick->d1->SetState(DEBRIS_STATE_MOVING);
+			sbrick->d1->SetState(DEBRIS_STATE_MOVING);*/
+			sbrick->Delete();
+
 		}
 		if (e->ny != 0)
 		{
@@ -259,6 +283,21 @@ void Koopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e,DWORD dt)
 	else {
 		if (state == KOOPAS_STATE_ATTACKDOWN || state == KOOPAS_STATE_ATTACKUP) {
 			goomba->SetState(GOOMBA_STATE_DIEUP);
+		}
+	}
+}
+
+void Koopas::OnCollisionWithRedGoomba(LPCOLLISIONEVENT e, DWORD dt)
+{
+	Redgoomba* redgoomba = dynamic_cast<Redgoomba*>(e->obj);
+	if (isHold)
+	{
+		redgoomba->SetState(REDGOOMBA_STATE_DIEUP);
+		SetState(KOOPAS_STATE_DIE);
+	}
+	else {
+		if (state == KOOPAS_STATE_ATTACKDOWN || state == KOOPAS_STATE_ATTACKUP) {
+			redgoomba->SetState(REDGOOMBA_STATE_DIEUP);
 		}
 	}
 }

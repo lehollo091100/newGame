@@ -16,7 +16,7 @@ void Koopasitem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Koopasitem::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Koopasitem::SetState(int state)

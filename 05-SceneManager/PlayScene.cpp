@@ -454,7 +454,7 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		if (objects[i]->x > CGame::GetInstance()->GetCamX()- CGame::GetInstance()->GetBackBufferWidth() && objects[i]->x <= CGame::GetInstance()->GetCamX() + CGame::GetInstance()->GetBackBufferWidth()*1.5)
+		if ((objects[i]->x > CGame::GetInstance()->GetCamX()- CGame::GetInstance()->GetBackBufferWidth()) && (objects[i]->x <= CGame::GetInstance()->GetCamX() + CGame::GetInstance()->GetBackBufferWidth()*1.5))
 		{
 			objects[i]->Update(dt, &coObjects);
 		}

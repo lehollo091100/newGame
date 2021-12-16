@@ -3,7 +3,7 @@
 #include "AssetIDs.h"
 #include "Koopas.h"
 #define GOOMBA_GRAVITY 0.002f
-#define GOOMBA_WALKING_SPEED 0.05f
+#define GOOMBA_WALKING_SPEED 0.03f
 #define DIEUP_VY	0.3f
 #define DIEUP_RANGE	10
 
