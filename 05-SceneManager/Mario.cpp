@@ -14,6 +14,8 @@
 #include "Koopas.h"
 #include "Redgoomba.h"
 #include "GreenPlant.h"
+#include "FireRedPlant.h"
+#include "FireGreenPlant.h"
 #include "ShinningBrick.h"
 #include "Debris.h"
 #include "PBrick.h"
@@ -247,7 +249,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				}
 				case OBJECT_TYPE_PLANTFIRE: {
-					/*if (untouchable == 0)
+					if (untouchable == 0)
 					{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -259,7 +261,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								DebugOut(L">>> Mario DIE >>> \n");
 								SetState(MARIO_STATE_DIE);
 							}
-					}*/
+					}
 					break;
 				}
 				default:
@@ -311,7 +313,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 		OnCollisionWithKoopas(e);
 	else if (dynamic_cast<Redgoomba*>(e->obj))
 		OnCollisionWithRedgoomba(e);
-	else if (dynamic_cast<GreenPlant*>(e->obj))
+	else if (dynamic_cast<GreenPlant*>(e->obj)||dynamic_cast<FireGreenPlant*>(e->obj)|| dynamic_cast<FireRedPlant*>(e->obj))
 		OnCollisionWithGreenPlant(e);
 	else if (dynamic_cast<ShinningBrick*>(e->obj)) {
 		OnCollisionWithShinningBrick(e);
