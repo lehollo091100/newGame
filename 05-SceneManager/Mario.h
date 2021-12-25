@@ -10,6 +10,7 @@
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
 
+#define MARIO_ACCEL_DECREASE_SPEED	0.005f
 #define MARIO_ACCEL_WALK_X	0.0003f
 #define MARIO_ACCEL_RUN_X	0.0001f
 
@@ -271,6 +272,6 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
+	void Reset();
 	static CMario* GetInstance();
 };

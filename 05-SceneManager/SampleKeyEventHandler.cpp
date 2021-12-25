@@ -81,9 +81,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_R:
 	{// reset
-		//Reload();
-		mario->SetPosition(0, 200);
-		mario->SetState(MARIO_STATE_IDLE);
+		mario->Reset();
 		break;
 	}
 	}

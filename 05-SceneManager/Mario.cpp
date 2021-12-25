@@ -23,7 +23,7 @@
 #include "Pipe.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"vy:%d\n", state);
+	DebugOut(L"ax, vx:%f %f\n", ax,vx);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -36,6 +36,34 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			ax -= 0.000005f;
 		}
 	}*/
+	if (state == MARIO_STATE_IDLE)
+	{
+		//stop when ax=0 
+		if (vx > 0)
+		{
+			ax = 0;
+			vx -= MARIO_ACCEL_DECREASE_SPEED;
+		}
+		else if(vx<0)
+		{
+			vx += MARIO_ACCEL_DECREASE_SPEED;
+			ax = 0;
+		}
+		if (nx>= 0)
+		{
+			if (vx <= 0)
+			{
+				vx = 0;
+			}
+		}
+		else 
+		{
+			if (vx >= 0)
+			{
+				vx = 0;
+			}
+		}
+	}
 	if (isPiping == false)
 	{
 		vy += ay * dt;
@@ -817,6 +845,8 @@ int CMario::GetAniIdSmall()
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
 			}
 			else // vx < 0
 			{
@@ -825,6 +855,8 @@ int CMario::GetAniIdSmall()
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
+				else 
 					aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
 			}
 
@@ -911,6 +943,10 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_WALKING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X )
 					aniId = ID_ANI_MARIO_WALKING_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_WALKING_RIGHT;
+				}
 			}
 			else // vx < 0
 			{
@@ -920,7 +956,7 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X && vx > maxVx)
 					aniId = ID_ANI_MARIO_WALKING_LEFT;
-				else if (ax == -MARIO_ACCEL_WALK_X)
+				else 
 					aniId = ID_ANI_MARIO_WALKING_LEFT;
 			}
 
@@ -1083,6 +1119,7 @@ int CMario::GetAniIdTail()
 					aniId = ID_ANI_MARIO_TAIL_WALKING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_TAIL_WALKING_RIGHT;
+				else aniId = ID_ANI_MARIO_TAIL_WALKING_RIGHT;
 			}
 			else // vx < 0
 			{
@@ -1094,6 +1131,9 @@ int CMario::GetAniIdTail()
 					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
+				else {
+					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
+				}
 			}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_TAIL_IDLE_RIGHT;
@@ -1115,7 +1155,7 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_TAIL) {
 		aniId = GetAniIdTail();
 	}
-	DebugOut(L"aniid:%d\n", aniId);
+	//DebugOut(L"aniid:%d\n", aniId);
 	//if (level == MARIO_LEVEL_TAIL)
 	//{
 	//	if (nx >= 0)
@@ -1139,7 +1179,7 @@ void CMario::Render()
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return;
+	//if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -1203,8 +1243,8 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
-		ax = 0.0f;
-		vx = 0.0f;
+		//ax = 0.0f;
+		//vx = 0.0f;
 		break;
 
 	case MARIO_STATE_DIE:
@@ -1331,3 +1371,10 @@ void CMario::SetLevel(int l)
 	level = l;
 }
 
+void CMario::Reset()
+{
+	SetState(MARIO_STATE_IDLE);
+	SetLevel(MARIO_LEVEL_BIG);
+	SetPosition(x, 100);
+	vx = 0; ax = 0;
+}
