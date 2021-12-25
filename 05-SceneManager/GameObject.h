@@ -26,10 +26,11 @@ public:
 	int nx;	 
 
 	int state;
-
+	bool isMovingObj=true;
 	bool isDeleted; 
 public: 
 	int type;
+
 	bool Iscollidable = true;
 	bool isblocking = true;
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -66,6 +67,12 @@ public:
 	// Is this object blocking other object? If YES, collision framework will automatically push the other object
 	virtual int IsBlocking() { return 1; }
 
+	virtual bool IsStaticObj() {
+		return false;
+	}
+	virtual bool IsItem() {
+		return false;
+	}
 	~CGameObject();
 
 	static bool IsDeleted(const LPGAMEOBJECT &o) { return o->isDeleted; }

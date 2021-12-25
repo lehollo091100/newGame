@@ -15,13 +15,24 @@
 #include "Koopas.h"
 #include "Redgoomba.h"
 #include "Koopasitem.h"
+#include "GreenPlant.h"
+#include "FireRedPlant.h"
+#include "PlantFire.h"
+#include "Tail.h"
+#include "ShinningBrick.h"
+#include "Debris.h"
+#include "PBrick.h"
+#include "HUD.h"
+#include "FireGreenPlant.h"
+#include "Leaf.h"
 class CPlayScene: public CScene
 {
 protected: 
 	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;					
+	/*LPGAMEOBJECT player;*/	
+	CMario* player = CMario::GetInstance();
+	HUD* hud = HUD::GetInstance();
 	Map* map;
-	int mapid;
 	vector<LPGAMEOBJECT> objects;
 	vector<QuestionBrick*> questionbricks;
 	vector<LPGAMEOBJECT> items;
@@ -35,6 +46,7 @@ protected:
 	void LoadAssets(LPCWSTR assetFile);
 	
 public: 
+	int mapid;
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();
@@ -42,7 +54,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	LPGAMEOBJECT GetPlayer() { return player; }
+	CMario * GetPlayer() { return player; }
 
 	void Clear();
 	void PurgeDeletedObjects();

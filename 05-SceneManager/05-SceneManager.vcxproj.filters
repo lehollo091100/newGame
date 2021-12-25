@@ -25,6 +25,9 @@
     <Filter Include="StaticObject">
       <UniqueIdentifier>{380f28af-09bc-4ee5-9293-9b37d12a9d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{61a6cbc7-4614-4893-917e-c815b0f86c90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -37,9 +40,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Animations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
@@ -114,6 +114,45 @@
     <ClCompile Include="Koopasitem.cpp">
       <Filter>MovingObject</Filter>
     </ClCompile>
+    <ClCompile Include="GreenPlant.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FireRedPlant.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FireGreenPlant.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantFire.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Tail.cpp">
+      <Filter>Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="ShinningBrick.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Debris.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PBrick.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PButton.cpp">
+      <Filter>MovingObject</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="StackSpeed.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaf.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -126,9 +165,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AssetIDs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
@@ -211,6 +247,45 @@
     </ClInclude>
     <ClInclude Include="Koopasitem.h">
       <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenPlant.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="FireRedPlant.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="FireGreenPlant.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PlantFire.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Tail.h">
+      <Filter>Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="ShinningBrick.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Debris.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PBrick.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PButton.h">
+      <Filter>MovingObject</Filter>
+    </ClInclude>
+    <ClInclude Include="StackSpeed.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

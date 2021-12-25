@@ -1,6 +1,8 @@
 #include "Collision.h"
 #include "GameObject.h"
 #include "Goomba.h"
+#include "Mario.h"
+#include "Redgoomba.h"
 #include "debug.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
@@ -141,7 +143,6 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 
 	objSrc->GetBoundingBox(ml, mt, mr, mb);
 	objDest->GetBoundingBox(sl, st, sr, sb);
-
 	SweptAABB(
 		ml, mt, mr, mb,
 		dx, dy,
@@ -152,6 +153,7 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, dx, dy, objDest, objSrc);
 	return e;
 }
+
 
 /*
 	Calculate potential collisions with the list of colliable objects
@@ -181,6 +183,32 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_GREENPLANT || objsrc->type == OBJECT_TYPE_FIREREDPLANT || objsrc->type==OBJECT_TYPE_FIREGREENPLANT)
+	{
+		return true;
+	}
+	if (objsrc->type==OBJECT_TYPE_PLANTFIRE && target->obj->type!=OBJECT_TYPE_BRICK)
+	{
+		return true;
+	}
+	if (objsrc->type == OBJECT_TYPE_KOOPAS && (target->obj->type == OBJECT_TYPE_KOOPASITEM|| target->obj->type == OBJECT_TYPE_PLANTFIRE)) {
+		return true;
+	}
+	if (objsrc->type==OBJECT_TYPE_KOOPAS && objsrc->state==KOOPAS_STATE_DIE)
+	{
+		return true;
+	}
+	if (objsrc->type == OBJECT_TYPE_DEBRIS)
+	{
+		return true;
+	}
+	if (objsrc->type == OBJECT_TYPE_LEAF && target->obj->IsBlocking())  {
+		return true;
+	}
+	if (objsrc->type==OBJECT_TYPE_REDGOOMBA && objsrc->state == REDGOOMBA_STATE_DIEUP)
+	{
+		return true;
+	}
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,
@@ -197,15 +225,15 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	min_ty = 1.0f;
 	int min_ix = -1;
 	int min_iy = -1;
-	skip = false;
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 		if (c->isDeleted) continue;
 		if (c->obj->IsDeleted()) continue; 
 
+		
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 && !c->obj->IsBlocking()) 
+		if (filterBlock == 1 && !c->obj->IsBlocking())
 		{
 			continue;
 		}
@@ -216,7 +244,6 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
 			min_tx = c->t; min_ix = i;
 		}
-
 		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
 			min_ty = c->t; min_iy = i;
 		}
@@ -224,6 +251,15 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 
 	if (min_ix >= 0) colX = coEvents[min_ix];
 	if (min_iy >= 0) colY = coEvents[min_iy];
+}
+
+bool CCollision::isCollisionWithObj(LPGAMEOBJECT objSrc, LPGAMEOBJECT objDest)
+{
+	float Left, Top, Right, Bottom, left, top, right, bottom;
+	objSrc->GetBoundingBox(Left, Top, Right, Bottom); // Get bbox of objsrc
+	objDest->GetBoundingBox(left, top, right, bottom); // Get bbox of objColliable
+
+	return(!(Left > right ||Top > bottom  ||Right < left || Bottom < top));
 }
 
 /*
@@ -257,14 +293,13 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		objSrc->GetSpeed(vx, vy);
 		dx = vx * dt;
 		dy = vy * dt;
-
 		if (colX != NULL && colY != NULL) 
 		{
+		//DebugOut(L"OBJECTFILTER:%d\n", colY->obj->type);
 			if (colY->t < colX->t)	// was collision on Y first ?
 			{
-				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
+				y += colY->t * dy + colY->ny * (BLOCK_PUSH_FACTOR/2);
 				objSrc->SetPosition(x, y);
-
 				objSrc->OnCollisionWith(colY,dt);
 
 				//
@@ -295,6 +330,12 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 			}
 			else // collision on X first
 			{
+				//if (objSrc->type == OBJECT_TYPE_MARIO) {
+				//	CMario::GetInstance()->vx = 0;
+				//}
+				//if (objSrc->type != OBJECT_TYPE_MARIO) {
+
+				//}
 				x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
 				objSrc->SetPosition(x, y);
 
@@ -318,7 +359,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 
 				if (colY_other != NULL)
 				{
-					y += colY_other->t * dy + colY_other->ny * BLOCK_PUSH_FACTOR;
+					y += colY_other->t * dy + colY_other->ny * (BLOCK_PUSH_FACTOR/2);
 					objSrc->OnCollisionWith(colY_other,dt);
 				}
 				else
@@ -330,9 +371,6 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		else
 		if (colX != NULL)
 		{
-			//if (objSrc->CheckSkipCollision(colX->obj, colX->dx, 0)) {
-			//	skip = true;
-			//}
 			//DebugOut(L"colx:%d\n",skip);
 			x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
 			y += dy;
@@ -345,7 +383,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 					skip = true;
 				}*/
 				x += dx;
-				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
+				y += colY->t * dy + colY->ny * (BLOCK_PUSH_FACTOR/2);
 				objSrc->OnCollisionWith(colY,dt);
 			}
 			else // both colX & colY are NULL 
@@ -364,8 +402,17 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		LPCOLLISIONEVENT e = coEvents[i];
 		if (e->isDeleted) continue;
 		if (e->obj->IsBlocking()) continue;
+		if (objSrc->type == OBJECT_TYPE_MARIO)
+		{
+			CMario* mario = dynamic_cast<CMario*>(objSrc);
+			if(mario->isOnPlatform)
+				if (e->ny!=0)
+				{
+					continue;
+				}
+		}
 		// blocking collisions were handled already, skip them
-		objSrc->OnCollisionWith(e,dt);			
+		objSrc->OnCollisionWith(e,dt);
 	}
 
 

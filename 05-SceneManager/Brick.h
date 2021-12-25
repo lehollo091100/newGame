@@ -16,10 +16,14 @@ public :
 public:
 	CBrick(float x, float y,float bwidth, float bheight) : CGameObject(x, y) 
 	{
+		type = OBJECT_TYPE_BRICK;
 		width = bwidth;
 		height = bheight;
 	}
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual bool IsStaticObj() {
+		return true;
+	}
 };

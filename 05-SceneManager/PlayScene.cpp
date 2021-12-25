@@ -9,7 +9,6 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -17,11 +16,12 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
-	player = NULL;
+	//player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
-	//map->SetMap(id);
-	//DebugOut(L"mapid:%d", id);
+	//map->SetMap(id);'
+
+	
 	//map->ReadMap();
 	mapid = id;
 }
@@ -109,17 +109,35 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CGameObject *obj = NULL;
 	switch (object_type)
 	{
-	case OBJECT_TYPE_MARIO:
-		if (player!=NULL) 
+	case OBJECT_TYPE_MARIO: {
+
+		/*if (player!=NULL) 
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x,y); 
-		player = (CMario*)obj;  
+		DebugOut(L"[INFO] Player object has been created!\n");*/
+		//obj = CMario::GetInstance();
+		//player= (CMario*)obj;
+		if (player == NULL)
+		{
+			player = CMario::GetInstance();
+		}
+		if (player->NextX != 0 && player->NextY != 0)
+		{
+			x = player->NextX;
+			y = player->NextY;
+		}
+		player->SetPosition(x, y);
+		Tail* obj1 = new Tail(x + KOOPAS_WIDTH, y);
+		obj1->SetPosition(x - WIDTH, y);
+		objects.push_back(obj1);
+		CMario* a = dynamic_cast<CMario*>(player);
+		a->tail = obj1;
+		DebugOut(L"[INFO] Player object created!\n");
 
-		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
+	}
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_BRICK: 
 	{
@@ -186,13 +204,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE: {
 		float pwidth = (float)atof(tokens[3].c_str());
 		float pheight = (float)atof(tokens[4].c_str());
-		obj = new Pipe(x, y,pwidth,pheight);
+		int scene = (int)atof(tokens[5].c_str());
+		int d = (int)atof(tokens[6].c_str());
+		int a = (int)atof(tokens[7].c_str());
+		float nextx = 0;
+		float nexty = 0;
+		if (scene != -1)
+		{
+			nextx = (float)atof(tokens[8].c_str());
+			 nexty = (float)atof(tokens[9].c_str());
+		}
+		obj = new Pipe(x, y, pwidth, pheight, scene,d,a,nextx,nexty);
 		break;
 	}
 	case OBJECT_TYPE_KOOPAS: {
-		obj = new Koopas(x, y);
+		int type = (int)atof(tokens[3].c_str());
+		int color = (int)atof(tokens[4].c_str());
+		obj = new Koopas(x, y,type,color);
 		Koopasitem* obj1 = new Koopasitem(x + KOOPAS_WIDTH, y);
-		obj1->SetPosition(x + 18, y);
+		obj1->SetPosition(x + KOOPAS_WIDTH, y);
 		objects.push_back(obj1);
 		Koopas* a = dynamic_cast<Koopas*>(obj);
 		a->item = obj1;
@@ -202,14 +232,72 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Redgoomba(x, y);
 		break;
 	}
+	case OBJECT_TYPE_GREENPLANT: {
+		obj = new GreenPlant(x, y);
+		break;
+	}
+	case OBJECT_TYPE_FIREREDPLANT: {
+		obj = new FireRedPlant(x, y);
+		PlantFire* obj1 = new PlantFire(x, y);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		FireRedPlant* a = dynamic_cast<FireRedPlant*>(obj);
+		a->item = obj1;
+		break;
+	}
+	case OBJECT_TYPE_FIREGREENPLANT: {
+		obj = new FireGreenPlant(x, y);
+		PlantFire* obj1 = new PlantFire(x, y);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		FireGreenPlant* a = dynamic_cast<FireGreenPlant*>(obj);
+		a->item = obj1;
+		break;
+	}
+	case OBJECT_TYPE_SHINNINGBRICK: {
+		obj = new ShinningBrick(x, y);
+		ShinningBrick* a = dynamic_cast<ShinningBrick*>(obj);
+		Debris* obj1 = new Debris(x, y, DEBRIS_VX, DEBRIS_VY_BIG, -1);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		a->d1 = obj1;
+		Debris* obj2 = new Debris(x , y , DEBRIS_VX, DEBRIS_VY_BIG, 1);
+		obj2->SetPosition(x , y );
+		objects.push_back(obj2);
+		a->d2 = obj2;
+		Debris* obj3 = new Debris(x, y, DEBRIS_VX, DEBRIS_VY_SMALL, -1);
+		obj3->SetPosition(x, y);
+		objects.push_back(obj3);
+		a->d3 = obj3;
+		Debris* obj4 = new Debris(x, y, DEBRIS_VX, DEBRIS_VY_SMALL, 1);
+		obj4->SetPosition(x, y);
+		objects.push_back(obj4);
+		a->d4 = obj4;
+		break;
+	}
+	//case OBJECT_TYPE_PLANTFIRE: {
+	//	obj = new PlantFire(x, y);
+	//	break;
+	//}
+	case OBJECT_TYPE_PBRICK: {
+		obj = new PBrick(x, y);
+		obj->SetPosition(x, y);
+		PButton* obj1 = new PButton(x, y);
+		obj1->SetPosition(x, y);
+		objects.push_back(obj1);
+		PBrick* a = dynamic_cast<PBrick*>(obj);
+		a->button = obj1;
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
+		break;
 	}
-	break;
+
 
 
 	default:
@@ -218,8 +306,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	obj->SetPosition(x, y);
-	objects.push_back(obj);
+	if (obj != NULL)
+		obj->SetPosition(x, y);
+	//obj->SetPosition(x, y);
+	if (obj != NULL)
+	{
+		objects.push_back(obj);
+	}
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -286,6 +379,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
+	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
 	for (int i = 0; i < questionbricks.size(); i++)
@@ -303,21 +397,78 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		if (player->level == MARIO_LEVEL_TAIL)
+		{
+			if (objects[i]->type == OBJECT_TYPE_QUESTIONBRICK)
+			{
+				QuestionBrick* qbrick = dynamic_cast<QuestionBrick*>(objects[i]);
+				if (qbrick->item->type == OBJECT_TYPE_MUSHROOM)
+				{
+					float x1 = qbrick->x;
+					float y1 = qbrick->y;
+					qbrick->item->Delete();
+					Leaf* leaf = new Leaf(x1, y1);
+					objects.push_back(leaf);
+					qbrick->item = leaf;
+				}
+				/*if (qbrick->item->type == OBJECT_TYPE_LEAF)
+				{
+					float x1 = qbrick->x;
+					float y1 = qbrick->y;
+					qbrick->item->Delete();
+					Mushroom* mush = new Mushroom(x1, y1);
+					objects.push_back(mush);
+					qbrick->item = mush;
+				}*/
+			}
+
+		}
+		if (player->level <MARIO_LEVEL_TAIL)
+		{
+			if (objects[i]->type == OBJECT_TYPE_QUESTIONBRICK)
+			{
+				QuestionBrick* qbrick = dynamic_cast<QuestionBrick*>(objects[i]);
+				if (qbrick->item->type == OBJECT_TYPE_LEAF)
+				{
+					float x1 = qbrick->x;
+					float y1 = qbrick->y;
+					qbrick->item->Delete();
+					qbrick->Delete();
+					QuestionBrick* newbrick = new QuestionBrick(x1,y1);
+					Mushroom* mush = new Mushroom(x1, y1);
+					newbrick->item = mush;
+					objects.push_back(mush);
+					objects.push_back(newbrick);
+				}
+			}
+
+		}
+	}
+	for (size_t i = 0; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		if ((objects[i]->x > CGame::GetInstance()->GetCamX()- CGame::GetInstance()->GetBackBufferWidth()) && (objects[i]->x <= CGame::GetInstance()->GetCamX() + CGame::GetInstance()->GetBackBufferWidth()*1.5))
+		{
+			objects[i]->Update(dt, &coObjects);
+		}
 	}
 
+	player->Update(dt, &coObjects);
+	hud->Update(dt);
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
+
 	// Update camera to follow mario
 	float cx, cy;
+
 	player->GetPosition(cx, cy);
 
 	CGame *game = CGame::GetInstance();
@@ -334,8 +485,10 @@ void CPlayScene::Update(DWORD dt)
 void CPlayScene::Render()
 {
 	map->Drawmap();
+	player->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	hud->Render();
 
 }
 

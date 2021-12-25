@@ -9,22 +9,31 @@ cloud.txt
 mushroom.txt
 koopas.txt
 redgoomba.txt
+greenplant.txt
+fireredplant.txt
+plantfire.txt
+shinningbrick.txt
+pbutton.txt
+hud.txt
+firegreenplant.txt
+leaf.txt
+pipe.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,49=Flatform
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4= Coin, 5= ColorBrick, 6=QuestionBrick,8=ITEM, 10=PIPE, 11=KOOPAS,12=REDGOOMBA,13=GreenPlant, 14 =FireRedPlant,15=PlantFire,16=Shinning Brick,18=Firegreenplant,49=Flatform
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	120	330
+0	20	345
 
 # BRICKS
 1	304	416	624	16
 1	848	400	464	16
 1	1320	416	352	16
 1	1568	416	80	16
-1	1945	416	578	16
-1	2532	416	560	16
+1	1945	416	576	16
+1	2532	416	558	16
 1	1584	400	48	16
 1	1592	384	32	16
 1	1600	368	16	16
@@ -32,26 +41,38 @@ redgoomba.txt
 1	1664	368	16	16
 1	1672	386	32	16
 1	1680	400	48	16
+1	2264	368	32	16
+1	1432	192	64	16
+1	1585	175	210	16
 #Goomba
 2	430	350
 
-#PIPE
-10	360	362	30	48
-10	1798	376	32	32
-10	1864	360	32	48
-10	2266	104	32	208
-10	2266	360	32	48
-10	2328	380	32	32
 #COIN
 #4	176	320
 #4	193	320
 
 #KOOPAS
-11	588	322
-11	150	350
+#type	x	y	state	red/green(0/1)
+11	560	356	0	0
+11	1400	387	700	1
+11	2096	360	0	0
 #REDGOOMBA
-#12	150	380
+12	830	360
+#FireGreenplant
+18	1864	380
 
+#FireREDPLANT
+18	360	380
+#green plant
+13	1800	395
+
+#PIPE	x	y	width	height	pipe	direct	ani	nextX	nexty
+10	360	384	30	48	-1	0	2
+10	1799	392	32	32	-1	0	1
+10	1863	384	32	48	-1	0	2
+10	2264	208	32	208	2	1	4	132	40
+10	2266	392	32	32	-1	0	3
+10	2327	392	32	32	-1	0	1
 #ColorBrick
 5	256	368	48	16
 5	288	336	48	16
@@ -64,30 +85,80 @@ redgoomba.txt
 5	1376	320	112	16
 5	2160	368	48	16
 5	2192	272	48	16
+5	1336	144	64	16
 
 #ITEM
 8	176	351	0
-8	192	351	1
+8	192	351	0
+8	225	304	0
+8	241	304	1
 8	417	321	0
 8	657	385	1
 8	705	353	0
 8	1472	368	1
+8	1440	128	1
 #QuestionBrick
 # type: 0:coin 1:item
 6	176	351	0
 6	192	351	0
+6	225	304	0
+6	241	304	0
 6	417	321	0
 6	657	385	0
 6	705	353	0
 6	1472	368	0
-
+6	1440	128	0
+#SHINNING BRICK
+16	1952	400
+16	1968	400
+16	1984	400
+16	2000	400
+16	2016	400
+16	2032	400
+16	2048	400
+16	1968	384
+16	1984	384
+16	2000	384
+16	2016	384
+16	2032	384
+16	1984	368
+16	2000	368
+16	2016	368
+16	2096	400
+16	2112	400
+16	2096	384
+#PBRICK
+17	2032	368
 
 #COIN
+4	1073	319
+4	1104	288
+4	1137	255
+4	1169	223
+4	1201	192
+4	1329	80
+4	1344	80
+4	1361	80
+4	1472	112
+4	1488	112
+4	1537	127
+4	1553	127
+4	1569	127
+4	1585	127
+4	1617	111
+4	1633	111
+4	1649	111
+4	1665	111
+4	1697	143
+4	1729	111
+4	1761	127
+4	1809	95
+4	1841	127
 
 #Platform
 #49	90	370	16	15	16	51000	52000	53000
 #49	120	90	16	16	8	20001	20001	20001
 
 #Portal 
-#50	300	120	316	160	2
+#50	450	320	470	330	2
 

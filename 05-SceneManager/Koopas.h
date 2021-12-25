@@ -8,9 +8,28 @@
 #include "Brick.h"
 #include "Pipe.h"
 #include "Koopasitem.h"
-#define ID_ANI_WALKINGLEFT	861
-#define ID_ANI_WALKINGRIGHT	862
-#define ID_ANI_DEFENDDOWN	863
+#include "Redgoomba.h"
+#include "ShinningBrick.h"
+/*		ID_ANI_RED	*/
+#define ID_ANI_WALKINGLEFT_RED	861
+#define ID_ANI_WALKINGRIGHT_RED	862
+#define ID_ANI_DEFENDDOWN_RED	863
+#define ID_ANI_DOWNATTACK_RED	864
+#define ID_ANI_DEFENDUP_RED		871
+#define ID_ANI_ATTACKUP_RED		872
+/*		ID_ANI_GREEN	*/	
+#define ID_ANI_WALKINGLEFT_GREEN	867
+#define ID_ANI_WALKINGRIGHT_GREEN	868
+#define ID_ANI_DEFENDDOWN_GREEN	869
+#define ID_ANI_DOWNATTACK_GREEN	870
+
+#define ID_ANI_DEFENDUP_GREEN	873
+#define ID_ANI_ATTACKUP_GREEN	874
+
+#define ID_ANI_FLYINGLEFT	865
+#define ID_ANI_FLYINGRIGHT	866
+
+
 #define KOOPAS_STATE_WALKING	0
 #define KOOPAS_STATE_DEFENDDOWN	100
 #define KOOPAS_STATE_ATTACKDOWN	200
@@ -18,22 +37,39 @@
 #define KOOPAS_STATE_DEFENDUP	400
 #define KOOPAS_STATE_ATTACKUP	500
 #define KOOPAS_STATE_HOLDUP		600
+#define	KOOPAS_STATE_FLYING		700
+#define KOOPAS_STATE_HOLDING	800
+#define KOOPAS_STATE_DIE		900
+
 #define KOOPAS_VX	0.03f
 #define KOOPAS_ATTACK_VX	0.1f
-#define AY	0.001f
+#define KOOPAS_AY	0.001f
 #define KOOPAS_WIDTH	18
 #define KOOPAS_HEIGHT	26
 #define RANGE_STAND_UP	10
+#define TIME_STANDUP	5000
+#define ITEM_VY	0.016f
+#define KOOPAS_FLYING_SPEED	0.25f
+#define KOOPAS_DEFENDUP_BOUNDING_SPEED	0.3f
 class Koopas:public CGameObject
 {
 	DWORD begin;
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e, DWORD dt);
+	void OnCollisionWithRedGoomba(LPCOLLISIONEVENT e, DWORD dt);
+	int Color;
+	bool Isonplatform;
 public:
+	float ay;
+	bool isHold;
 	Koopasitem* item;
-	Koopas(float x,float y) :CGameObject(x,y) {
+	Koopas(float x,float y,int t,int color) :CGameObject(x,y) {
+		ay = AY;
+		isHold = false;
+		Isonplatform = false;
 		type = OBJECT_TYPE_KOOPAS;
-		SetState(KOOPAS_STATE_WALKING);
-		nx = 1;
+		SetState(t);
+		nx = -1;
+		Color = color;
 	}
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

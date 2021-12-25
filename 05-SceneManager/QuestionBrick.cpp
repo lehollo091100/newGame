@@ -14,6 +14,8 @@ void QuestionBrick::Render()
 void QuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	//vy = 0.03f;
+	if (state == QBSTATE_NOTHING)
+		return;
 	y += vy*dt;
 	if (state == QBSTATE_MOVING)
 	{
@@ -37,8 +39,11 @@ void QuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				item->SetState(MUSHROOM_STATE_UP);
 				item->nx=this->nx;
 			}
-			this->SetState(QBSTATE_NOTHING);
+			if (item->type == OBJECT_TYPE_LEAF) {
+				item->SetState(LEAF_STATE_MOVING);
+			}
 			y = initY;
+			this->SetState(QBSTATE_NOTHING);
 		}
 	}
 	/*x += vx*dt;*/

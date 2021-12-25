@@ -7,7 +7,7 @@ height	240
 # type: 0: intro, 1: play scene 
 [SCENES]
 1	scene01.txt
-2	scene02.txt
+2	scenehidden1.txt
 0	intro.txt
 
 # id	file 
@@ -16,3 +16,10 @@ height	240
 30	textures\mario.png
 10	textures\enemies.png
 20	textures\misc.png
+40	textures\enemiesFlip.png
+50	textures\enemies-3.png
+60	textures\mario1.png
+65	textures\BROWNCOIN.png
+70	textures\endgame.png
+75	textures\Font.png
+80	textures\1-2.png
