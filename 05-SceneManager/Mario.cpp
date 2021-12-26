@@ -21,9 +21,10 @@
 #include "PBrick.h"
 #include "Leaf.h"
 #include "Pipe.h"
+#include "EndGameItem.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"ax, vx:%f %f\n", ax,vx);
+	//DebugOut(L"ax, vx:%d\n",isPiping);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -206,7 +207,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (GetTickCount64() - Pipetime >= MARIO_PIPING_TIME) {
 			ay = MARIO_GRAVITY;
 			isPiping = false;
-			isSitting = false;
 			SetState(MARIO_STATE_IDLE);
 			CGame::GetInstance()->InitiateSwitchScene(scene);
 		}
@@ -291,6 +291,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 							}
 					}
 					break;*/
+				}
+				case OBJECT_TYPE_ENDGAMEITEM: {
+					if (coObjects->at(i) != NULL)
+					{
+						EndGameItem* egitem = dynamic_cast<EndGameItem*>(coObjects->at(i));
+						if (egitem->state == EGITEM_STATE_NORMAL) {
+							egitem->SetState(EGITEM_STATE_MOVINGUP);
+						}
+					}
+					break;
 				}
 				default:
 					break;
@@ -690,8 +700,8 @@ void CMario::OnCollisionWithShinningBrick(LPCOLLISIONEVENT e)
 {
 		ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(e->obj);
 		if (sbrick->state == SBRICK_STATE_COIN) {
-			sbrick->Delete();
-			coin++;
+			//sbrick->Delete();
+			//coin++;
 		}
 		else
 		{
@@ -763,6 +773,7 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 			if (p->direction == 1)
 			{
 				isPiping = true;
+				isSitting = false;
 				Pipetime = GetTickCount64();
 				vy = MARIO_PIPING_SPEED;
 				SetState(MARIO_STATE_PIPING);
@@ -824,12 +835,10 @@ int CMario::GetAniIdSmall()
 		}
 	}
 	else
-		if (isSitting)
+
+		if (isPiping)
 		{
-			if (nx > 0)
-				aniId = ID_ANI_MARIO_SIT_RIGHT;
-			else
-				aniId = ID_ANI_MARIO_SIT_LEFT;
+			aniId = ID_ANI_MARIO_SMALL_PIPING;
 		}
 		else
 			if (vx == 0)
@@ -926,6 +935,9 @@ int CMario::GetAniIdBig()
 			if (nx < 0) {
 				aniId = ID_ANI_MARIO_KICK_LEFT;
 			}
+		}
+		else if (isPiping) {
+			aniId = ID_ANI_MARIO_PIPING;
 		}
 		else
 			if (vx == 0)

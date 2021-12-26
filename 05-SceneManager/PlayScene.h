@@ -25,6 +25,7 @@
 #include "HUD.h"
 #include "FireGreenPlant.h"
 #include "Leaf.h"
+#include "EndGameItem.h"
 class CPlayScene: public CScene
 {
 protected: 
