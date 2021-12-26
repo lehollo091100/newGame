@@ -4,6 +4,7 @@
 #include "Mario.h"
 #include "Redgoomba.h"
 #include "debug.h"
+#include "ShinningBrick.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
 
@@ -179,6 +180,16 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	if (target->obj->type == OBJECT_TYPE_COLORBRICK && (target->nx != 0||target->ny==1)) {
 		return true;
 	}
+	if (objsrc->type == OBJECT_TYPE_MARIO && target->obj->type == OBJECT_TYPE_SHINNINGBRICK)
+	{
+		if (target->obj->state== SBRICK_STATE_COIN)
+		{
+			CMario* player = CMario::GetInstance();
+			player->coin++;
+			target->obj->Delete();
+			return true;
+		}
+	}
 	if (objsrc->type == OBJECT_TYPE_GOOMBA && objsrc->state == GOOMBA_STATE_DIEUP && target->ny != 0)
 	{
 		return true;
@@ -209,6 +220,7 @@ bool Checkskip(LPCOLLISIONEVENT target,LPGAMEOBJECT objsrc) {
 	{
 		return true;
 	}
+	
 	return false;
 }
 void CCollision::Filter( LPGAMEOBJECT objSrc,

@@ -13,10 +13,10 @@ void Koopas::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = top + KOOPAS_HEIGHT;
 	}
 	else {
-		left = x - KOOPAS_WIDTH / 2;
-		top = y - KOOPAS_WIDTH / 2;
-		right = left + KOOPAS_WIDTH;
-		bottom = top + KOOPAS_WIDTH;
+		left = x - KOOPAS_HEIGHT_ATTACK / 2;
+		top = y - KOOPAS_HEIGHT_ATTACK / 2;
+		right = left + KOOPAS_HEIGHT_ATTACK;
+		bottom = top + KOOPAS_HEIGHT_ATTACK;
 	}
 }
 
@@ -371,5 +371,5 @@ void Koopas::Render()
 			animations->Get(ID_ANI_ATTACKUP_GREEN)->Render(x, y);
 		}
 	}
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }

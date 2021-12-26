@@ -15,7 +15,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT);
+		if (mario->state == MARIO_STATE_IDLE)
+		{
+			mario->SetState(MARIO_STATE_SIT);
+		}
 		break;
 	case DIK_A: {
 		if (mario->isAttacking == false)
@@ -39,15 +42,15 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		}
 		else
 		{
-			if(mario->isOnPlatform && (mario->state != MARIO_STATE_RUNMAXRIGHT && mario->state != MARIO_STATE_RUNMAXLEFT))
+			if (mario->isOnPlatform && (mario->state != MARIO_STATE_RUNMAXRIGHT && mario->state != MARIO_STATE_RUNMAXLEFT))
 			{
 				mario->SetState(MARIO_STATE_JUMP);
 			}
-			if(mario->isOnPlatform && (mario->state == MARIO_STATE_RUNMAXRIGHT || mario->state == MARIO_STATE_RUNMAXLEFT))
+			if (mario->isOnPlatform && (mario->state == MARIO_STATE_RUNMAXRIGHT || mario->state == MARIO_STATE_RUNMAXLEFT))
 			{
 				mario->SetState(MARIO_STATE_FLYING);
 			}
-			if (mario->isOnPlatform==false && mario->state == MARIO_STATE_RELEASE_JUMP)
+			if (mario->isOnPlatform == false && mario->state == MARIO_STATE_RELEASE_JUMP)
 			{
 				mario->SetState(MARIO_STATE_FALLINGSLOW);
 			}
@@ -74,11 +77,14 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetPosition(0, 300);
 		break;
 	case DIK_6:
-		mario->SetPosition(2260, 80);
+		//mario->SetPosition(2260, 80);
+		mario->SetPosition(2460, 300);
 		break;
-	case DIK_R: // reset
-		//Reload();
+	case DIK_R:
+	{// reset
+		mario->Reset();
 		break;
+	}
 	}
 }
 
@@ -150,7 +156,15 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			if (mario->isPiping)
 				return;
 			if (!mario->isOnPlatform) {
-				mario->maxVx = MARIO_WALKING_SPEED;
+				if (mario->vx== MARIO_RUNNING_SPEED)
+				{
+
+					mario->maxVx = MARIO_RUNNING_SPEED;
+				}
+				else
+				{
+					mario->maxVx = MARIO_WALKING_SPEED;
+				}
 				mario->ax = MARIO_ACCEL_WALK_X;
 				mario->nx = 1;
 			}
@@ -161,13 +175,17 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 					if (mario->state != MARIO_STATE_RUNMAXRIGHT) {
 						mario->SetState(MARIO_STATE_RUNNING_RIGHT);
 					}
-					else
-					{
-						mario->SetState(MARIO_STATE_RUNMAXRIGHT);
-					}
 				}
 				else/* if(mario->state!=MARIO_STATE_JUMP)*/
+				{
+					if (mario->isSitting)
+					{
+
+					mario->y -= MARIO_SIT_HEIGHT_ADJUST;
+					mario->isSitting = false;
+					}
 					mario->SetState(MARIO_STATE_WALKING_RIGHT);
+				}
 			}
 		}
 		else if (game->IsKeyDown(DIK_LEFT))
@@ -175,7 +193,15 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			if (mario->isPiping)
 				return;
 			if (!mario->isOnPlatform) {
-				mario->maxVx = -MARIO_WALKING_SPEED;
+				if (mario->vx == -MARIO_RUNNING_SPEED)
+				{
+
+					mario->maxVx = -MARIO_RUNNING_SPEED;
+				}
+				else
+				{
+					mario->maxVx = -MARIO_WALKING_SPEED;
+				}
 				mario->ax = -MARIO_ACCEL_WALK_X;
 				mario->nx = -1;
 			}
@@ -192,8 +218,14 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 					}
 				}
 
-				else
+				else {
+					if (mario->isSitting)
+					{
+						mario->y -= MARIO_SIT_HEIGHT_ADJUST;
+						mario->isSitting = false;
+					}
 					mario->SetState(MARIO_STATE_WALKING_LEFT);
+				} 
 			}
 		}
 		else {

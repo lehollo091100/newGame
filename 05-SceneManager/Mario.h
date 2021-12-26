@@ -10,6 +10,7 @@
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
 
+#define MARIO_ACCEL_DECREASE_SPEED	0.005f
 #define MARIO_ACCEL_WALK_X	0.0003f
 #define MARIO_ACCEL_RUN_X	0.0001f
 
@@ -112,8 +113,8 @@
 #define ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT 508
 #define ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT 509
 
-#define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 510
-#define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 511
+#define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 510
+#define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 511
 
 #define ID_ANI_MARIO_SMALL_PIPING	512
 
@@ -158,6 +159,9 @@
 
 #define ID_ANI_MARIO_TAIL_KICK_LEFT	575
 #define ID_ANI_MARIO_TAIL_KICK_RIGHT	576
+
+#define ID_ANI_MARIO_TAIL_SIT_LEFT	577
+#define ID_ANI_MARIO_TAIL_SIT_RIGHT	578
 #pragma endregion
 
 
@@ -193,7 +197,6 @@ class CMario : public CGameObject
 	static CMario* __instance;
 	bool pressP;
 	DWORD kicktime;
-	BOOLEAN isSitting;
 	DWORD Pipetime;
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -215,6 +218,7 @@ class CMario : public CGameObject
 	int GetAniIdTail();
 
 public:
+	BOOLEAN isSitting;
 	float NextX, NextY;
 	int scene;
 	bool isPiping;
@@ -268,6 +272,6 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
+	void Reset();
 	static CMario* GetInstance();
 };

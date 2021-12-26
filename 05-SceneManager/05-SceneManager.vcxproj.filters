@@ -153,6 +153,9 @@
     <ClCompile Include="Leaf.cpp">
       <Filter>Item</Filter>
     </ClCompile>
+    <ClCompile Include="EndGameItem.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -285,6 +288,9 @@
       <Filter>HUD</Filter>
     </ClInclude>
     <ClInclude Include="Leaf.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameItem.h">
       <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>

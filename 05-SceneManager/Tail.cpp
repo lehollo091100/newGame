@@ -41,7 +41,7 @@ void Tail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Tail::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Tail::SetState(int state)

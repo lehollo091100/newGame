@@ -21,9 +21,10 @@
 #include "PBrick.h"
 #include "Leaf.h"
 #include "Pipe.h"
+#include "EndGameItem.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"vy:%f\n", ay);
+	//DebugOut(L"ax, vx:%d\n",isPiping);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -36,6 +37,34 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			ax -= 0.000005f;
 		}
 	}*/
+	if (state == MARIO_STATE_IDLE)
+	{
+		//stop when ax=0 
+		if (vx > 0)
+		{
+			ax = 0;
+			vx -= MARIO_ACCEL_DECREASE_SPEED;
+		}
+		else if(vx<0)
+		{
+			vx += MARIO_ACCEL_DECREASE_SPEED;
+			ax = 0;
+		}
+		if (nx>= 0)
+		{
+			if (vx <= 0)
+			{
+				vx = 0;
+			}
+		}
+		else 
+		{
+			if (vx >= 0)
+			{
+				vx = 0;
+			}
+		}
+	}
 	if (isPiping == false)
 	{
 		vy += ay * dt;
@@ -178,7 +207,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (GetTickCount64() - Pipetime >= MARIO_PIPING_TIME) {
 			ay = MARIO_GRAVITY;
 			isPiping = false;
-			isSitting = false;
 			SetState(MARIO_STATE_IDLE);
 			CGame::GetInstance()->InitiateSwitchScene(scene);
 		}
@@ -261,6 +289,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								DebugOut(L">>> Mario DIE >>> \n");
 								SetState(MARIO_STATE_DIE);
 							}
+					}
+					break;
+				}
+				case OBJECT_TYPE_ENDGAMEITEM: {
+					if (coObjects->at(i) != NULL)
+					{
+						EndGameItem* egitem = dynamic_cast<EndGameItem*>(coObjects->at(i));
+						if (egitem->state == EGITEM_STATE_NORMAL) {
+							egitem->SetState(EGITEM_STATE_MOVINGUP);
+						}
 					}
 					break;
 				}
@@ -662,8 +700,8 @@ void CMario::OnCollisionWithShinningBrick(LPCOLLISIONEVENT e)
 {
 		ShinningBrick* sbrick = dynamic_cast<ShinningBrick*>(e->obj);
 		if (sbrick->state == SBRICK_STATE_COIN) {
-			sbrick->Delete();
-			coin++;
+			//sbrick->Delete();
+			//coin++;
 		}
 		else
 		{
@@ -735,6 +773,7 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 			if (p->direction == 1)
 			{
 				isPiping = true;
+				isSitting = false;
 				Pipetime = GetTickCount64();
 				vy = MARIO_PIPING_SPEED;
 				SetState(MARIO_STATE_PIPING);
@@ -779,7 +818,7 @@ int CMario::GetAniIdSmall()
 		}
 		else
 		{
-			if (abs(ax) == MARIO_ACCEL_RUN_X)
+			if (abs(vx) == MARIO_RUNNING_SPEED)
 			{
 				if (nx >= 0)
 					aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
@@ -796,12 +835,10 @@ int CMario::GetAniIdSmall()
 		}
 	}
 	else
-		if (isSitting)
+
+		if (isPiping)
 		{
-			if (nx > 0)
-				aniId = ID_ANI_MARIO_SIT_RIGHT;
-			else
-				aniId = ID_ANI_MARIO_SIT_LEFT;
+			aniId = ID_ANI_MARIO_SMALL_PIPING;
 		}
 		else
 			if (vx == 0)
@@ -817,6 +854,8 @@ int CMario::GetAniIdSmall()
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
 			}
 			else // vx < 0
 			{
@@ -825,6 +864,8 @@ int CMario::GetAniIdSmall()
 				else if (ax == -MARIO_ACCEL_RUN_X)
 					aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
+				else 
 					aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
 			}
 
@@ -842,16 +883,36 @@ int CMario::GetAniIdBig()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (isPiping)
+		if (isSitting)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_SIT_LEFT;
+		}
+		else if (isPiping)
 		{
 			aniId = ID_ANI_MARIO_PIPING;
 		}
 		else
 		{
-			if (nx >= 0)
-				aniId = ID_ANI_MARIO_JUMP_WALK_RIGHT;
+			//if(state==)
+			if (vx == MARIO_RUNNING_SPEED)
+			{
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_JUMP_RUN_LEFT;
+
+			}
 			else
-				aniId = ID_ANI_MARIO_JUMP_WALK_LEFT;
+			{
+
+				if (nx >= 0)
+					aniId = ID_ANI_MARIO_JUMP_WALK_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_JUMP_WALK_LEFT;
+			}
 		}
 	}
 	else
@@ -875,6 +936,9 @@ int CMario::GetAniIdBig()
 				aniId = ID_ANI_MARIO_KICK_LEFT;
 			}
 		}
+		else if (isPiping) {
+			aniId = ID_ANI_MARIO_PIPING;
+		}
 		else
 			if (vx == 0)
 			{
@@ -891,6 +955,10 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_WALKING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X )
 					aniId = ID_ANI_MARIO_WALKING_RIGHT;
+				else
+				{
+					aniId = ID_ANI_MARIO_WALKING_RIGHT;
+				}
 			}
 			else // vx < 0
 			{
@@ -900,7 +968,7 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X && vx > maxVx)
 					aniId = ID_ANI_MARIO_WALKING_LEFT;
-				else if (ax == -MARIO_ACCEL_WALK_X)
+				else 
 					aniId = ID_ANI_MARIO_WALKING_LEFT;
 			}
 
@@ -914,7 +982,14 @@ int CMario::GetAniIdTail()
 	int aniId = -1;
 	if (!isOnPlatform)
 	{
-		if (isAttacking)
+		if (isSitting)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_TAIL_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_TAIL_SIT_LEFT;
+		}
+		else if (isAttacking)
 		{
 			if (nx >= 0)
 			{
@@ -928,6 +1003,7 @@ int CMario::GetAniIdTail()
 		else if (isPiping) {
 			aniId = ID_ANI_MARIO_TAIL_PIPING;
 		}
+		
 		else
 		{
 
@@ -990,9 +1066,9 @@ int CMario::GetAniIdTail()
 		if (isSitting)
 		{
 			if (nx > 0)
-				aniId = ID_ANI_MARIO_SIT_RIGHT;
+				aniId = ID_ANI_MARIO_TAIL_SIT_RIGHT;
 			else
-				aniId = ID_ANI_MARIO_SIT_LEFT;
+				aniId = ID_ANI_MARIO_TAIL_SIT_LEFT;
 		}
 		else if (isKicking)
 		{
@@ -1055,6 +1131,7 @@ int CMario::GetAniIdTail()
 					aniId = ID_ANI_MARIO_TAIL_WALKING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_TAIL_WALKING_RIGHT;
+				else aniId = ID_ANI_MARIO_TAIL_WALKING_RIGHT;
 			}
 			else // vx < 0
 			{
@@ -1066,6 +1143,9 @@ int CMario::GetAniIdTail()
 					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
+				else {
+					aniId = ID_ANI_MARIO_TAIL_WALKING_LEFT;
+				}
 			}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_TAIL_IDLE_RIGHT;
@@ -1111,7 +1191,7 @@ void CMario::Render()
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return;
+	//if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -1140,7 +1220,7 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
-		if (isSitting) break;
+		//if (isSitting) break;
 		if (isOnPlatform)
 		{
 			isOnPlatform = false;
@@ -1175,8 +1255,8 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
-		ax = 0.0f;
-		vx = 0.0f;
+		//ax = 0.0f;
+		//vx = 0.0f;
 		break;
 
 	case MARIO_STATE_DIE:
@@ -1303,3 +1383,10 @@ void CMario::SetLevel(int l)
 	level = l;
 }
 
+void CMario::Reset()
+{
+	SetState(MARIO_STATE_IDLE);
+	SetLevel(MARIO_LEVEL_BIG);
+	SetPosition(x, 100);
+	vx = 0; ax = 0;
+}

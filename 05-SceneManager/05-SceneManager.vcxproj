@@ -152,6 +152,7 @@
     <ClCompile Include="ColorBrick.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="EndGameItem.cpp" />
     <ClCompile Include="FireGreenPlant.cpp" />
     <ClCompile Include="FireRedPlant.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="ColorBrick.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="EndGameItem.h" />
     <ClInclude Include="FireGreenPlant.h" />
     <ClInclude Include="FireRedPlant.h" />
     <ClInclude Include="Game.h" />

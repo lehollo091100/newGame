@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include "AssetIDs.h"
-
+#define MAP1_WIDTH	2810
+#define MAP1_HEIGHT	424
+#define MAP2_WIDTH	512
 #include "PlayScene.h"
 #include "Utils.h"
 #include "Textures.h"
@@ -297,7 +299,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 		break;
 	}
-
+	case OBJECT_TYPE_ENDGAMEITEM: {
+		obj = new EndGameItem(x, y);
+		break;
+	}
 
 
 	default:
@@ -474,8 +479,29 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
+	if (cy <= 0)
+		cy = 0;
 
 	if (cx < 0) cx = 0;
+	if (cy < 0) cy = 0;
+	if (mapid == 2)
+	{
+		if(cx>=MAP2_WIDTH- game->GetBackBufferWidth())
+		{
+			cx = MAP2_WIDTH - game->GetBackBufferWidth();
+		}
+		cy = 0;
+	}
+	if (mapid == 1)
+	{
+		if (cx >= MAP1_WIDTH - game->GetBackBufferWidth())
+		{
+			cx = MAP1_WIDTH - game->GetBackBufferWidth();
+		}
+		if (cy >= MAP1_HEIGHT - game->GetBackBufferHeight() + HUD_HEIGHT) {
+			cy = MAP1_HEIGHT - game->GetBackBufferHeight() + HUD_HEIGHT;
+		}
+	}
 
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
