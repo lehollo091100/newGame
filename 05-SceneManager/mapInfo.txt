@@ -5,6 +5,6 @@ textures\TileMap.png
 MapLinkHiddenmap.txt
 textures\1-2_bank.png
 1	11
-MapLink1-5.1.txt
-textures\1-5.1_bank.png
+MapLinkIntro.txt
+textures\introMap_bank.png
 3	11

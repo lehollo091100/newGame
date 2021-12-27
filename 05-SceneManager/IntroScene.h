@@ -26,6 +26,7 @@
 #include "FireGreenPlant.h"
 #include "Leaf.h"
 #include "EndGameItem.h"
+#include "Curtain.h"
 #define Sequence1MaxTime	2000
 
 class IntroScene :public CScene
@@ -48,8 +49,9 @@ protected:
 
 public:
 	int mapid;
-	CMario* redMario = new CMario(0, 0);
-	CMario* greenMario = new CMario(0, 0);
+	//CMario* redMario = new CMario(0, 0);
+	//CMario* greenMario = new CMario(0, 0);
+	Curtain* curtain = new Curtain(0,0);
 	DWORD SequenceTime;
 	IntroScene(int id, LPCWSTR filePath);
 	bool isDoneSeq1, isDoneSeq2, isFirstJump;
@@ -60,7 +62,7 @@ public:
 
 	void ScriptIntro()
 	{
-		if (SequenceTime == 0)
+		/*if (SequenceTime == 0)
 			SequenceTime = GetTickCount64();
 		if (!isDoneSeq1)
 		{
@@ -84,7 +86,7 @@ public:
 				redMario->IsAllowUpdate = true;
 				greenMario->IsAllowUpdate = true;
 			}
-		}
+		}*/
 	}
 	void Clear();
 	void PurgeDeletedObjects();

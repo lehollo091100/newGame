@@ -37,6 +37,8 @@
 #define OBJECT_TYPE_TAIL	52
 #define OBJECT_TYPE_DEBRIS	53
 #define OBJECT_TYPE_PBUTTON	54
+#define OBJECT_TYPE_CURTAIN	55
+
 
 #pragma region MARIO 
 

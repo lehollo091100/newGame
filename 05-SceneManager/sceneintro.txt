@@ -1,0 +1,23 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+questionbrick.txt
+brick.txt
+coin.txt
+goomba.txt
+cloud.txt
+mushroom.txt
+koopas.txt
+redgoomba.txt
+greenplant.txt
+fireredplant.txt
+plantfire.txt
+shinningbrick.txt
+pbutton.txt
+hud.txt
+firegreenplant.txt
+leaf.txt
+pipe.txt
+curtain.txt
+
+

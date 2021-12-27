@@ -147,6 +147,8 @@ void IntroScene::Load()
 	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
+	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2);
+	objects.push_back(curtain);
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -164,10 +166,7 @@ void IntroScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		if ((objects[i]->x > CGame::GetInstance()->GetCamX() - CGame::GetInstance()->GetBackBufferWidth()) && (objects[i]->x <= CGame::GetInstance()->GetCamX() + CGame::GetInstance()->GetBackBufferWidth() * 1.5))
-		{
-			objects[i]->Update(dt, &coObjects);
-		}
+		objects[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -177,7 +176,7 @@ void IntroScene::Update(DWORD dt)
 	// Update camera to follow mario
 	float cx, cy;
 
-	
+
 	CGame::GetInstance()->SetCamPos(0, 0);
 
 	PurgeDeletedObjects();

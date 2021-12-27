@@ -150,6 +150,7 @@
     <ClCompile Include="CoinItem.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ColorBrick.cpp" />
+    <ClCompile Include="Curtain.cpp" />
     <ClCompile Include="Debris.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="EndGameItem.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="CoinItem.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="ColorBrick.h" />
+    <ClInclude Include="Curtain.h" />
     <ClInclude Include="Debris.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="EndGameItem.h" />

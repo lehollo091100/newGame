@@ -386,7 +386,8 @@ void CGame::InitKeyboard()
 void CGame::ProcessKeyboard()
 {
 	HRESULT hr;
-
+	if (current_scene == 3)
+		return;
 	// Collect all key states first
 	hr = didv->GetDeviceState(sizeof(keyStates), keyStates);
 	if (FAILED(hr))

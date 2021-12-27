@@ -28,6 +28,9 @@
     <Filter Include="HUD">
       <UniqueIdentifier>{61a6cbc7-4614-4893-917e-c815b0f86c90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Intro">
+      <UniqueIdentifier>{0a35e51b-d933-4391-86bf-505afb312961}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -157,7 +160,10 @@
       <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="Curtain.cpp">
+      <Filter>Intro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,7 +303,10 @@
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="IntroScene.h">
-      <Filter>Header Files</Filter>
+      <Filter>Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="Curtain.h">
+      <Filter>Intro</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
