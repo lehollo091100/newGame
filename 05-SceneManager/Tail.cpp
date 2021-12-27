@@ -165,3 +165,4 @@ void Tail::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 		}
 	}
 }
+

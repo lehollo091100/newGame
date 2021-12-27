@@ -148,7 +148,16 @@ void IntroScene::Load()
 	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
-	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2);
+	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, 185);
+	objects.push_back(brick);
+	redMario->SetPosition(10, 145);
+	objects.push_back(redMario);
+	Tail* obj1 = new Tail(10 + KOOPAS_WIDTH, 145);
+	obj1->SetPosition(10 - WIDTH, 145);
+	objects.push_back(obj1);
+	CMario* a = dynamic_cast<CMario*>(redMario);
+	a->tail = obj1;
+	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2-10);
 	objects.push_back(curtain);
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
@@ -167,7 +176,7 @@ void IntroScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		DebugOut(L"object type :%d\n", objects[i]->type);
+		//DebugOut(L"object type :%d\n", objects[i]->type);
 		objects[i]->Update(dt, &coObjects);
 	}
 
@@ -198,11 +207,28 @@ void IntroScene::ScriptIntro()
 		SequenceTime = GetTickCount64();
 	if (isDoneSeq1 == false)
 	{
-		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime*4)
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
+
 			SequenceTime = GetTickCount64();
 			curtain->SetState(CURTAIN_STATE_MOVING);
 			isDoneSeq1 = true;
+		}
+	}
+	if (isDoneSeq1 && !isDoneSeq2)
+	{
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
+		{
+			SequenceTime = GetTickCount64();
+			redMario->SetState(MARIO_STATE_WALKING_RIGHT);
+			isDoneSeq2 = true;
+		}
+	}
+	if (isDoneSeq2)
+	{
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
+		{
+			redMario->SetState(MARIO_STATE_IDLE);
 		}
 	}
 }

@@ -49,6 +49,8 @@ protected:
 
 public:
 	int mapid;
+	CMario* redMario = CMario::GetInstance();
+	CBrick* brick = new CBrick(5, 195, 320, 16);
 	//CMario* redMario = new CMario(0, 0);
 	//CMario* greenMario = new CMario(0, 0);
 	Curtain* curtain = new Curtain(0,0);
