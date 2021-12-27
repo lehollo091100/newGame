@@ -6,6 +6,7 @@ IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	//player = NULL;
+	isDoneSeq1 = isDoneSeq2 = false;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
 	mapid = id;
@@ -166,6 +167,7 @@ void IntroScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		DebugOut(L"object type :%d\n", objects[i]->type);
 		objects[i]->Update(dt, &coObjects);
 	}
 
@@ -175,7 +177,7 @@ void IntroScene::Update(DWORD dt)
 
 	// Update camera to follow mario
 	float cx, cy;
-
+	ScriptIntro();
 
 	CGame::GetInstance()->SetCamPos(0, 0);
 
@@ -188,6 +190,21 @@ void IntroScene::Render()
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 
+}
+
+void IntroScene::ScriptIntro()
+{
+	if (SequenceTime == 0)
+		SequenceTime = GetTickCount64();
+	if (isDoneSeq1 == false)
+	{
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime*4)
+		{
+			SequenceTime = GetTickCount64();
+			curtain->SetState(CURTAIN_STATE_MOVING);
+			isDoneSeq1 = true;
+		}
+	}
 }
 
 /*
