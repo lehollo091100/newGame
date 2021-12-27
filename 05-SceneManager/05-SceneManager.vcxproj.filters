@@ -156,6 +156,9 @@
     <ClCompile Include="EndGameItem.cpp">
       <Filter>Item</Filter>
     </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="EndGameItem.h">
       <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -160,6 +160,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="GreenPlant.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Koopasitem.cpp" />
     <ClCompile Include="Leaf.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="GreenPlant.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Koopasitem.h" />

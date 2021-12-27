@@ -16,7 +16,7 @@ using namespace std;
 class CGameObject
 {
 public:
-
+	bool IsAllowRender, IsAllowUpdate;
 	float x; 
 	float y;
 

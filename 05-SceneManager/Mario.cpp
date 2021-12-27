@@ -277,7 +277,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				}
 				case OBJECT_TYPE_PLANTFIRE: {
-					/*if (untouchable == 0)
+					if (untouchable == 0)
 					{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -290,7 +290,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 								SetState(MARIO_STATE_DIE);
 							}
 					}
-					break;*/
+					break;
 				}
 				case OBJECT_TYPE_ENDGAMEITEM: {
 					if (coObjects->at(i) != NULL)
@@ -681,7 +681,7 @@ void CMario::OnCollisionWithRedgoomba(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithGreenPlant(LPCOLLISIONEVENT e)
 {
-	/*if (untouchable == 0)
+	if (untouchable == 0)
 	{
 			if (level > MARIO_LEVEL_SMALL)
 			{
@@ -693,7 +693,7 @@ void CMario::OnCollisionWithGreenPlant(LPCOLLISIONEVENT e)
 				DebugOut(L">>> Mario DIE >>> \n");
 				SetState(MARIO_STATE_DIE);
 			}
-	}*/
+	}
 }
 
 void CMario::OnCollisionWithShinningBrick(LPCOLLISIONEVENT e)

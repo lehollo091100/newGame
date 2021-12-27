@@ -21,10 +21,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	//player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
-	//map->SetMap(id);'
-
-	
-	//map->ReadMap();
 	mapid = id;
 }
 
