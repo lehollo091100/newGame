@@ -20,4 +20,5 @@ leaf.txt
 pipe.txt
 curtain.txt
 greenmario.txt
+introbackground.txt
 

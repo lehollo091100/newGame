@@ -1,0 +1,12 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#star
+18100	343	1	663	167	85
+#change
+18101	343	228	663	398	85
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+#normal
+1100	18100	100
+#change
+1101	18101	100

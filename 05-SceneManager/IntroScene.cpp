@@ -148,6 +148,8 @@ void IntroScene::Load()
 	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
+	introbackground->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
+	objects.push_back(introbackground);
 	//platform
 	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, 185);
 	objects.push_back(brick);
@@ -240,6 +242,7 @@ void IntroScene::ScriptIntro()
 	{
 		if (GetTickCount64() - SequenceTime >= 900)
 		{
+			introbackground->SetState(INTROBACKGROUND_STATE_MOVING);
 			redMario->SetState(MARIO_STATE_JUMP);
 			//greenMario->SetState(MARIO_STATE_IDLE);
 			isDoneSeq3 = true;
@@ -259,7 +262,7 @@ void IntroScene::ScriptIntro()
 					greenMario->SetState(GREENMARIO_STATE_IDLE);
 				}
 
-				redMario->SetState(MARIO_STATE_IDLE);
+				//redMario->SetState(MARIO_STATE_IDLE);
 				isDoneSeq4 = true;
 			}
 			SequenceTime = GetTickCount64();

@@ -166,7 +166,10 @@
       <Filter>Intro</Filter>
     </ClCompile>
     <ClCompile Include="GreenMario.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroBackground.cpp">
+      <Filter>Intro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -312,7 +315,10 @@
       <Filter>Intro</Filter>
     </ClInclude>
     <ClInclude Include="GreenMario.h">
-      <Filter>Header Files</Filter>
+      <Filter>Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroBackground.h">
+      <Filter>Intro</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

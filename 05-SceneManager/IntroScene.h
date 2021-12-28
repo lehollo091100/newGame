@@ -28,6 +28,7 @@
 #include "EndGameItem.h"
 #include "Curtain.h"
 #include "GreenMario.h"
+#include "IntroBackground.h"
 #define Sequence1MaxTime	2000
 
 class IntroScene :public CScene
@@ -53,6 +54,7 @@ public:
 	CMario* redMario = CMario::GetInstance();
 	GreenMario* greenMario = GreenMario::GetInstance();
 	CBrick* brick = new CBrick(5, 195, 320, 16);
+	IntroBackGround* introbackground = new IntroBackGround(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight() / 2);
 	//CMario* redMario = new CMario(0, 0);
 	//CMario* greenMario = new CMario(0, 0);
 	Curtain* curtain = new Curtain(0,0);

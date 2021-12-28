@@ -25,7 +25,7 @@
 #include "GreenMario.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"ax, vx:%f\n",vx);
+	DebugOut(L"mario state:%d\n",state);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -38,6 +38,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			ax -= 0.000005f;
 		}
 	}*/
+	if (vx != 0)
+	{
+		if (x >= CGame::GetInstance()->GetBackBufferWidth())
+		{
+			vx = 0;
+			SetState(MARIO_STATE_IDLE);
+		}
+	}
 	if (state == MARIO_STATE_IDLE)
 	{
 		//stop when ax=0 

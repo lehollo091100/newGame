@@ -1192,7 +1192,7 @@ void GreenMario::Render()
 	//}
 	animations->Get(aniId)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 }
 
