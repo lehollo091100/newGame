@@ -22,6 +22,7 @@ void Leaf::SetState(int state)
 
 	}
 	case LEAF_STATE_MOVING: {
+		initX = x;
 		vx = 0;
 		vy = -MOVINGUP_VY;
 		break;
@@ -49,13 +50,14 @@ void Leaf::Render()
 
 void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"initx,x:%f %f\n", initX,x);
 	if (state != LEAF_STATE_INVISIBLE) {
 		//vy += 0.0001f * dt;
 	}
 	if (state == LEAF_STATE_MOVING) {
 		if (vy < 0)
 		{
-			if (y <= initY-RANGE) {
+			if (y <= initY-5) {
 				vy = 0;
 				nx = 1;
 				vx = nx*VX;
@@ -65,16 +67,16 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 		{
 			if (vx >= 0) {
-				if (x > initX + RANGEX) {
+				if (x >= initX + RANGEX) {
 					nx = -1;
 					vx = nx * VX;
 				}
 			}
 			else
 			{
-				if (x < initX - RANGEX) {
+				if (x <= initX - RANGEX) {
 					nx = 1;
-					vx = nx * VX;
+					vx = VX;
 				}
 			}
 		}

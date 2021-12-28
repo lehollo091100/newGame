@@ -54,9 +54,10 @@ public:
 	//CMario* redMario = new CMario(0, 0);
 	//CMario* greenMario = new CMario(0, 0);
 	Curtain* curtain = new Curtain(0,0);
+	Leaf* leaf = new Leaf(CGame::GetInstance()->GetBackBufferWidth() / 2,0);
 	DWORD SequenceTime;
 	IntroScene(int id, LPCWSTR filePath);
-	bool isDoneSeq1, isDoneSeq2;
+	bool isDoneSeq1, isDoneSeq2, isDoneSeq3, isDoneSeq4;
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();

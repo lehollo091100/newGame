@@ -4,7 +4,7 @@
 #define ID_ANI_CURTAIN	1011
 #define CURTAIN_STATE_NORMAL	0
 #define CURTAIN_STATE_MOVING	100
-#define CURTAIN_VY	0.03f
+#define CURTAIN_VY	0.1f
 #define CURTAIN_HEIGHT	200
 class Curtain:public CGameObject
 {

@@ -6,7 +6,7 @@ IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	//player = NULL;
-	isDoneSeq1 = isDoneSeq2 = false;
+	isDoneSeq1 = isDoneSeq2 =isDoneSeq3= false;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
 	mapid = id;
@@ -148,17 +148,23 @@ void IntroScene::Load()
 	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
+	//platform
 	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, 185);
 	objects.push_back(brick);
-	redMario->SetPosition(10, 145);
+	//mario+tail
+	redMario->SetPosition(10, 0);
 	objects.push_back(redMario);
-	Tail* obj1 = new Tail(10 + KOOPAS_WIDTH, 145);
-	obj1->SetPosition(10 - WIDTH, 145);
+	Tail* obj1 = new Tail(10 + KOOPAS_WIDTH, 0);
+	obj1->SetPosition(10 - WIDTH, 0);
 	objects.push_back(obj1);
 	CMario* a = dynamic_cast<CMario*>(redMario);
 	a->tail = obj1;
+	//curtain
 	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2-10);
 	objects.push_back(curtain);
+	//leaf
+	leaf->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2);
+	objects.push_back(leaf);
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -207,7 +213,7 @@ void IntroScene::ScriptIntro()
 		SequenceTime = GetTickCount64();
 	if (isDoneSeq1 == false)
 	{
-		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime*4)
 		{
 
 			SequenceTime = GetTickCount64();
@@ -220,16 +226,25 @@ void IntroScene::ScriptIntro()
 		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
 			SequenceTime = GetTickCount64();
+			leaf->SetState(LEAF_STATE_MOVING);
 			redMario->SetState(MARIO_STATE_WALKING_RIGHT);
 			isDoneSeq2 = true;
 		}
 	}
-	if (isDoneSeq2)
+	if (isDoneSeq2&&!isDoneSeq3)
 	{
-		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
+		if (GetTickCount64() - SequenceTime >= 1500)
 		{
-			redMario->SetState(MARIO_STATE_IDLE);
+			SequenceTime = GetTickCount64();
+			redMario->SetState(MARIO_STATE_JUMP);
+			isDoneSeq3 = true;
 		}
+	}
+	if (isDoneSeq3&&!isDoneSeq4)
+	{
+		SequenceTime = GetTickCount64();
+		redMario->SetState(MARIO_STATE_IDLE);
+		isDoneSeq4 = true;
 	}
 }
 
