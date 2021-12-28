@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "debug.h"
 #include "Game.h"
-
+#include "Mario.h"
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
@@ -23,7 +23,7 @@
 #include "EndGameItem.h"
 void GreenMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//DebugOut(L"ax, vx:%d\n",isPiping);
+	//DebugOut(L"ax, vx:%d\n",isOnPlatform);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == GREENMARIO_STATE_RUNNING_LEFT || state == GREENMARIO_STATE_RUNNING_RIGHT)
 	{
@@ -375,6 +375,15 @@ void GreenMario::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	}
 	else if (dynamic_cast<Pipe*>(e->obj)) {
 		OnCollisionWithPipe(e);
+	}
+	else if (dynamic_cast<CMario*>(e->obj)) {
+		if (e->ny != 0)
+		{
+			state = GREENMARIO_STATE_IDLE;
+			isSitting = true;
+			vx = 0; vy = 0.0f;
+			y += GREENMARIO_SIT_HEIGHT_ADJUST;
+		}
 	}
 }
 
@@ -1237,10 +1246,11 @@ void GreenMario::SetState(int state)
 	case GREENMARIO_STATE_SIT:
 		if (isOnPlatform && level != GREENMARIO_LEVEL_SMALL)
 		{
-			state = GREENMARIO_STATE_IDLE;
 			isSitting = true;
 			vx = 0; vy = 0.0f;
+			ax = 0;
 			y += GREENMARIO_SIT_HEIGHT_ADJUST;
+			SetState(GREENMARIO_STATE_IDLE);
 		}
 		break;
 

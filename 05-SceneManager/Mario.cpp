@@ -22,9 +22,10 @@
 #include "Leaf.h"
 #include "Pipe.h"
 #include "EndGameItem.h"
+#include "GreenMario.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	//DebugOut(L"ax, vx:%d\n",isPiping);
+	DebugOut(L"ax, vx:%f\n",vx);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -40,28 +41,31 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state == MARIO_STATE_IDLE)
 	{
 		//stop when ax=0 
-		if (vx > 0)
+		if (isOnPlatform)
 		{
-			ax = 0;
-			vx -= MARIO_ACCEL_DECREASE_SPEED;
-		}
-		else if(vx<0)
-		{
-			vx += MARIO_ACCEL_DECREASE_SPEED;
-			ax = 0;
-		}
-		if (nx>= 0)
-		{
-			if (vx <= 0)
+			if (vx > 0)
 			{
-				vx = 0;
+				ax = 0;
+				vx -= MARIO_ACCEL_DECREASE_SPEED;
 			}
-		}
-		else 
-		{
-			if (vx >= 0)
+			else if (vx < 0)
 			{
-				vx = 0;
+				vx += MARIO_ACCEL_DECREASE_SPEED;
+				ax = 0;
+			}
+			if (nx >= 0)
+			{
+				if (vx <= 0)
+				{
+					vx = 0;
+				}
+			}
+			else
+			{
+				if (vx >= 0)
+				{
+					vx = 0;
+				}
 			}
 		}
 	}
@@ -376,6 +380,20 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 	}
 	else if (dynamic_cast<Pipe*>(e->obj)) {
 		OnCollisionWithPipe(e);
+	}
+	else if (dynamic_cast<GreenMario*>(e->obj)) {
+		if (e->ny != 0)
+		{
+			vy = -MARIO_JUMP_RUN_SPEED_Y;
+			vx = MARIO_WALKING_SPEED;
+			firstJumpIntro = true;
+			GreenMario* green = GreenMario::GetInstance();
+			//green->SetState(GREENMARIO_STATE_SIT);
+			green->SetState(GREENMARIO_STATE_IDLE);
+			green->isSitting = true;
+			green->vx = 0;
+			//green->y += GREENMARIO_SIT_HEIGHT_ADJUST;
+		}
 	}
 }
 

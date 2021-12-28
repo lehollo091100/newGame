@@ -27,6 +27,7 @@
 #include "Leaf.h"
 #include "EndGameItem.h"
 #include "Curtain.h"
+#include "GreenMario.h"
 #define Sequence1MaxTime	2000
 
 class IntroScene :public CScene
@@ -50,6 +51,7 @@ protected:
 public:
 	int mapid;
 	CMario* redMario = CMario::GetInstance();
+	GreenMario* greenMario = GreenMario::GetInstance();
 	CBrick* brick = new CBrick(5, 195, 320, 16);
 	//CMario* redMario = new CMario(0, 0);
 	//CMario* greenMario = new CMario(0, 0);

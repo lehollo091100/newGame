@@ -200,7 +200,6 @@ class CMario : public CGameObject
 	DWORD Pipetime;
 	int untouchable; 
 	ULONGLONG untouchable_start;
-
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e,DWORD dt);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
@@ -218,6 +217,7 @@ class CMario : public CGameObject
 	int GetAniIdTail();
 
 public:
+	bool firstJumpIntro;
 	BOOLEAN isSitting;
 	float NextX, NextY;
 	int scene;
@@ -244,6 +244,7 @@ public:
 		isHolding = false;
 		isKicking = false;
 		isPiping = false;
+		firstJumpIntro = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 

@@ -25,3 +25,4 @@ height	240
 75	textures\Font.png
 80	textures\1-2.png
 85	textures\intro1.png
+90	textures\mario2.png

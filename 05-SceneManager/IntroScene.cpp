@@ -6,7 +6,7 @@ IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	//player = NULL;
-	isDoneSeq1 = isDoneSeq2 =isDoneSeq3= false;
+	isDoneSeq1 = isDoneSeq2 =isDoneSeq3=isDoneSeq4= false;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
 	mapid = id;
@@ -159,12 +159,17 @@ void IntroScene::Load()
 	objects.push_back(obj1);
 	CMario* a = dynamic_cast<CMario*>(redMario);
 	a->tail = obj1;
+	//green mario
+	greenMario->SetPosition(CGame::GetInstance()->GetBackBufferWidth(), 0);
+	objects.push_back(greenMario);
+	Tail* obj2 = new Tail(CGame::GetInstance()->GetBackBufferWidth() + KOOPAS_WIDTH, 0);
+	obj2->SetPosition(CGame::GetInstance()->GetBackBufferWidth() - WIDTH, 0);
+	objects.push_back(obj2);
+	GreenMario* b = dynamic_cast<GreenMario*>(greenMario);
+	b->tail = obj2;
 	//curtain
 	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2-10);
 	objects.push_back(curtain);
-	//leaf
-	leaf->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2);
-	objects.push_back(leaf);
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
@@ -226,25 +231,39 @@ void IntroScene::ScriptIntro()
 		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
 			SequenceTime = GetTickCount64();
-			leaf->SetState(LEAF_STATE_MOVING);
 			redMario->SetState(MARIO_STATE_WALKING_RIGHT);
+			greenMario->SetState(GREENMARIO_STATE_WALKING_LEFT);
 			isDoneSeq2 = true;
 		}
 	}
 	if (isDoneSeq2&&!isDoneSeq3)
 	{
-		if (GetTickCount64() - SequenceTime >= 1500)
+		if (GetTickCount64() - SequenceTime >= 900)
 		{
-			SequenceTime = GetTickCount64();
 			redMario->SetState(MARIO_STATE_JUMP);
+			//greenMario->SetState(MARIO_STATE_IDLE);
 			isDoneSeq3 = true;
+			SequenceTime = GetTickCount64();
 		}
 	}
 	if (isDoneSeq3&&!isDoneSeq4)
 	{
-		SequenceTime = GetTickCount64();
-		redMario->SetState(MARIO_STATE_IDLE);
-		isDoneSeq4 = true;
+		
+		if (GetTickCount64()-SequenceTime>=500)
+		{
+			if (redMario->isOnPlatform)
+			{
+				if (greenMario->isSitting) {
+					greenMario->y -= GREENMARIO_SIT_HEIGHT_ADJUST;
+					greenMario->isSitting = false;
+					greenMario->SetState(GREENMARIO_STATE_IDLE);
+				}
+
+				redMario->SetState(MARIO_STATE_IDLE);
+				isDoneSeq4 = true;
+			}
+			SequenceTime = GetTickCount64();
+		}
 	}
 }
 
