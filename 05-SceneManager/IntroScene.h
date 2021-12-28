@@ -29,6 +29,7 @@
 #include "Curtain.h"
 #include "GreenMario.h"
 #include "IntroBackground.h"
+#include "IntroOption.h"
 #define Sequence1MaxTime	2000
 
 class IntroScene :public CScene
@@ -37,7 +38,6 @@ protected:
 	// A play scene has to have player, right? 
 
 	vector<LPGAMEOBJECT> objects;
-
 	Map* map;
 
 
@@ -51,9 +51,12 @@ protected:
 
 public:
 	int mapid;
+	LPCWSTR path;
 	CMario* redMario = CMario::GetInstance();
+
 	GreenMario* greenMario = GreenMario::GetInstance();
 	CBrick* brick = new CBrick(5, 195, 320, 16);
+	IntroOption* option = IntroOption::GetInstance();
 	IntroBackGround* introbackground = new IntroBackGround(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight() / 2);
 	//CMario* redMario = new CMario(0, 0);
 	//CMario* greenMario = new CMario(0, 0);
@@ -61,7 +64,7 @@ public:
 	Leaf* leaf = new Leaf(CGame::GetInstance()->GetBackBufferWidth() / 2,0);
 	DWORD SequenceTime;
 	IntroScene(int id, LPCWSTR filePath);
-	bool isDoneSeq1, isDoneSeq2, isDoneSeq3, isDoneSeq4;
+	bool isDoneSeq1, isDoneSeq2, isDoneSeq3, isDoneSeq4, isDoneSeq5;
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();

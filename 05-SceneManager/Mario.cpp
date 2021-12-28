@@ -25,7 +25,7 @@
 #include "GreenMario.h"
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOut(L"mario state:%d\n",state);
+	//DebugOut(L"mario state:%d\n",state);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{

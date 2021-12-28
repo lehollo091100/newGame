@@ -171,6 +171,9 @@
     <ClCompile Include="IntroBackground.cpp">
       <Filter>Intro</Filter>
     </ClCompile>
+    <ClCompile Include="IntroOption.cpp">
+      <Filter>Intro</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -318,6 +321,9 @@
       <Filter>Intro</Filter>
     </ClInclude>
     <ClInclude Include="IntroBackground.h">
+      <Filter>Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroOption.h">
       <Filter>Intro</Filter>
     </ClInclude>
   </ItemGroup>

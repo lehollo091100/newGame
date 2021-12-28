@@ -43,7 +43,10 @@ TAIL: 13000->14000
 17971
 20/ marrio green
 18000->18100
-
+21INTRO BACKGROUND
+18100->18110
+21/ intro option
+18110->18120
 
 ANIMATION:
 1/MARIO:
@@ -91,3 +94,5 @@ TAIL:550->600
 1020->1100
 21/intro background
 1100->1110
+22/intro option
+1110->1120

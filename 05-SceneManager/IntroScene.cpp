@@ -1,15 +1,16 @@
 #include "IntroScene.h"
 #include "SampleKeyEventHandler.h"
-
+#define ONE_100	40
 
 IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	//player = NULL;
-	isDoneSeq1 = isDoneSeq2 =isDoneSeq3=isDoneSeq4= false;
+	isDoneSeq1 = isDoneSeq2 =isDoneSeq3=isDoneSeq4= isDoneSeq5= false;
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
 	mapid = id;
+	path = filePath;
 }
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
@@ -148,8 +149,12 @@ void IntroScene::Load()
 	DebugOut(L"mapid:%d", mapid);
 	map->SetMap(mapid);
 	f.close();
+	//introbackground
 	introbackground->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
 	objects.push_back(introbackground);
+	//introoption
+	option->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
+	objects.push_back(option);
 	//platform
 	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, 185);
 	objects.push_back(brick);
@@ -268,6 +273,20 @@ void IntroScene::ScriptIntro()
 			SequenceTime = GetTickCount64();
 		}
 	}
+	if (isDoneSeq4 && !isDoneSeq5) {
+		if (GetTickCount64() - SequenceTime >= 3000)
+		{
+			//redMario->Delete();
+			if (greenMario)
+			{
+				greenMario->SetState(GREENMARIO_STATE_WALKING_LEFT);
+			}
+			SequenceTime = GetTickCount64();
+			option->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2 +ONE_100);
+			CGame::GetInstance()->allowKey = true;
+			isDoneSeq5 = true;
+		}
+	}
 }
 
 /*
@@ -300,6 +319,8 @@ void IntroScene::Unload()
 }
 
 bool IntroScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
+
+
 
 void IntroScene::PurgeDeletedObjects()
 {

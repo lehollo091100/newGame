@@ -386,7 +386,7 @@ void CGame::InitKeyboard()
 void CGame::ProcessKeyboard()
 {
 	HRESULT hr;
-	if (current_scene == 3)
+	if (current_scene == 3&& allowKey!=true)
 		return;
 	// Collect all key states first
 	hr = didv->GetDeviceState(sizeof(keyStates), keyStates);
@@ -467,7 +467,8 @@ void CGame::_ParseSection_SCENES(string line)
 	}
 	else
 	{
-		LPSCENE scene = new IntroScene(id, path);
+		//LPSCENE scene = new IntroScene(id,path);
+		LPSCENE scene = new IntroScene(id,path);
 		scenes[id] = scene;
 	}
 }

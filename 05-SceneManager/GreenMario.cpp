@@ -36,6 +36,11 @@ void GreenMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ax -= 0.000005f;
 		}
 	}*/
+	if (x <= 0)
+	{
+		tail->Delete();
+		Delete();
+	}
 	if (state == GREENMARIO_STATE_IDLE)
 	{
 		//stop when ax=0 
@@ -150,10 +155,10 @@ void GreenMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(GREENMARIO_STATE_RELEASE_JUMP);
 	}
 
-	if (x < 8)
+	/*if (x < 8)
 	{
 		x += 8;
-	}
+	}*/
 
 	if (abs(vx) > abs(maxVx))
 	{
