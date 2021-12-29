@@ -52,9 +52,8 @@ protected:
 public:
 	int mapid;
 	LPCWSTR path;
-	CMario* redMario = CMario::GetInstance();
-
-	GreenMario* greenMario = GreenMario::GetInstance();
+	CMario* redMario;
+	GreenMario* greenMario;
 	CBrick* brick = new CBrick(5, 195, 320, 16);
 	IntroOption* option = IntroOption::GetInstance();
 	IntroBackGround* introbackground = new IntroBackGround(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight() / 2);

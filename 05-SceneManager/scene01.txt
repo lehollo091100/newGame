@@ -19,6 +19,10 @@ firegreenplant.txt
 leaf.txt
 pipe.txt
 endgameitem.txt
+curtain.txt
+greenmario.txt
+introbackground.txt
+introoption.txt
 #
 [OBJECTS]
 # type	x	y	aniset_id	extra_settings per object type

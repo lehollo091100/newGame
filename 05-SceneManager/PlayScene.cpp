@@ -19,6 +19,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	//player = NULL;
+	player = CMario::GetInstance();
 	key_handler = new CSampleKeyHandler(this);
 	map = new Map();
 	mapid = id;

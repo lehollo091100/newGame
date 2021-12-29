@@ -6,6 +6,8 @@
 #include "Mario.h"
 #include "PlayScene.h"
 #include "IntroScene.h"
+#include "IntroOption.h"
+#define INTROSCENE	3
 
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -13,9 +15,35 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
 	/*if (mario->isPiping)
 		return;*/
-	if (CGame::GetInstance()->current_scene == 3)
+	if (CGame::GetInstance()->current_scene == INTROSCENE)
 	{
-
+		IntroOption* option = IntroOption::GetInstance();
+		switch (KeyCode)
+		{
+		case DIK_DOWN:
+		{
+			if (option->state == INTROOPTION_STATE_UP) {
+				option->SetState(INTROOPTION_STATE_DOWN);
+			}
+			else {
+				break;
+			}
+			break;
+		}
+		case DIK_UP: {
+			if (option->state == INTROOPTION_STATE_DOWN) {
+				option->SetState(INTROOPTION_STATE_UP);
+			}
+			else {
+				break;
+			}
+			break;
+		}
+		case DIK_S: {
+			CGame::GetInstance()->InitiateSwitchScene(1);
+			break;
+		}
+		}
 	}
 	else {
 		switch (KeyCode)
@@ -102,12 +130,11 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	/*if (mario->isPiping)
 		return;*/
-	if (CGame::GetInstance()->current_scene == 3)
+	if (CGame::GetInstance()->current_scene == INTROSCENE)
 	{
-
+		return;
 	}
 	else {
-
 
 		switch (KeyCode)
 		{
@@ -159,19 +186,20 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	//if (mario->isPiping)
 	//	return;
 	/// <summary>
 	/// neu ko co if isonplatform thi doi chieu dc. ko co thi bi loi render
 	/// </summary>
 	/// <param name="states"></param>
-	if (CGame::GetInstance()->current_scene == 3 )
+	if (CGame::GetInstance()->current_scene == INTROSCENE)
 	{
-		
+		return;
 	}
 	else
 	{
+		//CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		CMario* mario = CMario::GetInstance();
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
 			if (mario->isPiping)

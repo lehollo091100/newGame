@@ -159,6 +159,7 @@ void IntroScene::Load()
 	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, 185);
 	objects.push_back(brick);
 	//mario+tail
+	redMario = new CMario(0, 0);
 	redMario->SetPosition(10, 0);
 	objects.push_back(redMario);
 	Tail* obj1 = new Tail(10 + KOOPAS_WIDTH, 0);
@@ -167,6 +168,7 @@ void IntroScene::Load()
 	CMario* a = dynamic_cast<CMario*>(redMario);
 	a->tail = obj1;
 	//green mario
+	greenMario = new GreenMario(0, 0);
 	greenMario->SetPosition(CGame::GetInstance()->GetBackBufferWidth(), 0);
 	objects.push_back(greenMario);
 	Tail* obj2 = new Tail(CGame::GetInstance()->GetBackBufferWidth() + KOOPAS_WIDTH, 0);
@@ -225,7 +227,7 @@ void IntroScene::ScriptIntro()
 		SequenceTime = GetTickCount64();
 	if (isDoneSeq1 == false)
 	{
-		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime*4)
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
 
 			SequenceTime = GetTickCount64();
@@ -277,6 +279,11 @@ void IntroScene::ScriptIntro()
 		if (GetTickCount64() - SequenceTime >= 3000)
 		{
 			//redMario->Delete();
+			//if (redMario)
+			//{
+			//	redMario->tail->Delete();
+			//	redMario = NULL;
+			//}
 			if (greenMario)
 			{
 				greenMario->SetState(GREENMARIO_STATE_WALKING_LEFT);

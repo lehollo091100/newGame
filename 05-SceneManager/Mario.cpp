@@ -23,6 +23,7 @@
 #include "Pipe.h"
 #include "EndGameItem.h"
 #include "GreenMario.h"
+#define INTROSCENE	3
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"mario state:%d\n",state);
@@ -38,7 +39,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			ax -= 0.000005f;
 		}
 	}*/
-	if (vx != 0)
+	if (vx != 0&&CGame::GetInstance()->current_scene == INTROSCENE)
 	{
 		if (x >= CGame::GetInstance()->GetBackBufferWidth())
 		{
