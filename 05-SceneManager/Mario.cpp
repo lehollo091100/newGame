@@ -396,7 +396,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 			vy = -MARIO_JUMP_RUN_SPEED_Y;
 			vx = MARIO_WALKING_SPEED;
 			//firstJumpIntro = true;
-			GreenMario* green = GreenMario::GetInstance();
+			GreenMario* green = dynamic_cast<GreenMario*>(e->obj);
 			//green->SetState(GREENMARIO_STATE_SIT);
 			green->SetState(GREENMARIO_STATE_IDLE);
 			green->isSitting = true;

@@ -1,7 +1,9 @@
 #include "IntroScene.h"
 #include "SampleKeyEventHandler.h"
 #define ONE_100	40
-
+#define TEN	10
+#define BRICKY_INTROSCENE	185
+#define NINE_HUNDRED	900
 IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
@@ -11,6 +13,7 @@ IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	map = new Map();
 	mapid = id;
 	path = filePath;
+	//SequenceTime = 0;
 }
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
@@ -156,14 +159,14 @@ void IntroScene::Load()
 	option->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
 	objects.push_back(option);
 	//platform
-	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, 185);
+	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, BRICKY_INTROSCENE);
 	objects.push_back(brick);
 	//mario+tail
 	redMario = new CMario(0, 0);
-	redMario->SetPosition(10, 0);
+	redMario->SetPosition(TEN, 0);
 	objects.push_back(redMario);
-	Tail* obj1 = new Tail(10 + KOOPAS_WIDTH, 0);
-	obj1->SetPosition(10 - WIDTH, 0);
+	Tail* obj1 = new Tail(TEN + KOOPAS_WIDTH, 0);
+	obj1->SetPosition(TEN - WIDTH, 0);
 	objects.push_back(obj1);
 	CMario* a = dynamic_cast<CMario*>(redMario);
 	a->tail = obj1;
@@ -177,7 +180,7 @@ void IntroScene::Load()
 	GreenMario* b = dynamic_cast<GreenMario*>(greenMario);
 	b->tail = obj2;
 	//curtain
-	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2-10);
+	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2- TEN);
 	objects.push_back(curtain);
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
@@ -247,7 +250,7 @@ void IntroScene::ScriptIntro()
 	}
 	if (isDoneSeq2&&!isDoneSeq3)
 	{
-		if (GetTickCount64() - SequenceTime >= 900)
+		if (GetTickCount64() - SequenceTime >= NINE_HUNDRED)
 		{
 			introbackground->SetState(INTROBACKGROUND_STATE_MOVING);
 			redMario->SetState(MARIO_STATE_JUMP);
@@ -259,7 +262,7 @@ void IntroScene::ScriptIntro()
 	if (isDoneSeq3&&!isDoneSeq4)
 	{
 		
-		if (GetTickCount64()-SequenceTime>=500)
+		if (GetTickCount64()-SequenceTime>=Sequence1MaxTime/4)
 		{
 			if (redMario->isOnPlatform)
 			{
@@ -276,7 +279,7 @@ void IntroScene::ScriptIntro()
 		}
 	}
 	if (isDoneSeq4 && !isDoneSeq5) {
-		if (GetTickCount64() - SequenceTime >= 3000)
+		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
 			//redMario->Delete();
 			//if (redMario)
