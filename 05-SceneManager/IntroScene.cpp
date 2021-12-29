@@ -155,6 +155,10 @@ void IntroScene::Load()
 	//introbackground
 	introbackground->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
 	objects.push_back(introbackground);
+	//NUMBER3
+	num3 = new Number3(0, 0);
+	num3->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
+	objects.push_back(num3);
 	//introoption
 	option->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
 	objects.push_back(option);
@@ -261,7 +265,10 @@ void IntroScene::ScriptIntro()
 	}
 	if (isDoneSeq3&&!isDoneSeq4)
 	{
-		
+		if (introbackground->state == INTROBACKGROUND_STATE_CHANGE)
+		{
+			num3->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2+TEN);
+		}
 		if (GetTickCount64()-SequenceTime>=Sequence1MaxTime/4)
 		{
 			if (redMario->isOnPlatform)

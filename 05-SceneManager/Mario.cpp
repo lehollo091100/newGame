@@ -952,7 +952,28 @@ int CMario::GetAniIdBig()
 		}
 		else if (isHolding)
 		{
-
+			if (nx>0)
+			{
+				if (vx == 0)
+				{
+					aniId = ID_ANI_MARIO_HOLD_RIGHT_IDLE;
+				}
+				else
+				{
+					aniId = ID_ANI_MARIO_HOLD_RIGHT_WALKING;
+				}
+			}
+			else
+			{
+				if (vx == 0)
+				{
+					aniId = ID_ANI_MARIO_HOLD_LEFT_IDLE;
+				}
+				else
+				{
+					aniId = ID_ANI_MARIO_HOLD_LEFT_WALKING;
+				}
+			}
 		}
 		else if (isKicking)
 		{

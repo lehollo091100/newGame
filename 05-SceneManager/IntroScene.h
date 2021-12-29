@@ -30,6 +30,7 @@
 #include "GreenMario.h"
 #include "IntroBackground.h"
 #include "IntroOption.h"
+#include "Number3.h"
 #define Sequence1MaxTime	2000
 
 class IntroScene :public CScene
@@ -54,6 +55,7 @@ public:
 	LPCWSTR path;
 	CMario* redMario;
 	GreenMario* greenMario;
+	Number3* num3;
 	CBrick* brick = new CBrick(5, 195, 320, 16);
 	IntroOption* option = IntroOption::GetInstance();
 	IntroBackGround* introbackground = new IntroBackGround(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight() / 2);

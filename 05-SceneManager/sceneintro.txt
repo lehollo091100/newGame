@@ -23,3 +23,4 @@ curtain.txt
 greenmario.txt
 introbackground.txt
 introoption.txt
+number3.txt
