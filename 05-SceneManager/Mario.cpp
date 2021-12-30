@@ -874,12 +874,47 @@ int CMario::GetAniIdSmall()
 		{
 			aniId = ID_ANI_MARIO_SMALL_PIPING;
 		}
+		else if(isHolding)
+		{
+			if (nx >= 0)
+			{
+				if (vx == 0) {
+					aniId = ID_ANI_MARIO_SMALL_HOLDRIGHT_IDLE;
+				}
+				else
+				{
+					aniId = ID_ANI_MARIO_SMALL_HOLDRIGHT_WALKING;
+				}
+			}
+			else
+			{
+				if (vx == 0)
+				{
+					aniId = ID_ANI_MARIO_SMALL_HOLDLEFT_IDLE;
+				}
+				else
+				{
+					aniId = ID_ANI_MARIO_SMALL_HOLDLEFT_WALKING;
+				}
+			}
+		}
+		else if (isKicking)
+		{
+			if (nx >= 0) {
+				aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
+			}
+			else
+			{
+				aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
+			}
+		}
 		else
 			if (vx == 0)
 			{
 				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
 				else aniId = ID_ANI_MARIO_SMALL_IDLE_LEFT;
 			}
+			
 			else if (vx > 0)
 			{
 				if (ax < 0)

@@ -101,6 +101,21 @@
 #piping
 12428	215	0	231	16	30
 
+#hold left idle
+12429	186	120	202	136	30
+#hold left walking
+12430	154	120	170	136	30
+
+#hold right idle
+12431	245	120	261	136	30
+#hold right walking
+12432	275	120	293	136	30
+
+#kick left
+12433	4	79	22	97	30
+#kick right
+12434	425	79	441	97	30
+
 ##################TAIL######################
 #IDLE LEFT&RIGHT
 13000	172	443	196	473	60
@@ -268,6 +283,21 @@
 
 #piping
 512	12428	100
+
+#hold idle left
+513	12429	100
+#hold left walking
+514	12429	100	12430	100
+
+#hold right
+515	12431	100
+#hold right walking
+516	12431	100	12432	100
+
+#kick left
+517	12433	100
+#kick right
+518	12434	100
 
 ######################TAIL#######################
 #idle left

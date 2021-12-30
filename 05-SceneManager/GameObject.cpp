@@ -10,11 +10,13 @@
 
 CGameObject::CGameObject()
 {
+	IsAllowRender = IsAllowUpdate = false;
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
 	state = -1;
 	isDeleted = false;
+	type = -1;
 }
 
 bool CGameObject::CheckSkipCollision(LPGAMEOBJECT coObject, int nx, int ny)
@@ -51,7 +53,7 @@ void CGameObject::RenderBoundingBox()
 	float cx, cy; 
 	CGame::GetInstance()->GetCamPos(cx, cy);
 
-	CGame::GetInstance()->Draw(x - cx, y - cy, bbox, rect.left, rect.top, rect.right, rect.bottom, 0.25f);
+	//CGame::GetInstance()->Draw(x - cx, y - cy, bbox, rect.left, rect.top, rect.right, rect.bottom, 0.25f);
 }
 
 CGameObject::~CGameObject()
