@@ -290,18 +290,25 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				}
 				case OBJECT_TYPE_PLANTFIRE: {
-					if (untouchable == 0)
+					if (coObjects->at(i) != NULL)
 					{
-							if (level > MARIO_LEVEL_SMALL)
+						PlantFire* plantfire = dynamic_cast<PlantFire*>(coObjects->at(i));
+						if (plantfire->state == FIREPLANT_MOVING)
+						{
+							if (untouchable == 0)
 							{
-								level = MARIO_LEVEL_SMALL;
-								StartUntouchable();
+								if (level > MARIO_LEVEL_SMALL)
+								{
+									level = MARIO_LEVEL_SMALL;
+									StartUntouchable();
+								}
+								else
+								{
+									DebugOut(L">>> Mario DIE >>> \n");
+									SetState(MARIO_STATE_DIE);
+								}
 							}
-							else
-							{
-								DebugOut(L">>> Mario DIE >>> \n");
-								SetState(MARIO_STATE_DIE);
-							}
+						}
 					}
 					break;
 				}

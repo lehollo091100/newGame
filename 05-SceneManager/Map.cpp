@@ -49,9 +49,9 @@ void Map::AddSprites()
 		return;
 	}
 	int id_sprite = 1;
-	for (UINT i = 0; i < TexRow; i++)
+	for (UINT i = 0; i < UINT(TexRow); i++)
 	{
-		for (UINT j = 0; j < TexCol; j++)
+		for (UINT j = 0; j < UINT(TexCol); j++)
 		{
 
 			CSprites::GetInstance()->Add(id_sprite, TexW * j, TexH * i, TexW * (j + 1), TexH * (i + 1), texMap);
