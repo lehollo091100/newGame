@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "AssetIDs.h"
-#define ID_ANI_BRICK 10000
+//#define ID_ANI_BRICK 10000
 class ColorBrick : public CGameObject
 {
 public:

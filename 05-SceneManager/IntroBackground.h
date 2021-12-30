@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "AssetIDs.h"
-#define ID_ANI_NORMAL	1100
+#define ID_ANI_INTROBACKGROUND_NORMAL	1100
 #define ID_ANI_CHANGE	1101
 #define INTROBACKGROUND_STATE_NORMAL	0
 #define INTROBACKGROUND_STATE_MOVING	100

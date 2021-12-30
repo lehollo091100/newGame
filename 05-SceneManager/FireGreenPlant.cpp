@@ -2,41 +2,41 @@
 
 void FireGreenPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - WIDTH / 2;
-	top = y - HEIGHT / 2;
-	right = left + WIDTH;
-	bottom = top + HEIGHT;
+	left = x - FIREGREENPLANT_WIDTH / 2;
+	top = y - FIREGREENPLANT_HEIGHT / 2;
+	right = left + FIREGREENPLANT_WIDTH;
+	bottom = top + FIREGREENPLANT_HEIGHT;
 
 }
 
 void FireGreenPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == FIREREDPLANT_STATE_START)
+	if (state == FIREGREENPLANT_STATE_START)
 	{
-		if (GetTickCount64() - time >= TIME)
+		if (GetTickCount64() - time >= FIREGREENPLANT_TIME)
 		{
-			SetState(FIREREDPLANT_STATE_MOVINGUP);
+			SetState(FIREGREENPLANT_STATE_MOVINGUP);
 		}
 	}
-	else if (state == FIREREDPLANT_STATE_MOVINGUP) {
-		if (initY - y >= RANGE)
+	else if (state == FIREGREENPLANT_STATE_MOVINGUP) {
+		if (initY - y >= FIREGREENPLANT_RANGE)
 		{
 
-			SetState(FIREREDPLANT_STATE_STOP);
+			SetState(FIREGREENPLANT_STATE_STOP);
 			item->startX = x;
 			item->startY = y;
 		}
 	}
-	else if (state == FIREREDPLANT_STATE_STOP)
+	else if (state == FIREGREENPLANT_STATE_STOP)
 	{
-		if (GetTickCount64() - time >= TIME / 2)
+		if (GetTickCount64() - time >= FIREGREENPLANT_TIME / 2)
 		{
 			if (item->state != FIREPLANT_MOVING) {
 				item->SetPosition(x, y);
 				if (mario->x > x)
 				{
 					if (mario->y >= y) {
-						if (mario->x > x + FIRERANGE) {
+						if (mario->x > x + FIRE_GREENPLANT_RANGE) {
 							item->SetPosition(x, y);
 							item->SetState(FIREPLANT_MOVING);
 							item->vx = FIRE_VX;
@@ -52,7 +52,7 @@ void FireGreenPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
-						if (mario->x > x + FIRERANGE) {
+						if (mario->x > x + FIRE_GREENPLANT_RANGE) {
 							item->SetPosition(x, y);
 							item->SetState(FIREPLANT_MOVING);
 							item->vx = FIRE_VX;
@@ -70,7 +70,7 @@ void FireGreenPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 				{
 					if (mario->y >= y) {
-						if (mario->x < x - FIRERANGE) {
+						if (mario->x < x - FIRE_GREENPLANT_RANGE) {
 							item->SetState(FIREPLANT_MOVING);
 							item->vx = -FIRE_VX;
 							item->vy = FIRE_VYFAR;
@@ -85,7 +85,7 @@ void FireGreenPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
-						if (mario->x < x - FIRERANGE) {
+						if (mario->x < x - FIRE_GREENPLANT_RANGE) {
 							item->SetPosition(x, y);
 							item->SetState(FIREPLANT_MOVING);
 							item->vx = -FIRE_VX;
@@ -104,16 +104,16 @@ void FireGreenPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 		}
-		if (GetTickCount64() - time >= TIME)
+		if (GetTickCount64() - time >= FIREGREENPLANT_TIME)
 		{
-			SetState(FIREREDPLANT_STATE_MOVINGDOWN);
+			SetState(FIREGREENPLANT_STATE_MOVINGDOWN);
 		}
 	}
-	else if (state == FIREREDPLANT_STATE_MOVINGDOWN) {
+	else if (state == FIREGREENPLANT_STATE_MOVINGDOWN) {
 		if (y >= initY) {
 			vy = 0;
 			y = initY;
-			SetState(FIREREDPLANT_STATE_START);
+			SetState(FIREGREENPLANT_STATE_START);
 		}
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -124,51 +124,51 @@ void FireGreenPlant::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int ani = 0;
-	if (state == FIREREDPLANT_STATE_START || state == FIREREDPLANT_STATE_STOP)
+	if (state == FIREGREENPLANT_STATE_START || state == FIREGREENPLANT_STATE_STOP)
 	{
 		if (mario->x > x)
 		{
 			if (mario->y < y)
 			{
-				ani = ID_ANI_OPENUPRIGHT;
+				ani = ID_ANI_FIREGREENPLANT_OPENUPRIGHT;
 			}
 			else
 			{
-				ani = ID_ANI_OPENDOWNRIGHT;
+				ani = ID_ANI_FIREGREENPLANT_OPENDOWNRIGHT;
 			}
 		}
 		else {
 			if (mario->y < y)
 			{
-				ani = ID_ANI_OPENUPLEFT;
+				ani = ID_ANI_FIREGREENPLANT_OPENUPLEFT;
 			}
 			else
 			{
-				ani = ID_ANI_OPENDOWNLEFT;
+				ani = ID_ANI_FIREGREENPLANT_OPENDOWNLEFT;
 			}
 		}
 	}
-	else if (state == FIREREDPLANT_STATE_MOVINGUP || state == FIREREDPLANT_STATE_MOVINGDOWN)
+	else if (state == FIREGREENPLANT_STATE_MOVINGUP || state == FIREGREENPLANT_STATE_MOVINGDOWN)
 	{
 		if (mario->x > x)
 		{
 			if (mario->y < y)
 			{
-				ani = ID_ANI_MOVINGRIGHTUP;
+				ani = ID_ANI_FIREGREENPLANT_MOVINGRIGHTUP;
 			}
 			else
 			{
-				ani = ID_ANI_MOVINGRIGHTDOWN;
+				ani = ID_ANI_FIREGREENPLANT_MOVINGRIGHTDOWN;
 			}
 		}
 		else {
 			if (mario->y < y)
 			{
-				ani = ID_ANI_MOVINGLEFTUP;
+				ani = ID_ANI_FIREGREENPLANT_MOVINGLEFTUP;
 			}
 			else
 			{
-				ani = ID_ANI_MOVINGLEFTDOWN;
+				ani = ID_ANI_FIREGREENPLANT_MOVINGLEFTDOWN;
 			}
 		}
 	}
@@ -181,24 +181,24 @@ void FireGreenPlant::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case FIREREDPLANT_STATE_START: {
-		time = GetTickCount64();
+	case FIREGREENPLANT_STATE_START: {
+		time =DWORD( GetTickCount64());
 		vy = 0;
 		break;
 	}
-	case FIREREDPLANT_STATE_MOVINGUP: {
+	case FIREGREENPLANT_STATE_MOVINGUP: {
 		time = 0;
-		vy = -VY;
+		vy = -FIREGREENPLANT_VY;
 		break;
 	}
-	case FIREREDPLANT_STATE_STOP: {
-		time = GetTickCount64();
+	case FIREGREENPLANT_STATE_STOP: {
+		time = DWORD(GetTickCount64());
 		vy = 0;
 		break;
 	}
-	case FIREREDPLANT_STATE_MOVINGDOWN: {
+	case FIREGREENPLANT_STATE_MOVINGDOWN: {
 		time = 0;
-		vy = VY;
+		vy = FIREGREENPLANT_VY;
 		break;
 	}
 	default:

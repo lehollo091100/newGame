@@ -9,7 +9,7 @@ void PButton::SetState(int state)
 		break;
 	}
 	case PBUTTON_STATE_MOVING: {
-		vy = -PBRICK_VY;
+		vy = -PBUTTON_VY;
 		break;
 	}
 	case PBUTTON_STATE_NOTHING: {
@@ -27,11 +27,11 @@ void PButton::Render()
 	int	aniId = 0;
 	if (state == PBUTTON_STATE_NOTHING)
 	{
-		aniId = ID_ANI_NOTHING;
+		aniId = ID_ANI_PBUTTON_NOTHING;
 	}
 	else
 	{
-		aniId = ID_ANI_NORMAL;
+		aniId = ID_ANI_PBUTTON_NORMAL;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -42,7 +42,7 @@ void PButton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += vy * dt;
 	if (state == PBUTTON_STATE_MOVING)
 	{
-		if (y <= initY - WIDTH)
+		if (y <= initY - PBUTTON_WIDTH)
 		{
 			vy = 0;
 		}
@@ -53,22 +53,22 @@ void PButton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void PButton::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	if (state == PBUTTON_STATE_NOTHING) {
-		l = x - WIDTH / 2;
-		t = y - 5;
-		r = l + WIDTH;
-		b = t + 5;
+		l = x - PBUTTON_WIDTH / 2;
+		t = y - PBUTTON_NOTHING_HEIGHT;
+		r = l + PBUTTON_WIDTH;
+		b = t + PBUTTON_NOTHING_HEIGHT;
 	}
 	else if(state==PBUTTON_STATE_MOVING){
-		l = x - WIDTH / 2;
-		t = y - WIDTH / 2;
-		r = l + WIDTH;
-		b = t + WIDTH;
+		l = x - PBUTTON_WIDTH / 2;
+		t = y - PBUTTON_WIDTH / 2;
+		r = l + PBUTTON_WIDTH;
+		b = t + PBUTTON_WIDTH;
 	}
 	else
 	{
-		l = x - WIDTH / 2;
-		t = y - SWIDTH / 2;
-		r = l + WIDTH;
-		b = t + SWIDTH;
+		l = x - PBUTTON_WIDTH / 2;
+		t = y - PBUTTON_WIDTH / 2;
+		r = l + PBUTTON_WIDTH;
+		b = t + PBUTTON_WIDTH;
 	}
 }

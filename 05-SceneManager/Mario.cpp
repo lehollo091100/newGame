@@ -125,7 +125,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		if (timeToAttack == 0)
 		{
-			timeToAttack = GetTickCount64();
+			timeToAttack = DWORD(GetTickCount64());
 			if (nx > 0 || vx>0) {
 				tail->nx = 1;
 				//DebugOut(L"level: %d\n",nx);
@@ -594,7 +594,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			if (state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_WALKING_RIGHT)
 			{
 				/// kick code here
-				kicktime = GetTickCount64();
+				kicktime = DWORD(GetTickCount64());
 				isKicking = true;
 				if (vx > 0)
 				{
@@ -615,7 +615,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 						koo = dynamic_cast<Koopas*>(e->obj);
 					}
 					isHolding = true;
-					holdtime = GetTickCount64();
+					holdtime = DWORD(GetTickCount64());
 				}
 			}
 		}
@@ -626,7 +626,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				/// kick code here
 				if (isHolding == false)
 				{
-					kicktime = GetTickCount64();
+					kicktime = DWORD(GetTickCount64());
 					isKicking = true;
 					if (vx > 0)
 					{
@@ -649,7 +649,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 					}
 					koopas->SetState(KOOPAS_STATE_DEFENDUP);
 					isHolding = true;
-					holdtime = GetTickCount64();
+					holdtime = DWORD(GetTickCount64());
 				}
 			}
 		}
@@ -788,7 +788,7 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 			if (p->direction == -1)
 			{
 				isPiping = true;
-				Pipetime = GetTickCount64();
+				Pipetime = DWORD(GetTickCount64());
 				vy = -MARIO_PIPING_SPEED;	
 				SetState(MARIO_STATE_PIPING);
 			}
@@ -801,7 +801,7 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 			{
 				isPiping = true;
 				isSitting = false;
-				Pipetime = GetTickCount64();
+				Pipetime = DWORD(GetTickCount64());
 				vy = MARIO_PIPING_SPEED;
 				SetState(MARIO_STATE_PIPING);
 			}
@@ -1335,7 +1335,7 @@ void CMario::SetState(int state)
 		isFlying = true;
 		if (timeToFly == 0)
 		{
-			timeToFly = GetTickCount64();
+			timeToFly = DWORD(GetTickCount64());
 		}
 		vy -= MARIO_FLYUP_SPEED_Y;
 		break;
@@ -1346,7 +1346,7 @@ void CMario::SetState(int state)
 		break;
 	}
 	case MARIO_STATE_KICK: {
-		kicktime = GetTickCount64();
+		kicktime = DWORD(GetTickCount64());
 		isKicking = true;
 		break;
 	}

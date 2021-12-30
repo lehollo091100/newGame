@@ -57,26 +57,26 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == LEAF_STATE_MOVING) {
 		if (vy < 0)
 		{
-			if (y <= initY-5) {
+			if (y <= initY- LEAF_RANGE) {
 				vy = 0;
 				nx = 1;
-				vx = nx*VX;
-				vy = AY;
+				vx = nx* LEAF_VX;
+				vy = LEAF_AY;
 			}
 		}
 		else
 		{
 			if (vx >= 0) {
-				if (x >= initX + RANGEX) {
+				if (x >= initX + LEAF_RANGEX) {
 					nx = -1;
-					vx = nx * VX;
+					vx = nx * LEAF_VX;
 				}
 			}
 			else
 			{
-				if (x <= initX - RANGEX) {
+				if (x <= initX - LEAF_RANGEX) {
 					nx = 1;
-					vx = VX;
+					vx = LEAF_VX;
 				}
 			}
 		}

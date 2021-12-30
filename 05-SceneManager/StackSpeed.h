@@ -5,10 +5,8 @@ class StackSpeed:public CGameObject
 {
 public:
 	StackSpeed() {
-
+		type = OBJECT_TYPE_STACKSPEED;
 	};
-	float l, t, r, b;
-	int id;
 	void Render1(float x, float y, int s);
 	virtual void Render() {
 		return;

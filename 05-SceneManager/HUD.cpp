@@ -3,31 +3,35 @@
 void HUD::Update(DWORD dt)
 {
 	//DebugOut(L"stack:%d", Stack);
-	if (RANGE1 <abs( mario->vx) <= RANGE2)
+	if ((RANGE1 <abs( mario->vx)) && (abs(mario->vx) <= RANGE2))
 	{
 		Stack = 1;
 	}
-	else if (RANGE2 < abs(mario->vx) <= RANGE3)
+	if ((RANGE2 < abs(mario->vx))&& (abs(mario->vx) <= RANGE3))
 	{
 		Stack = 2;
 	}
-	else if (RANGE3 < abs(mario->vx) <= RANGE4)
+	if ((RANGE3 < abs(mario->vx)) &&(abs(mario->vx) <= RANGE4))
 	{
 		Stack = 3;
 	}
-	else if (RANGE4 < abs(mario->vx) <= RANGE5)
+	if ((RANGE4 < abs(mario->vx))&&(abs(mario->vx) <= RANGE5))
 	{
 		Stack = 4;
 	}
-	else if (RANGE5 < abs(mario->vx) <= RANGE6)
+	if ((RANGE5 < abs(mario->vx)) && (abs(mario->vx) <= RANGE6))
 	{
 		Stack = 5;
 	}
-	else if (RANGE6 < abs(mario->vx))
+	if (RANGE6 < abs(mario->vx))
 	{
 		Stack = 6;
 	}
-	if (count >= 1000)
+	if(RANGE1 >= abs(mario->vx))
+	{
+		Stack = 0;
+	}
+	/*if (count >= 1000)
 	{
 		time -= 1;
 		count = 0;
@@ -50,7 +54,7 @@ void HUD::Update(DWORD dt)
 	else if (Point >= 10000)
 	{
 		p = "00" + to_string(Point);
-	}
+	}*/
 }
 
 void HUD::Render()

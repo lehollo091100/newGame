@@ -2,23 +2,23 @@
 #include "debug.h"
 void FireRedPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - WIDTH / 2;
-	top = y - HEIGHT / 2;
-	right = left + WIDTH;
-	bottom = top + HEIGHT;
+	left = x - FIREREDPLANT_WIDTH / 2;
+	top = y - FIREREDPLANT_HEIGHT / 2;
+	right = left + FIREREDPLANT_WIDTH;
+	bottom = top + FIREREDPLANT_HEIGHT;
 }
 
 void FireRedPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state == FIREREDPLANT_STATE_START)
 	{
-		if (GetTickCount64() - time >= TIME)
+		if (GetTickCount64() - time >= FIREREDPLANT_TIME)
 		{
 			SetState(FIREREDPLANT_STATE_MOVINGUP);
 		}
 	}
 	else if (state == FIREREDPLANT_STATE_MOVINGUP) {
-		if (initY - y >= RANGE)
+		if (initY - y >= FIREREDPLANT_RANGE)
 		{
 			
 			SetState(FIREREDPLANT_STATE_STOP);
@@ -28,7 +28,7 @@ void FireRedPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if (state == FIREREDPLANT_STATE_STOP)
 	{
-		if (GetTickCount64() - time >= TIME/2)
+		if (GetTickCount64() - time >= FIREREDPLANT_TIME /2)
 		{
 			if (item->state != FIREPLANT_MOVING) {
 				item->SetPosition(x, y);
@@ -103,7 +103,7 @@ void FireRedPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 		}
-		if (GetTickCount64() - time >= TIME)
+		if (GetTickCount64() - time >= FIREREDPLANT_TIME)
 		{
 			SetState(FIREREDPLANT_STATE_MOVINGDOWN);
 		}
@@ -180,23 +180,23 @@ void FireRedPlant::SetState(int state)
 	switch (state)
 	{
 	case FIREREDPLANT_STATE_START:	{
-		time = GetTickCount64();
+		time = DWORD(GetTickCount64());
 		vy = 0;
 		break;
 	}
 	case FIREREDPLANT_STATE_MOVINGUP: {
 		time = 0;
-		vy = -VY;
+		vy = -FIREREDPLANT_VY;
 		break;
 	}
 	case FIREREDPLANT_STATE_STOP:{
-		time = GetTickCount64();
+		time = DWORD(GetTickCount64());
 		vy = 0;
 		break;
 	}
 	case FIREREDPLANT_STATE_MOVINGDOWN: {
 		time = 0;
-		vy = VY;
+		vy = FIREREDPLANT_VY;
 		break;
 	}
 	default:

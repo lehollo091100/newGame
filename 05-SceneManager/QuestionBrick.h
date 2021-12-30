@@ -5,14 +5,14 @@
 #include "Mushroom.h"
 #include "Leaf.h"
 #define QBRICK_WIDTH	16
-#define ID_ANI_NORMAL	801
-#define ID_ANI_NOTHING	802
+#define ID_ANI_QBRICK_NORMAL	801
+#define ID_ANI_QBRICK_NOTHING	802
 #define QBSTATE_NORMAL	0
 #define QBSTATE_UP	100
 #define QBSTATE_MOVING	200
 #define QBSTATE_NOTHING	300
 #define RANGE_UP	5
-#define VY 0.02f
+#define QBRICK_VY 0.02f
 class QuestionBrick: public CGameObject
 {
 	float initX, initY;

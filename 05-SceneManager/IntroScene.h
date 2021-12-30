@@ -53,17 +53,17 @@ protected:
 public:
 	int mapid;
 	LPCWSTR path;
-	CMario* redMario;
-	GreenMario* greenMario;
-	Number3* num3;
+	CMario* redMario =new CMario(0,0);
+	GreenMario* greenMario =new GreenMario(0,0);
+	Number3* num3= new Number3(0, 0);
 	CBrick* brick = new CBrick(5, 195, 320, 16);
 	IntroOption* option = IntroOption::GetInstance();
-	IntroBackGround* introbackground = new IntroBackGround(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight() / 2);
+	IntroBackGround* introbackground = new IntroBackGround(CGame::GetInstance()->GetBackBufferWidth() / float(2), -CGame::GetInstance()->GetBackBufferHeight() / float(2));
 	//CMario* redMario = new CMario(0, 0);
 	//CMario* greenMario = new CMario(0, 0);
 	Curtain* curtain = new Curtain(0,0);
-	Leaf* leaf = new Leaf(CGame::GetInstance()->GetBackBufferWidth() / 2,0);
-	DWORD SequenceTime;
+	Leaf* leaf = new Leaf(CGame::GetInstance()->GetBackBufferWidth() / float(2),0);
+	DWORD SequenceTime=0;
 	IntroScene(int id, LPCWSTR filePath);
 	bool isDoneSeq1, isDoneSeq2, isDoneSeq3, isDoneSeq4, isDoneSeq5;
 	virtual void Load();

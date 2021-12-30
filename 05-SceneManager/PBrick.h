@@ -8,9 +8,8 @@
 #define PBRICK_STATE_NORMAL	0
 #define PBRICK_STATE_MOVING	100
 #define PBRICK_STATE_NOTHING	200
-#define ID_ANI_NORMAL	945
-#define ID_ANI_NOTHING	802
-#define ID_ANI_DEBRIS	946
+#define ID_ANI_PBRICK_NORMAL	945
+#define ID_ANI_PBRICK_NOTHING	802
 class PBrick : public CGameObject
 {
 	float initX, initY;

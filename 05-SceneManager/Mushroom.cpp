@@ -58,12 +58,12 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state!=MUSHROOM_STATE_INVISIBLE)
 	{
-		vy += AX * dt;
+		vy += MUSHROOM_AX * dt;
 	}
 	if (state==MUSHROOM_STATE_UP)
 	{
-		vy = -VY;
-		if (y <= initY-RANGE)
+		vy = -MUSHROOM_VY;
+		if (y <= initY-MUSHROOM_RANGE)
 		{
 			vy = 0;
 			SetState(MUSHROOM_STATE_MOVING);
@@ -71,13 +71,13 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (state == MUSHROOM_STATE_MOVING)
 	{
-		vx = nx*VX;
+		vx = nx*MUSHROOM_VX;
 		//vy = VY;
 	}
 	if (x <= 8)
 	{
 		nx = -nx;
-		vx = nx * VX;
+		vx = nx * MUSHROOM_VX;
 	}
 	//DebugOut(L"mushroom mario:%f\n", mario->x);
 	CCollision::GetInstance()->Process(this, dt, coObjects);

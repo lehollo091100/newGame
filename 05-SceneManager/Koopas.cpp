@@ -100,7 +100,7 @@ void Koopas::SetState(int state)
 		break;
 	}
 	case KOOPAS_STATE_DEFENDDOWN: {
-		begin = GetTickCount64();
+		begin = DWORD(GetTickCount64());
 		item->SetState(ITEM_STATE_STOP);
 		if (nx >= 0)
 		{
@@ -119,7 +119,7 @@ void Koopas::SetState(int state)
 		break;
 	}
 	case KOOPAS_STATE_DEFENDUP: {
-		begin = GetTickCount64();
+		begin = DWORD(GetTickCount64());
 		item->SetState(ITEM_STATE_STOP);
 		break;
 	}
@@ -256,11 +256,14 @@ void Koopas::OnCollisionWith(LPCOLLISIONEVENT e, DWORD dt)
 		}
 		else if (e->nx != 0 )
 		{
-			if (e->obj->type == OBJECT_TYPE_GOOMBA && e->obj->state == GOOMBA_STATE_DIE)
+			if (dynamic_cast<CGoomba*>(e->obj))
 			{
-				return;
+				if (e->obj->state == GOOMBA_STATE_DIE)
+				{
+					return;
+				}
 			}
-			if (e->obj->type == OBJECT_TYPE_KOOPASITEM)
+			if (dynamic_cast<Koopasitem*>(e->obj))
 			{
 				return;
 			}

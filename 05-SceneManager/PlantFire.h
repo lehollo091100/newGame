@@ -2,12 +2,11 @@
 #include "GameObject.h"
 #include "Collision.h"
 #include "AssetIDs.h"
-#define TIME	3000
-#define WIDTH	10
-#define RANGE	(HEIGHT+4)
+#define PLANTFIRE_WIDTH	10
+#define PLANTFIRE_RANGE	50
 #define FIREPLANT_START	0
 #define FIREPLANT_MOVING	100
-#define ID_ANI_NORMAL	941
+#define ID_ANI_PLANTFIRE_NORMAL	941
 
 class PlantFire :public CGameObject
 {

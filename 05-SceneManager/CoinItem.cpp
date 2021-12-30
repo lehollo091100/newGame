@@ -11,7 +11,7 @@ void CoinItem::SetState(int state)
 	{
 		if (vy==0)
 		{
-			vy = -VY;
+			vy = -COINITEM_VY;
 		}
 		break;
 	}
@@ -35,7 +35,7 @@ void CoinItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state != COIN_STATE_NORMAL) {
 
-		vy += AY*dt;
+		vy += COINITEN_AY*dt;
 	}
 	x += vx * dt;
 	y += vy * dt;

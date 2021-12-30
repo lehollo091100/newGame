@@ -235,16 +235,19 @@ public:
 	float ay;				// acceleration on y 
 	int level; 
 	BOOLEAN isOnPlatform;
-	Tail* tail;
+	Tail* tail=NULL;
 	DWORD timeToFly, timeToAttack, holdtime;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		Pipetime = 0;
 		pressP = false;
 		timeToAttack = 0;
 		isFlying = false;
 		timeToFly = 0;
 		kicktime = 0;
+		holdtime = 0;
 		type = 0;
+		isAttacking = false;
 		isSitting = false;
 		isHolding = false;
 		isKicking = false;
@@ -259,6 +262,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		scene = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

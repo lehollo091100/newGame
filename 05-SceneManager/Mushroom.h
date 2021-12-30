@@ -7,10 +7,10 @@
 #define MUSHROOM_STATE_UP	100
 #define MUSHROOM_STATE_MOVING	200
 #define ID_ANI_MUSHROOM 850
-#define VY	0.03f
-#define	VX	0.04f
-#define RANGE	16
-#define AX	0.002f
+#define MUSHROOM_VY	0.03f
+#define	MUSHROOM_VX	0.04f
+#define MUSHROOM_RANGE	16
+#define MUSHROOM_AX	0.002f
 class Mushroom : public CGameObject
 {
 	float initY;

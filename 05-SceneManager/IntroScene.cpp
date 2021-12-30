@@ -13,7 +13,7 @@ IntroScene::IntroScene(int id, LPCWSTR filePath) :
 	map = new Map();
 	mapid = id;
 	path = filePath;
-	//SequenceTime = 0;
+	SequenceTime = 0;
 }
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
@@ -73,7 +73,8 @@ void IntroScene::_ParseSection_ANIMATIONS(string line)
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i + 1].c_str());
+		//int i1=
+		int frame_time = atoi(tokens[static_cast<__int64>(i) + 1].c_str());
 		ani->Add(sprite_id, frame_time);
 	}
 
@@ -150,23 +151,25 @@ void IntroScene::Load()
 		}
 	}
 	DebugOut(L"mapid:%d", mapid);
+	float w = CGame::GetInstance()->GetBackBufferWidth() / float(2);
+	float h = float(CGame::GetInstance()->GetBackBufferHeight());
 	map->SetMap(mapid);
 	f.close();
 	//introbackground
-	introbackground->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
+	introbackground->SetPosition(float(CGame::GetInstance()->GetBackBufferWidth()) /2.0f, float(-CGame::GetInstance()->GetBackBufferHeight()));
 	objects.push_back(introbackground);
 	//NUMBER3
-	num3 = new Number3(0, 0);
-	num3->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
+	//num3 = new Number3(0, 0);
+	num3->SetPosition(w, -h);
 	objects.push_back(num3);
 	//introoption
-	option->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, -CGame::GetInstance()->GetBackBufferHeight());
+	option->SetPosition(float(CGame::GetInstance()->GetBackBufferWidth()) / 2.0f, -h);
 	objects.push_back(option);
 	//platform
-	brick->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, BRICKY_INTROSCENE);
+	brick->SetPosition(float(CGame::GetInstance()->GetBackBufferWidth()) / 2.0f, BRICKY_INTROSCENE);
 	objects.push_back(brick);
 	//mario+tail
-	redMario = new CMario(0, 0);
+	//redMario = new CMario(0, 0);
 	redMario->SetPosition(TEN, 0);
 	objects.push_back(redMario);
 	Tail* obj1 = new Tail(TEN + KOOPAS_WIDTH, 0);
@@ -175,16 +178,16 @@ void IntroScene::Load()
 	CMario* a = dynamic_cast<CMario*>(redMario);
 	a->tail = obj1;
 	//green mario
-	greenMario = new GreenMario(0, 0);
-	greenMario->SetPosition(CGame::GetInstance()->GetBackBufferWidth(), 0);
+	//greenMario = new GreenMario(0, 0);
+	greenMario->SetPosition(float(CGame::GetInstance()->GetBackBufferWidth()), float(0));
 	objects.push_back(greenMario);
-	Tail* obj2 = new Tail(CGame::GetInstance()->GetBackBufferWidth() + KOOPAS_WIDTH, 0);
-	obj2->SetPosition(CGame::GetInstance()->GetBackBufferWidth() - WIDTH, 0);
+	Tail* obj2 = new Tail(float(CGame::GetInstance()->GetBackBufferWidth()) + KOOPAS_WIDTH, 0.0f);
+	obj2->SetPosition(w*2.0f- WIDTH, 0);
 	objects.push_back(obj2);
 	GreenMario* b = dynamic_cast<GreenMario*>(greenMario);
 	b->tail = obj2;
 	//curtain
-	curtain->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2- TEN);
+	curtain->SetPosition(w, h / 2.0f- TEN);
 	objects.push_back(curtain);
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
@@ -212,7 +215,7 @@ void IntroScene::Update(DWORD dt)
 
 
 	// Update camera to follow mario
-	float cx, cy;
+	//float cx, cy;
 	ScriptIntro();
 
 	CGame::GetInstance()->SetCamPos(0, 0);
@@ -230,14 +233,14 @@ void IntroScene::Render()
 
 void IntroScene::ScriptIntro()
 {
-	if (SequenceTime == 0)
-		SequenceTime = GetTickCount64();
+	if (SequenceTime ==0)
+		SequenceTime =DWORD(GetTickCount64());
 	if (isDoneSeq1 == false)
 	{
 		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
 
-			SequenceTime = GetTickCount64();
+			SequenceTime = DWORD(GetTickCount64());
 			curtain->SetState(CURTAIN_STATE_MOVING);
 			isDoneSeq1 = true;
 		}
@@ -246,7 +249,7 @@ void IntroScene::ScriptIntro()
 	{
 		if (GetTickCount64() - SequenceTime >= Sequence1MaxTime)
 		{
-			SequenceTime = GetTickCount64();
+			SequenceTime = DWORD(GetTickCount64());
 			redMario->SetState(MARIO_STATE_WALKING_RIGHT);
 			greenMario->SetState(GREENMARIO_STATE_WALKING_LEFT);
 			isDoneSeq2 = true;
@@ -260,14 +263,14 @@ void IntroScene::ScriptIntro()
 			redMario->SetState(MARIO_STATE_JUMP);
 			//greenMario->SetState(MARIO_STATE_IDLE);
 			isDoneSeq3 = true;
-			SequenceTime = GetTickCount64();
+			SequenceTime = DWORD(GetTickCount64());
 		}
 	}
 	if (isDoneSeq3&&!isDoneSeq4)
 	{
 		if (introbackground->state == INTROBACKGROUND_STATE_CHANGE)
 		{
-			num3->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2+TEN);
+			num3->SetPosition(float(CGame::GetInstance()->GetBackBufferWidth()) / 2.0f, float(CGame::GetInstance()->GetBackBufferHeight()) / 2.0f+TEN);
 		}
 		if (GetTickCount64()-SequenceTime>=Sequence1MaxTime/4)
 		{
@@ -282,7 +285,7 @@ void IntroScene::ScriptIntro()
 				//redMario->SetState(MARIO_STATE_IDLE);
 				isDoneSeq4 = true;
 			}
-			SequenceTime = GetTickCount64();
+			SequenceTime = DWORD(GetTickCount64());
 		}
 	}
 	if (isDoneSeq4 && !isDoneSeq5) {
@@ -298,8 +301,8 @@ void IntroScene::ScriptIntro()
 			{
 				greenMario->SetState(GREENMARIO_STATE_WALKING_LEFT);
 			}
-			SequenceTime = GetTickCount64();
-			option->SetPosition(CGame::GetInstance()->GetBackBufferWidth() / 2, CGame::GetInstance()->GetBackBufferHeight() / 2 +ONE_100);
+			SequenceTime = DWORD(GetTickCount64());
+			option->SetPosition(float(CGame::GetInstance()->GetBackBufferWidth()) / 2.0f, float(CGame::GetInstance()->GetBackBufferHeight())/ 2.0f +ONE_100);
 			CGame::GetInstance()->allowKey = true;
 			isDoneSeq5 = true;
 		}

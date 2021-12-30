@@ -2,15 +2,15 @@
 
 void PlantFire::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - WIDTH / 2;
-	top = y - WIDTH / 2;
-	right = left + WIDTH;
-	bottom = top + WIDTH;
+	left = x - PLANTFIRE_WIDTH / 2;
+	top = y - PLANTFIRE_WIDTH / 2;
+	right = left + PLANTFIRE_WIDTH;
+	bottom = top + PLANTFIRE_WIDTH;
 }
 
 void PlantFire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (y < startY - 50) {
+	if (y < startY - PLANTFIRE_RANGE) {
 		SetState(FIREPLANT_START);
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -21,7 +21,7 @@ void PlantFire::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	if (state == FIREPLANT_MOVING)
 	{
-		animations->Get(ID_ANI_NORMAL)->Render(x, y);
+		animations->Get(ID_ANI_PLANTFIRE_NORMAL)->Render(x, y);
 	}
 	//RenderBoundingBox();
 }

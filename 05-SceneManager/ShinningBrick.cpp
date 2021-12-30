@@ -10,7 +10,7 @@ void ShinningBrick::SetState(int state)
 	}
 	case SBRICK_STATE_COIN: {
 		isCoin = true;
-		time = GetTickCount64();
+		time =DWORD(GetTickCount64());
 		break;
 	}
 	default:
@@ -23,7 +23,7 @@ void ShinningBrick::Render()
 	int	aniId = 0;
 	if (state == SBRICK_STATE_NORMAL)
 	{
-		aniId = ID_ANI_NORMAL;
+		aniId = ID_ANI_SBRICK_NORMAL;
 	}
 	else
 	{

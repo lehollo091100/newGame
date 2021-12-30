@@ -64,13 +64,13 @@ void Map::AddSprites()
 void Map::Drawmap()
 {
 
-	for (UINT i = 0; i < MapRow; i++)
+	for (UINT i = 0; i < UINT(MapRow); i++)
 	{
-		for (UINT j = 0; j < MapCol; j++)
+		for (UINT j = 0; j <UINT(MapCol); j++)
 		{
 			//DebugOut(L"i: j: %d %d ", i, j);
-			float x = TexW * j;
-			float y = TexH * i;
+			float x = float(TexW) * float(j);
+			float y = float(TexH) * float(i);
 			//DebugOut(L"%d", map[i][j]);
 			float a, b;
 			CGame::GetInstance()->GetCamPos(a,b);

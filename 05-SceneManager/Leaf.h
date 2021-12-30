@@ -6,11 +6,11 @@
 #define LEAF_STATE_MOVING	100
 #define ID_ANI_LEAF_MOVELEFT	981
 #define ID_ANI_LEAF_MOVERIGHT	982
-#define AY	0.02f
+#define LEAF_AY	0.02f
 #define MOVINGUP_VY	0.3f
-#define RANGE	30
-#define VX	0.02f
-#define RANGEX	10
+#define LEAF_RANGE	10
+#define LEAF_VX	0.02f
+#define LEAF_RANGEX	10
 #define	LEAF_WIDTH	18
 #define LEAF_HEIGHT	16
 class Leaf : public CGameObject

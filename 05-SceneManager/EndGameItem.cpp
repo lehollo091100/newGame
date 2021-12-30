@@ -16,7 +16,7 @@ void EndGameItem::SetState(int state)
 	switch (state)
 	{
 	case EGITEM_STATE_NORMAL: {
-		timechange = GetTickCount64();
+		timechange =DWORD( GetTickCount64());
 		IsStar = true;
 		IsMushroom = false;
 		IsPlant = false;
@@ -92,8 +92,8 @@ void EndGameItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = 0;
 			float a = CGame::GetInstance()->GetCamX();
 			float b= CGame::GetInstance()->GetCamY();
-			float w = CGame::GetInstance()->GetBackBufferWidth();
-			float h = CGame::GetInstance()->GetBackBufferHeight();
+			float w = float(CGame::GetInstance()->GetBackBufferWidth());
+			float h = float(CGame::GetInstance()->GetBackBufferHeight());
 			SetPosition(a + w / 2, b + h / 2-HUD_HEIGHT);
 			SetState(EGITEM_STATE_WORD);
 		}
@@ -120,7 +120,7 @@ void EndGameItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				IsStar = true;
 
 			}
-			timechange = GetTickCount64();
+			timechange = DWORD(GetTickCount64());
 		}
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);

@@ -2,16 +2,15 @@
 #include "GameObject.h"
 #include "AssetIDs.h"
 #include "Collision.h"
-
-#define WIDTH	14
-#define SWIDTH	14
+#define PBUTTON_NOTHING_HEIGHT	5
+#define PBUTTON_WIDTH	14
 #define PLUS_RANGE	8
-#define PBRICK_VY	0.05f
+#define PBUTTON_VY	0.05f
 #define PBUTTON_STATE_NORMAL	0
 #define PBUTTON_STATE_MOVING	100
 #define PBUTTON_STATE_NOTHING	200
-#define ID_ANI_NORMAL	950
-#define ID_ANI_NOTHING	951
+#define ID_ANI_PBUTTON_NORMAL	950
+#define ID_ANI_PBUTTON_NOTHING	951
 class PButton : public CGameObject
 {
 	float initX, initY;

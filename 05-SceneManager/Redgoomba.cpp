@@ -23,7 +23,7 @@ void Redgoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == REDGOOMBA_STATE_WALKING) {
 		if (time == 0)
 		{
-			time = GetTickCount64();
+			time = DWORD(GetTickCount64());
 		}
 		else if (GetTickCount64() - time > 3000)
 		{
@@ -34,7 +34,7 @@ void Redgoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == REDGOOMBA_STATE_JUMPING) {
 		if (time == 0)
 		{
-			time = GetTickCount64();
+			time = DWORD(GetTickCount64());
 			vy = -REDGOOMBA_JUMPVY;
 		}
 		else if (GetTickCount64() - time > 1500)
@@ -47,7 +47,7 @@ void Redgoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (time == 0)
 		{
 			vy = -REDGOOMBA_FLYVY;
-			time = GetTickCount64();
+			time = DWORD(GetTickCount64());
 		}
 		else if (GetTickCount64() - time > 1000)
 		{
@@ -122,7 +122,7 @@ void Redgoomba::SetState(int state)
 		break;
 	}
 	case REDGOOMBA_STATE_DIE: {
-		time = GetTickCount64();
+		time = DWORD(GetTickCount64());
 		vx = 0;
 		vy = 0;
 		break;

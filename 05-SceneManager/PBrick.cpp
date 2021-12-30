@@ -27,11 +27,11 @@ void PBrick::Render()
 	int	aniId = 0;
 	if (state == PBRICK_STATE_NOTHING)
 	{
-		aniId = ID_ANI_NOTHING;
+		aniId = ID_ANI_PBRICK_NOTHING;
 	}
 	else
 	{
-		aniId = ID_ANI_NORMAL;
+		aniId = ID_ANI_PBRICK_NORMAL;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();

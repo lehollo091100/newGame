@@ -116,7 +116,7 @@ void GreenMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (timeToAttack == 0)
 		{
-			timeToAttack = GetTickCount64();
+			timeToAttack = DWORD(GetTickCount64());
 			if (nx > 0 || vx > 0) {
 				tail->nx = 1;
 				//DebugOut(L"level: %d\n",nx);
@@ -580,7 +580,7 @@ void GreenMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			if (state == GREENMARIO_STATE_WALKING_LEFT || state == GREENMARIO_STATE_WALKING_RIGHT)
 			{
 				/// kick code here
-				kicktime = GetTickCount64();
+				kicktime = DWORD(GetTickCount64());
 				isKicking = true;
 				if (vx > 0)
 				{
@@ -601,7 +601,7 @@ void GreenMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 						koo = dynamic_cast<Koopas*>(e->obj);
 					}
 					isHolding = true;
-					holdtime = GetTickCount64();
+					holdtime = DWORD(GetTickCount64());
 				}
 			}
 		}
@@ -612,7 +612,7 @@ void GreenMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				/// kick code here
 				if (isHolding == false)
 				{
-					kicktime = GetTickCount64();
+					kicktime = DWORD(GetTickCount64());
 					isKicking = true;
 					if (vx > 0)
 					{
@@ -635,7 +635,7 @@ void GreenMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 					}
 					koopas->SetState(KOOPAS_STATE_DEFENDUP);
 					isHolding = true;
-					holdtime = GetTickCount64();
+					holdtime = DWORD(GetTickCount64());
 				}
 			}
 		}
@@ -774,7 +774,7 @@ void GreenMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 			if (p->direction == -1)
 			{
 				isPiping = true;
-				Pipetime = GetTickCount64();
+				Pipetime = DWORD(GetTickCount64());
 				vy = -GREENMARIO_PIPING_SPEED;
 				SetState(GREENMARIO_STATE_PIPING);
 			}
@@ -787,7 +787,7 @@ void GreenMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
 			{
 				isPiping = true;
 				isSitting = false;
-				Pipetime = GetTickCount64();
+				Pipetime = DWORD(GetTickCount64());
 				vy = GREENMARIO_PIPING_SPEED;
 				SetState(GREENMARIO_STATE_PIPING);
 			}
@@ -1301,7 +1301,7 @@ void GreenMario::SetState(int state)
 		isFlying = true;
 		if (timeToFly == 0)
 		{
-			timeToFly = GetTickCount64();
+			timeToFly = DWORD(GetTickCount64());
 		}
 		vy -= GREENMARIO_FLYUP_SPEED_Y;
 		break;
@@ -1312,7 +1312,7 @@ void GreenMario::SetState(int state)
 		break;
 	}
 	case GREENMARIO_STATE_KICK: {
-		kicktime = GetTickCount64();
+		kicktime = DWORD(GetTickCount64());
 		isKicking = true;
 		break;
 	}

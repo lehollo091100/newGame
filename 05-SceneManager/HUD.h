@@ -17,18 +17,18 @@ class HUD:public CGameObject
 	static HUD* __instance;
 	CMario* mario = CMario::GetInstance();
 public:
-	int Point;
+	//int Point;
+	//int Coin;
+	//int time;
 	int Stack;
-	int Coin;
-	int time;
-	bool IsInScene1;
-	DWORD count;
+	//bool IsInScene1;
+	//DWORD count;
 	string p;
 	StackSpeed* stack = new StackSpeed();
 	//string p = (string)(Point);
 	HUD() {
-		time = 300;
-		count = 0;
+		//time = 300;
+		//count = 0;
 		Stack = 0;
 	};
 	void Update(DWORD dt);
@@ -37,17 +37,17 @@ public:
 		return;
 	};
 	static HUD* GetInstance();
-	void SetPoint(int p) {
-		this->Point = p;
-	};
+	//void SetPoint(int p) {
+	//	this->Point = p;
+	//};
 	void SetStack(int s)
 	{
 		this->Stack = s;
 	};
-	void SetCoin(int c)
-	{
-		this->Coin = c;
-	}
+	//void SetCoin(int c)
+	//{
+	//	this->Coin = c;
+	//}
 
 };
 

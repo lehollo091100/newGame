@@ -37,7 +37,7 @@ void IntroBackGround::Render()
 	if (state != INTROBACKGROUND_STATE_CHANGE)
 	{
 
-		animations->Get(ID_ANI_NORMAL)->Render(x, y);
+		animations->Get(ID_ANI_INTROBACKGROUND_NORMAL)->Render(x, y);
 	}
 	else
 	{
@@ -55,7 +55,7 @@ void IntroBackGround::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (y>=  CGame::GetInstance()->GetBackBufferHeight()/2.3)
 			{
-				timechange = GetTickCount64();
+				timechange =DWORD(GetTickCount64());
 				vy = 0;
 			}
 		}

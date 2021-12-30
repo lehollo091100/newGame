@@ -3,10 +3,10 @@
 void QuestionBrick::Render()
 {
 
-	int	aniId = ID_ANI_NORMAL;
+	int	aniId = ID_ANI_QBRICK_NORMAL;
 	if (state==QBSTATE_NOTHING)
 	{
-		aniId = ID_ANI_NOTHING;
+		aniId = ID_ANI_QBRICK_NOTHING;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -21,7 +21,7 @@ void QuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (vy == 0)
 		{
-			vy = -VY;
+			vy = -QBRICK_VY;
 			if (item->type == OBJECT_TYPE_COINITEM)
 			{
 				item->SetState(COIN_STATE_APPEAR);
@@ -29,7 +29,7 @@ void QuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		if (this->y < initY - RANGE_UP)
 		{
-			vy = VY;
+			vy = QBRICK_VY;
 		}
 		if (this->y >= initY && vy>0)
 		{
