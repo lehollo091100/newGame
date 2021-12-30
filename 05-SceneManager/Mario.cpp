@@ -1139,23 +1139,23 @@ int CMario::GetAniIdTail()
 		{
 			if (nx >= 0)
 			{
-				if (vx > 0) {
-					aniId = ID_ANI_MARIO_TAIL_HOLDING_RIGHT;
+				if (vx == 0) {
+					aniId=ID_ANI_MARIO_TAIL_HOLDIDLE_RIGHT;
 				}
 				else
 				{
-					ID_ANI_MARIO_TAIL_HOLDIDLE_RIGHT;
+					aniId = ID_ANI_MARIO_TAIL_HOLDING_RIGHT;
 				}
 			}
 			else
 			{
-				if (vx < 0)
+				if (vx == 0)
 				{
-					aniId = ID_ANI_MARIO_TAIL_HOLDING_LEFT;
+					aniId = ID_ANI_MARIO_TAIL_HOLDIDLE_LEFT;
 				}
 				else
 				{
-					aniId = ID_ANI_MARIO_TAIL_HOLDIDLE_LEFT;
+					aniId = ID_ANI_MARIO_TAIL_HOLDING_LEFT;
 				}
 			}
 		}
