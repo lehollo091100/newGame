@@ -39,7 +39,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			}
 			break;
 		}
-		case DIK_S: {
+		case DIK_W: {
 			CGame::GetInstance()->InitiateSwitchScene(1);
 			break;
 		}
