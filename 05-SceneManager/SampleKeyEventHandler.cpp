@@ -8,7 +8,10 @@
 #include "IntroScene.h"
 #include "IntroOption.h"
 #define INTROSCENE	3
-
+#define DIK6X	2460
+#define DIK6Y	300
+#define DIK4X	2260
+#define DIK4Y	80
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
@@ -107,12 +110,17 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_0:
 			mario->SetState(MARIO_STATE_DIE);
 			break;
+		case DIK_4:
+		{
+			mario->SetPosition(DIK4X, DIK4Y);
+			break;
+		}
 		case DIK_5:
-			mario->SetPosition(0, 300);
+			mario->SetPosition(0, DIK6Y);
 			break;
 		case DIK_6:
 			//mario->SetPosition(2260, 80);
-			mario->SetPosition(2460, 300);
+			mario->SetPosition(DIK6X, DIK6Y);
 			break;
 		case DIK_R:
 		{// reset
