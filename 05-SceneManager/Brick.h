@@ -10,11 +10,11 @@
 //#define BRICK_BBOX_HEIGHT 16
 
 class CBrick : public CGameObject {
-public :
+public:
 	float width;
 	float height;
 public:
-	CBrick(float x, float y,float bwidth, float bheight) : CGameObject(x, y) 
+	CBrick(float x, float y, float bwidth, float bheight) : CGameObject(x, y)
 	{
 		type = OBJECT_TYPE_BRICK;
 		width = bwidth;
