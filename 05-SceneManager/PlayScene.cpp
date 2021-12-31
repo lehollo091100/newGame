@@ -481,6 +481,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0;
+
 	if (mapid == 2)
 	{
 		if(cx>=MAP2_WIDTH- game->GetBackBufferWidth())

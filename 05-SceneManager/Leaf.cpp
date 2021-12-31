@@ -50,7 +50,6 @@ void Leaf::Render()
 
 void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"initx,x:%f %f\n", initX,x);
 	if (state != LEAF_STATE_INVISIBLE) {
 		//vy += 0.0001f * dt;
 	}

@@ -54,6 +54,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_DOWN:
 			if (mario->state == MARIO_STATE_IDLE)
 			{
+				if (mario->isHolding)
+					break;
 				mario->SetState(MARIO_STATE_SIT);
 			}
 			break;
@@ -79,6 +81,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			}
 			else
 			{
+				if (mario->isOnPlatform && mario->isFlying)
+				{
+					mario->SetState(MARIO_STATE_FLYING);
+					break;
+				}
 				if (mario->isOnPlatform && (mario->state != MARIO_STATE_RUNMAXRIGHT && mario->state != MARIO_STATE_RUNMAXLEFT))
 				{
 					mario->SetState(MARIO_STATE_JUMP);

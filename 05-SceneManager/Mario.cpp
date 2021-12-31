@@ -27,7 +27,7 @@
 #define EIGHT	8
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	//DebugOut(L"mario state:%d\n",state);
+	DebugOut(L"mario state:%d\n",state);
 	//vector<LPGAMEOBJECT>* itemObjects;
 	/*if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
 	{
@@ -1101,10 +1101,8 @@ int CMario::GetAniIdTail()
 		else if (isPiping) {
 			aniId = ID_ANI_MARIO_TAIL_PIPING;
 		}
-		
 		else
 		{
-
 			if (state == MARIO_STATE_JUMP )
 			{
 				if (nx >= 0)
