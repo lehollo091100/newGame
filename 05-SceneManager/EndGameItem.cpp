@@ -98,6 +98,11 @@ void EndGameItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(EGITEM_STATE_WORD);
 		}
 	}
+	if (state == EGITEM_STATE_WORD)
+	{
+		CMario::GetInstance()->SetState(MARIO_STATE_IDLE);
+		CGame::GetInstance()->allowKey = false;
+	}
 	if (state == EGITEM_STATE_NORMAL)
 	{
 		if (GetTickCount64() - timechange >= TIME_CHANGE)

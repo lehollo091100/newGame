@@ -24,6 +24,7 @@
 #include "EndGameItem.h"
 #include "GreenMario.h"
 #define INTROSCENE	3
+#define EIGHT	8
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOut(L"mario state:%d\n",state);
@@ -164,11 +165,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(MARIO_STATE_RELEASE_JUMP);
 	}
 
-	if (x < 8)
+	if (x < EIGHT)
 	{
-		x += 8;
+		x += EIGHT;
 	}
+	if (y<0)
+	{
+		y = 0;
+	}
+	if (true)
+	{
 
+	}
 	if (abs(vx) > abs(maxVx))
 	{
 		vx = maxVx;
@@ -580,7 +588,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 	}
 	if (e->nx != 0)
 	{
-		if (koopas->GetState() == KOOPAS_STATE_WALKING || koopas->GetState()==KOOPAS_STATE_FLYING)
+		if (koopas->GetState() == KOOPAS_STATE_WALKING || koopas->GetState()==KOOPAS_STATE_FLYING || koopas->GetState()==KOOPAS_STATE_ATTACKDOWN||koopas->GetState()==KOOPAS_STATE_ATTACKUP)
 		{
 			if (untouchable == 0)
 			{
